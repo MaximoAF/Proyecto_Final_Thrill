@@ -1,0 +1,116 @@
+:root {
+  /* Paleta de colores */
+  --palet-color-1: #29363C;
+  --palet-color-2: #8b9295;
+  --palet-color-3: #FECEAA;
+  --palet-color-4: #e9e5e5;
+  --palet-color-5: #ededed;
+  --palet-color-6: #FFE9D5;
+
+  /* Colores globales */
+  --white-color: #fff;
+  --black-color: #000;
+  --gray-color: #cecece;
+  --red-color: #ff0000;
+  --redLite-color: #913939;
+  --green-color: #5eff68;
+  --borderGray-color: #60606064;
+}
+/* Globals */
+html, body{
+  font-family: 'Roboto', sans-serif; /* Fuente para el texto general */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+div{
+  box-sizing: border-box;
+}
+p{
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.2;
+  font-family: 'Montserrat', sans-serif; /* Fuente para los títulos */
+  margin: 0;
+}
+h1 {
+  font-size: 4.8rem;
+}
+h2 {
+  font-size: 4rem;
+}
+h3 {
+  font-size: 3.2rem;
+}
+h4 {
+  font-size: 2.8rem;
+}
+img {
+  max-width: 100%;
+}
+th,
+td {
+  font-size: 0.8rem;
+  padding: 0.2rem;
+}
+/* Ocultar la barra */
+html ::-webkit-scrollbar,
+.main::-webkit-scrollbar {
+  display: none; /* Oculta la barra de desplazamiento */
+}
+button {
+  transition: all 0.2s;
+}
+button:hover {
+  transform: scale(1.05);
+  opacity: 70%;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Ocultar flechas en Chrome, Safari y Edge */
+  margin: 0;
+}
+/* Utilities */
+.aside-main__container {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+@media (min-width: 768px) {
+  .aside-main__container {
+    grid-template-columns: 1fr 3fr;
+  }
+}
+/* inpust */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 2px;
+  opacity: 0.9;
+  filter: invert(0.9);
+}
+/* pupUp */
+.overlay {
+  position: fixed; /* Ocupa toda la pantalla */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que el overlay esté por encima de otros elementos */
+}
