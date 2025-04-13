@@ -1,6 +1,8 @@
+import { Home } from "./apps/landing/pages/Home"
+
 export const App = () => {
   return (
-    <div>App</div>
+    <Home/>
   )
 }
 

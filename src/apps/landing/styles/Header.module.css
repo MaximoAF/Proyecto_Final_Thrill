@@ -1,0 +1,64 @@
+.ofert{
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--black-color);
+  color: var(--white-color);
+
+  position: relative;
+}
+.close{
+  position: absolute;
+  right: 5%;
+  color: var(--white-color);
+  background: none;
+  border: none;
+}
+.close:hover{
+  transform: scale(1.2);
+}
+
+/* Navigation bar */
+.navBar{
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  max-width: 78rem;
+  margin: 1.5rem auto;
+}
+.imgContainer{
+  width: 8rem;
+}
+.navButtons{
+  display: flex;
+  gap: 1rem;
+}
+.button{
+  background: none;
+  border: none;
+}
+.buscador{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: var(--palet-color-1);
+  height: 3rem;
+  border-radius: 2rem;
+  padding: 0 1rem;
+  gap: 1rem;
+  color: var(--black-40);
+  flex-grow: 1;
+}
+.inputBuscador{
+  background: none;
+  border: none;
+  width: 100%;
+}
+.inputBuscador:focus{
+  outline: none;
+}
+.icons{
+  display: flex;
+  gap: 1rem;
+}

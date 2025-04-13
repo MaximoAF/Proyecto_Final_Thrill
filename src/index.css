@@ -1,20 +1,14 @@
 :root {
   /* Paleta de colores */
-  --palet-color-1: #29363C;
+  --palet-color-1: #F0F0F0;
   --palet-color-2: #8b9295;
-  --palet-color-3: #FECEAA;
-  --palet-color-4: #e9e5e5;
-  --palet-color-5: #ededed;
-  --palet-color-6: #FFE9D5;
+
+  /* Colores con trasparencia */
+  --black-40: rgba(0, 0, 0, 0.4);
 
   /* Colores globales */
   --white-color: #fff;
   --black-color: #000;
-  --gray-color: #cecece;
-  --red-color: #ff0000;
-  --redLite-color: #913939;
-  --green-color: #5eff68;
-  --borderGray-color: #60606064;
 }
 /* Globals */
 html, body{
