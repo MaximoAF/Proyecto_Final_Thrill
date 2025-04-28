@@ -1,0 +1,15 @@
+.content{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 78rem;
+  margin: 1.5rem auto;
+}
+.tittle{
+  font-size: 2rem;
+}
+.gridForms{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
