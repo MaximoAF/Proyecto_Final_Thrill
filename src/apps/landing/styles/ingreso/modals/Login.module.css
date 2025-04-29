@@ -15,7 +15,7 @@
   flex-direction: column;
   gap: 1.5rem;
 }
-.tittle {
+.title {
   font-size: 2rem;
   text-align: center;
 }
@@ -41,9 +41,9 @@
   justify-content: center;
 }
 .button {
-  height: 40px;
-  width: 160px;
-  border-radius: 8px;
+  height: 3rem;
+  width: 10rem;
+  border-radius: 1.5rem;
   background-color: #000;
   color: #fff;
 }

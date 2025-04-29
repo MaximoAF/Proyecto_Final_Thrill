@@ -1,0 +1,131 @@
+/* Container */
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--palet-color-1);
+  position: relative;
+  margin-top: 8rem;
+  padding-top: 8rem;
+  padding-bottom: 2rem;
+  gap: 2rem;
+}
+
+/* Notificacion subcripccion */
+.notification{
+  display: flex;
+  position: absolute;
+  top: -5rem;
+
+  max-width: 78rem;
+  width: 100%;
+  gap: 5rem;
+  padding: 2rem 4rem;
+  background-color: var(--black-color);
+  border-radius: 1.5rem;
+  color: var(--white-color);
+}
+.notificationTitleContainer{
+  width: 100%;
+}
+.notificationTitle{
+  font-size: 2.5rem;
+}
+.containerInputs{
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.input {
+  display: flex;
+  height: 3rem;
+  gap: 1rem;
+
+  background-color: var(--palet-color-1);
+  border-radius: 1.5rem;
+  padding: 0 1rem;
+}
+.icon {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--black-40);
+}
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+}
+.button {
+  height: 3rem;
+  border-radius: 1.5rem;
+  background-color: var(--palet-color-1);
+  color: var(--black-color);
+  border: none;
+}
+input {
+  flex-grow: 1;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+/* Main content */
+.mainContent{
+  max-width: 78rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.infoContent{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 15rem;
+  color: var(--black-40);
+}
+.imgContainer{
+  width: 8rem;
+}
+.socialMedias{
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.socialIcon{
+  width: 3rem;
+  height: 3rem;
+  border: 1px var(--black-40) solid;
+  border-radius: 1.5rem;
+  font-size: 1.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.socialIconFB{
+  width: 3rem;
+  height: 3rem;
+  border: 1px var(--black-40) solid;
+  border-radius: 1.5rem;
+  font-size: 1.5rem;
+  background-color: var(--black-color);
+  color: var(--white-color);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Separador */
+.separator{
+  max-width: 78rem;
+  width: 100%;
+  background-color: var(--black-10);
+  height: 2px;
+}
+
+/* Copyrigth */
+.copyrigth{
+  color: var(--black-40);
+}
