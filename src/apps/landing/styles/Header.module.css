@@ -44,7 +44,6 @@
 }
 .buscador{
   display: flex;
-  flex-direction: row;
   align-items: center;
   background-color: var(--palet-color-1);
   height: 3rem;

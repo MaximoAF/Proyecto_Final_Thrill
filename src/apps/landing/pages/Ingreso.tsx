@@ -1,3 +1,4 @@
+import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Login } from "../components/ingreso/Login";
 import { QRIngreso } from "../components/ingreso/QRIngreso";
@@ -8,12 +9,13 @@ export const Ingreso = () => {
     <div>
       <Header />
       <div className={styles.content}>
-        <h2 className={styles.tittle}>Ingreso</h2>
+        <h2 className={styles.title}>Ingreso</h2>
         <div className={styles.gridForms}>
           <Login />
           <QRIngreso />
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

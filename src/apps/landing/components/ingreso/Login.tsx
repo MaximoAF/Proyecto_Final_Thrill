@@ -9,7 +9,7 @@ export const Login = () => {
   return (
       <form className={styles.form}>
         <div className={styles.content}>
-          <h3 className={styles.tittle}>Inicio de sesión</h3>
+          <h3 className={styles.title}>Inicio de sesión</h3>
           <div className={styles.input}>
             <div className={styles.icon}>
               <i className="fa-regular fa-envelope"></i>
