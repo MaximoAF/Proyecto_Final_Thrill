@@ -20,6 +20,15 @@
   text-align: center;
 }
 
+.link {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.link:hover {
+  color: #0056b3;
+}
+
 .input {
   display: flex;
   height: 3rem;
