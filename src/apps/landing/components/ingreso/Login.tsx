@@ -50,4 +50,3 @@ export const Login = () => {
       </form>
   );
 };
-console.log("hola");
