@@ -6,6 +6,7 @@
   background-color: var(--palet-color-1);
   position: relative;
   margin-top: 8rem;
+  padding: 1rem;
   padding-top: 8rem;
   padding-bottom: 2rem;
   gap: 2rem;
@@ -14,11 +15,12 @@
 /* Notificacion subcripccion */
 .notification{
   display: flex;
+  justify-content: space-between;
   position: absolute;
   top: -5rem;
 
   max-width: 78rem;
-  width: 100%;
+  width: 95%;
   gap: 5rem;
   padding: 2rem 4rem;
   background-color: var(--black-color);
@@ -27,6 +29,8 @@
 }
 .notificationTitleContainer{
   width: 100%;
+  max-width: 34rem;
+  
 }
 .notificationTitle{
   font-size: 2.5rem;
@@ -34,6 +38,7 @@
 .containerInputs{
   display: flex;
   flex-direction: column;
+  width: 22rem;
   gap: .5rem;
 }
 .input {
@@ -115,14 +120,6 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* Separador */
-.separator{
-  max-width: 78rem;
-  width: 100%;
-  background-color: var(--black-10);
-  height: 2px;
 }
 
 /* Copyrigth */

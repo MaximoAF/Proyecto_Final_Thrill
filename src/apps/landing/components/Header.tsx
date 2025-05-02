@@ -1,6 +1,10 @@
 import styles from '../styles/Header.module.css'
+import thrillLogoBlack from '../../../assets/svg/thrill_logo-dark.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <div className={styles.ofert}>
@@ -9,8 +13,8 @@ export const Header = () => {
       </div>
       <div className={styles.navBar}>
 
-        <div className={styles.imgContainer}>
-          <img src="thrill_logo-dark.svg" alt="Thrill" />
+        <div className={styles.imgContainer} onClick={()=>navigate('/')}>
+          <img src={thrillLogoBlack} alt="Thrill" />
         </div>
 
         <div className={styles.navButtons}>
