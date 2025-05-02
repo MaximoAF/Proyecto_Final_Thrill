@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "../../styles/Registro/modals/Registro.module.css";
+import styles from "../../styles/ingreso/modals/Form.module.css";
 
 interface RegisterProps {
   toggleForm: () => void;
@@ -52,9 +52,9 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
 			</div>
 		</div>
 
-		<div className={styles.buttonContainer}>
+		<div className='button-container'>
 			<button
-				className={styles.button}
+				className='button-black'
 				onClick={(e) => {
 					e.preventDefault();
 					console.log("Registro", { username, password, repeatPassword });

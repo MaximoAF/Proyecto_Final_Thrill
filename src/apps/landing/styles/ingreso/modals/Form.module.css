@@ -45,17 +45,6 @@
   align-items: center;
   color: var(--black-40);
 }
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-}
-.button {
-  height: 3rem;
-  width: 10rem;
-  border-radius: 1.5rem;
-  background-color: #000;
-  color: #fff;
-}
 input {
   flex-grow: 1;
   background: none;
