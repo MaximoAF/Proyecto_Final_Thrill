@@ -1,0 +1,41 @@
+.banner{
+  width: 100%;
+  height: 42rem;
+  
+  background-size: cover;    
+  background-position: top;   
+  background-repeat: no-repeat; 
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bannerInfo{
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+  height: 100%;
+  max-width: 78rem;
+  width: 95%;
+  margin-bottom: 3rem;
+}
+.infoContainer{
+  max-width: 35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Separador Rectangular */
+.rectangleSeparator{
+  height: 4rem;
+  width: 100%;
+  background-color: var(--black-color);
+  color: var(--white-color);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 8rem;
+}
