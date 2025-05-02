@@ -1,11 +1,11 @@
 import { useState } from "react";
-import styles from "../../styles/ingreso/modals/Login.module.css";
+import styles from "../../styles/ingreso/modals/Form.module.css";
 
 interface LoginProps {
   toggleForm: () => void;
 }
 
-export const Login: React.FC<LoginProps> = ({ toggleForm }) =>{
+export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
   const [showPass, setShowPass] = useState<boolean>(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -46,9 +46,9 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) =>{
         </div>
       </div>
 
-      <div className={styles.buttonContainer}>
+      <div className="button-container">
         <button
-          className={styles.button}
+          className="button-black"
           onClick={(e) => {
             e.preventDefault();
             console.log("Login", { username, password });

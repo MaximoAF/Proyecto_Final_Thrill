@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Login } from "../components/ingreso/Login";
-import { Registro } from "../components/Registro/Registro";
+import { Registro } from "../components/ingreso/Registro";
 import { QRIngreso } from "../components/ingreso/QRIngreso";
 import styles from "../styles/ingreso/ingreso.module.css";
 
