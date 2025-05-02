@@ -41,7 +41,7 @@ export const Login = () => {
         </div>
         <div className={styles.buttonContainer}>
           <button
-            className={styles.button}
+            className='button-black'
             onClick={() => console.log({ username, password })}
           >
             Iniciar sesión

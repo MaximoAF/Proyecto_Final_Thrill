@@ -1,4 +1,5 @@
 import styles from "../styles/Footer.module.css";
+import thrillLogoBlack from '../../../assets/svg/thrill_logo-dark.svg';
 
 export const Footer = () => {
   return (
@@ -22,7 +23,7 @@ export const Footer = () => {
       <div className={styles.mainContent}>
         <div className={styles.infoContent}>
           <div className={styles.imgContainer}>
-            <img src="thrill_logo-dark.svg" alt="Thrill" />
+            <img src={thrillLogoBlack} alt="Thrill" />
           </div>
           <p>Seguinos en nuestras redes sociales para enterarte de todo.</p>
         </div>
@@ -59,7 +60,7 @@ export const Footer = () => {
           </a>
         </div>
       </div>
-      <div className={styles.separator}></div>
+      <div className='separator'></div>
       <div>
         <p className={styles.copyrigth}>
           thrill clothes © 2000-2023, All Rights Reserved
