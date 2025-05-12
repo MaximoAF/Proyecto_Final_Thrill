@@ -1,0 +1,74 @@
+.content{
+  flex-grow: 1;
+  max-width: 78rem;
+  width: 95%;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.ruta{
+  color: var(--black-60);
+}
+.grid{
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1rem;
+}
+.products{
+  display: flex;
+  flex-direction: column;
+  border: 1px var(--black-10) solid;
+  border-radius: 1.5rem;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+.separatorGap{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+/* Orden */
+.order{
+  border: 1px var(--black-10) solid;
+  border-radius: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  
+  top: 1.5rem;
+  position: sticky;
+}
+.orderValues{
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.itemValue{
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  color: var(--black-60);
+}
+.totalValue{
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+}
+
+/* Cupon */
+.cuponContainer{
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+.tagContainer{
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
