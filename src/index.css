@@ -12,6 +12,7 @@
   /* Colores globales */
   --white-color: #fff;
   --black-color: #000;
+  --red-color: #FF3333;
 }
 /* Globals */
 html, body{
@@ -56,6 +57,7 @@ html ::-webkit-scrollbar,
 }
 button {
   transition: all 0.2s;
+  border: none;
 }
 button:hover {
   transform: scale(1.05);
@@ -87,6 +89,24 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
 }
 
+/* Flex-column */
+.flex-page{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+/* Inputs */
+.input-white {
+  display: flex;
+  height: 3rem;
+  gap: 1rem;
+
+  background-color: var(--palet-color-1);
+  border-radius: 1.5rem;
+  padding: 0 1rem;
+  color: var(--black-40);
+}
+
 /* Buttons */
 .button-container{
   display: flex;
@@ -107,6 +127,27 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: var(--white-color);
   color: var(--black-color);
   border: 1px var(--black-10) solid;
+}
+.i-btn{
+  transition: transform .1s ease;
+  cursor: pointer;
+}
+.i-btn:hover{
+  transform: scale(1.2);
+}
+/* Bold + FSize */
+.bold{
+  color: var(--black-color);
+  font-weight: bold;
+}
+.bold-red{
+  color: var(--red-color);
+  font-weight: bold;
+}
+.bold-24px{
+  color: var(--black-color);
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 /* Separador */
