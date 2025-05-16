@@ -16,7 +16,7 @@ export const Cart = () => {
       <Header />
 
       <div className={styles.content}>
-        <p className={styles.ruta}>
+        <p style={{color: 'var(--black-60)'}}>
           Home <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
           <span style={{ color: "var(--black-color)" }}>Tu carrito</span>
         </p>
