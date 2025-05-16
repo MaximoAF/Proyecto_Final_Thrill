@@ -21,8 +21,10 @@ display: flex;
 font-size: .5rem;
 align-items:center;
 flex-direction: column;
-
 justify-content: space-between;
+}
+.product h4{
+  margin-top: .5rem;
 }
 .imgGrid{
 display: grid;
@@ -40,4 +42,17 @@ gap: 1rem;
 .containerButton{
   display: flex;
   gap: 1rem;
+}
+.buttonsSize button {
+  height: 2rem;
+  width: 3rem;
+  gap: 1rem;
+  border-radius: 1rem;
+  background-color: #000;
+  color: #fff;
+  margin: .3rem;
+}
+.buttonsSize button.selected {
+  background-color: rgb(131, 130, 130);
+  color: white;
 }

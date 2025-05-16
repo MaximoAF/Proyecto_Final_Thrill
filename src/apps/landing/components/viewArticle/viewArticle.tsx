@@ -2,11 +2,13 @@ import styles from "../../styles/viewArticle/viewArticle.module.css";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { articulosDB } from "../../../../data/db";
+import { useState } from "react";
 
 export const ViewArticle = () => {
+  const [selectedSize, setSelectedSize] = useState("");
   const product = articulosDB[0]
   return (
-    <div>
+    <div className={styles.borde}>
       <Header/>
       <div className={styles.container}>
         {/* Ruta */}
@@ -32,10 +34,15 @@ export const ViewArticle = () => {
             <div className={styles.sizeSelect}>
             <h4>Seleccionar el talle</h4>
             <div className={styles.buttonsSize}>
-            <button>S</button>
-            <button>M</button>
-            <button>L</button>
-            <button>XL</button>
+              {["S", "M", "L", "XL"].map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setSelectedSize(size)}
+                  className={selectedSize === size ? styles.selected : ""}
+                >
+                  {size}
+                </button>
+              ))}
             </div>
             </div>
             <div className={styles.containerButton}>
