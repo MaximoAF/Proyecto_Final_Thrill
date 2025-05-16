@@ -1,23 +1,51 @@
-type Props = {
-  articulo: {
-    titulo: string;
-    precio: number;
-    categoria: string;
-    imgs: string[];
-  };
-};
+import styles from "../../styles/viewArticle/viewArticle.module.css";
+import { Header } from "../Header";
+import { Footer } from "../Footer";
+import { articulosDB } from "../../../../data/db";
 
-export const ViewArticle: React.FC<Props> = ({ articulo }) => {
+export const ViewArticle = () => {
+  const product = articulosDB[0]
   return (
-    <div style={{ border: '1px solid #ccc', padding: '1rem', maxWidth: '600px' }}>
-      <h1>{articulo.titulo}</h1>
-      <p>Precio: ${articulo.precio.toFixed(2)}</p>
-      <p>Categoría: {articulo.categoria}</p>
-      <div>
-        {articulo.imgs.map((url, index) => (
-          <img key={index} src={url} alt={`Imagen ${index + 1}`} width="100" />
-        ))}
+    <div>
+      <Header/>
+      <div className={styles.container}>
+        {/* Ruta */}
+        <p style={{color: 'var(--black-60)'}}>
+          Home <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
+          <span style={{ color: "var(--black-color)" }}>Producto</span>
+        </p>
+        {/* Contenido principal */}
+        <div className={styles.gridProducto}>
+          <div className={styles.imgGrid}>
+            <div className={styles.imgsGallery}>
+              <img src={product.imgs[0]} alt="Remera" />
+              <img src={product.imgs[0]} alt="Remera" />
+              <img src={product.imgs[0]} alt="Remera" />
+            </div>
+            <img className={styles.imgContainer} src={product.imgs[0]} alt="Remera" />
+          </div>
+          <div className={styles.product}>
+            <div>
+              <h1>Título</h1>
+              <h4>Precio: $95000</h4>
+            </div>
+            <div className={styles.sizeSelect}>
+            <h4>Seleccionar el talle</h4>
+            <div className={styles.buttonsSize}>
+            <button>S</button>
+            <button>M</button>
+            <button>L</button>
+            <button>XL</button>
+            </div>
+            </div>
+            <div className={styles.containerButton}>
+              <button className="button-black">comprar</button>
+              <button className="button-black">Agregar al carrito</button>
+            </div>
+          </div>
+        </div>
       </div>
+      <Footer/>
     </div>
   );
 };
