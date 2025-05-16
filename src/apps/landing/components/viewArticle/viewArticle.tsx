@@ -3,19 +3,22 @@ import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { articulosDB } from "../../../../data/db";
 import { useState } from "react";
+import { ArticleGallery } from "../articleGallery/ArticleGallery";
+import { Link } from "react-router-dom";
 
 export const ViewArticle = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const product = articulosDB[0]
   return (
-    <div className={styles.borde}>
+    <div>
       <Header/>
       <div className={styles.container}>
         {/* Ruta */}
-        <p style={{color: 'var(--black-60)'}}>
-          Home <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
-          <span style={{ color: "var(--black-color)" }}>Producto</span>
-        </p>
+            <p>
+              <Link to="/">Home</Link>
+              <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
+              <span style={{ color: 'var(--black-60)' }}>Producto</span>
+            </p>
         {/* Contenido principal */}
         <div className={styles.gridProducto}>
           <div className={styles.imgGrid}>
@@ -52,6 +55,7 @@ export const ViewArticle = () => {
           </div>
         </div>
       </div>
+      <ArticleGallery title="Esto podría interesarte" articles={[product]} />
       <Footer/>
     </div>
   );
