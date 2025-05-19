@@ -1,10 +1,11 @@
 import { FC, useState } from "react";
-import { IArticulo } from "../../../../types/IArticulo";
+import { IProducto } from "../../../../types/IProducto";
 import styles from "../../styles/articleGallery/ArticleGallery.module.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface IArticleGalleryProps {
   title: string;
-  articles: IArticulo[];
+  articles: IProducto[];
 }
 
 export const ArticleGallery: FC<IArticleGalleryProps> = ({
@@ -12,38 +13,45 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
   articles,
 }) => {
   const [showAll, setShowAll] = useState<boolean>(false);
-  const [filtered, setFiltered] = useState<IArticulo[]>(articles.slice(0, 4));
+  const [filtered, setFiltered] = useState<IProducto[]>(articles.slice(0, 4));
 
   const handleShow = () => {
     if (showAll) {
       setFiltered(articles.slice(0, 4));
-      setShowAll(!showAll);
     } else {
       setFiltered(articles);
-      setShowAll(!showAll);
     }
+    setShowAll(!showAll);
   };
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>{title.toUpperCase()}</h2>
       <div className={styles.articleGrid}>
-        {/* Articulos */}
-        {filtered.map((art) => (
-          <div className={styles.card}>
-            <div className={styles.imgContainer}>
-              {art.imgs.length > 0 ? (
-                <img src={art.imgs[0]} alt="imagen" />
-              ) : (
-                <i className="fa-solid fa-image"></i>
-              )}
-            </div>
-            <p className={styles.articleTitle}>{art.titulo}</p>
-            <p className={styles.articlePrice}>
-              ${art.precio.toLocaleString("es-AR")}
-            </p>
-          </div>
-        ))}
+        <AnimatePresence>
+          {/* Articulos */}
+          {filtered.map((art) => (
+            <motion.div
+              className={styles.card}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className={styles.imgContainer}>
+                {art.imgs.length > 0 ? (
+                  <img src={art.imgs[0]?.url} alt="imagen" />
+                ) : (
+                  <i className="fa-solid fa-image"></i>
+                )}
+              </div>
+              <p className={styles.articleTitle}>{art.nombre}</p>
+              <p className={styles.articlePrice}>
+                ${art.precio.toLocaleString("es-AR")}
+              </p>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
       <div className="button-container">
         <button className="button-white" onClick={() => handleShow()}>
