@@ -51,7 +51,7 @@
   justify-content: space-evenly;
   align-items: center;
   height: 3rem;
-  min-width: 8rem;
+  width: 8rem;
   border-radius: 1.5rem;
   background-color: var(--palet-color-1);
 }
