@@ -4,6 +4,7 @@ import { Ingreso } from "./apps/landing/pages/Ingreso";
 import { ErrorPage } from "./apps/landing/pages/ErrorPage";
 import { Cart } from "./apps/landing/pages/Cart";
 import { Producto } from "./apps/landing/pages/Producto";
+import { Admin } from "./apps/landing/pages/Admin";
 
 export const App = () => {
   return (
@@ -13,6 +14,7 @@ export const App = () => {
       <Route path="/carrito" element={<Cart />} />
       <Route path="*" element={<ErrorPage />} />
       <Route path="/producto/:productId" element={<Producto/>}/>
+      <Route path="/admin" element={<Admin/>}/>
     </Routes>
   );
 };

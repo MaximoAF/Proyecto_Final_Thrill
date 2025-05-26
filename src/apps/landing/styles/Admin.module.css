@@ -1,0 +1,13 @@
+.main{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black-60);
+  flex-direction: column;
+}
+.container{
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: end;
+}
