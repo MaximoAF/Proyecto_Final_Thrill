@@ -1,43 +1,50 @@
-import { FC, useState } from "react";
-import { IProducto } from "../../../../types/IProducto";
+import { FC } from "react";
 import styles from "../../styles/cart/ProductCart.module.css";
+import { IDetalleCompra } from "../../../../types/IDetalleCompra";
+import { useCarritoStore } from "../../../../store/slices/CarritoStore";
 
 interface IProductCartProps {
-  product: IProducto;
+  detalleCompra: IDetalleCompra;
 }
 
-export const ProductCart: FC<IProductCartProps> = ({ product }) => {
-  const [cantidad, setCantidad] = useState<number>(1);
+export const ProductCart: FC<IProductCartProps> = ({ detalleCompra }) => {
   const handleMinus = () => {
-    if (cantidad > 1) setCantidad(cantidad - 1);
+    if (detalleCompra.cantidad > 1) {
+      useCarritoStore.getState().discountCantidad(detalleCompra.id.toString());
+    }
   };
   const handleAdd = () => {
-    if (cantidad < product.stock) setCantidad(cantidad + 1);
+    if (detalleCompra.producto)
+      if (detalleCompra.cantidad < detalleCompra.producto.stock)
+        useCarritoStore.getState().addCantidad(detalleCompra.id.toString());
   };
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.imgContainer}>
-          <img src={product.imgs[0]?.url} alt="" />
+          <img src={detalleCompra.producto.imgs[0]?.url} alt="" />
         </div>
         <div className={styles.valorContainer}>
           <div>
-            <p className={styles.title}>{product.nombre}</p>
+            <p className={styles.title}>{detalleCompra.producto.nombre}</p>
             <p>
-              Color: <span className={styles.gray}>color</span>
+              Color: <span className={styles.gray}>{detalleCompra.producto.color}</span>
             </p>
             <p>
-              Size: <span className={styles.gray}>L</span>
+              Size: <span className={styles.gray}>{detalleCompra.producto.idTalleProducto}</span>
             </p>
           </div>
           <p className={styles.price}>
-            ${(product.precio * cantidad).toLocaleString("es-AR")}
+            $
+            {(
+              detalleCompra.producto.precio * detalleCompra.cantidad
+            ).toLocaleString("es-AR")}
           </p>
         </div>
       </div>
       <div className={styles.buttonsFlex}>
         <div className={styles.trashButton}>
-          <div className="i-btn">
+          <div className="i-btn" onClick={() => useCarritoStore.getState().removeProducto(detalleCompra.id.toString())}>
             <i className="fa-regular fa-trash-can"></i>
           </div>
         </div>
@@ -48,25 +55,31 @@ export const ProductCart: FC<IProductCartProps> = ({ product }) => {
             alignItems: "end",
           }}
         >
-          {product.stock - cantidad < 6 && (
+          {detalleCompra.producto.stock - detalleCompra.cantidad < 6 && (
             <p style={{ color: "var(--red-color)", textAlign: "center" }}>
-              {product.stock - cantidad === 0
+              {detalleCompra.producto.stock - detalleCompra.cantidad === 0
                 ? `No hay mas en stock!`
-                : `${product.stock - cantidad} mas en stock`}
+                : `${
+                    detalleCompra.producto.stock - detalleCompra.cantidad
+                  } mas en stock`}
             </p>
           )}
           <div className={styles.cuantity}>
             <div
-              className={cantidad > 1 ? "i-btn" : "i-btn-disable"}
+              className={detalleCompra.cantidad > 1 ? "i-btn" : "i-btn-disable"}
               onClick={() => handleMinus()}
             >
               <i className="fa-solid fa-minus"></i>
             </div>
             <p>
-              <b>{cantidad}</b>
+              <b>{detalleCompra.cantidad}</b>
             </p>
             <div
-              className={cantidad < product.stock ? "i-btn" : "i-btn-disable"}
+              className={
+                detalleCompra.cantidad < detalleCompra.producto.stock
+                  ? "i-btn"
+                  : "i-btn-disable"
+              }
               onClick={() => handleAdd()}
             >
               <i className="fa-solid fa-plus"></i>
