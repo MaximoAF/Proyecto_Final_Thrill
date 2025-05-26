@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { IProducto } from "../../../../types/IProducto";
 import styles from "../../styles/articleGallery/ArticleGallery.module.css";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 interface IArticleGalleryProps {
   title: string;
@@ -14,6 +15,7 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
 }) => {
   const [showAll, setShowAll] = useState<boolean>(false);
   const [filtered, setFiltered] = useState<IProducto[]>(articles.slice(0, 4));
+  const navigate = useNavigate();
 
   const handleShow = () => {
     if (showAll) {
@@ -36,7 +38,9 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              onClick={() => { navigate(`/producto/${art.id}`); }}
             >
               <div className={styles.imgContainer}>
                 {art.imgs.length > 0 ? (

@@ -62,7 +62,7 @@ export const Header = () => {
           <button className="i-btn" onClick={() => navigate("/carrito")}>
             <i className="fa-solid fa-cart-shopping"></i>
           </button>
-          <button className="i-btn" onClick={() => navigate("/usuario")}>
+          <button className="i-btn" onClick={() => navigate("/ingreso")}>
             <i className="fa-solid fa-user"></i>
           </button>
         </div>
