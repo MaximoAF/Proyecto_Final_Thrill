@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Login } from "../components/ingreso/Login";
@@ -9,6 +9,10 @@ import styles from "../styles/ingreso/ingreso.module.css";
 export const Ingreso = () => {
   const [showRegister, setShowRegister] = useState(false);
 
+  useEffect(() => {
+    document.title = `Ingreso - Thrill`;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <div>
       <Header />

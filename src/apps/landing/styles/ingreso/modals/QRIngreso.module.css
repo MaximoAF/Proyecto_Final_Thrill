@@ -1,6 +1,5 @@
 .container {
-
-  background-color: var(--palet-color-1);
+  background-color: var(--white-color);
   border: 1px var(--black-40) solid;
   border-radius: 1rem;
   padding: 1.5rem;
