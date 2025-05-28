@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import { IProducto } from "../../../../types/IProducto";
 import styles from "../../styles/articleGallery/ArticleGallery.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
