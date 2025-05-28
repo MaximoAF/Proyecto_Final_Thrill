@@ -1,8 +1,10 @@
 import { IProducto } from "../../types/IProducto";
+import { IProductoAgrupado } from "../../types/IProductoAgrupado";
 
 
 export interface IProductoState {
   productos: IProducto[];
+  productosAgrupados: IProductoAgrupado[];
   activeProducto: IProducto | null;
 
   setActiveProducto: (producto: IProducto) => void;

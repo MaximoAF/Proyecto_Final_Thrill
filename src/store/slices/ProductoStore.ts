@@ -2,17 +2,18 @@ import { create } from "zustand";
 import { IProductoState } from "../types/IProductoState";
 import imgEjemplo from "../../assets/imgs/remeraEj.png";
 import imgEjemplo2 from "../../assets/imgs/imageEj2.png";
+import { IProducto } from "../../types/IProducto";
+import { IProductoAgrupado } from "../../types/IProductoAgrupado";
 
-export const useProductoStore = create<IProductoState>((set, get) => ({
-  productos: [
+export const productosEjemplo:IProducto[] = [
     {
-      id: 1,
+      id: Date.now()+Math.random(),
       nombre: "Camiseta Oversize Negra",
-      stock: 8,
       precio: 7999,
       idCategoria: 1,
       descripcion: "Camiseta oversize negra de algodón premium.",
-      idTalleProducto: 1,
+      talleProducto: "S",
+      stock: 6,
       color: "Negro",
       imgs: [
         {
@@ -24,13 +25,67 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
       ],
     },
     {
-      id: 2,
+      id: Date.now()+Math.random(),
+      nombre: "Camiseta Oversize Negra",
+      precio: 7999,
+      idCategoria: 1,
+      descripcion: "Camiseta oversize negra de algodón premium.",
+      talleProducto: "M",
+      stock: 4,
+      color: "Negro",
+      imgs: [
+        {
+          id: 101,
+          idProducto: 1,
+          url: imgEjemplo,
+          principal: true,
+        },
+      ],
+    },
+    {
+      id: Date.now()+Math.random(),
+      nombre: "Camiseta Oversize Negra",
+      precio: 7999,
+      idCategoria: 1,
+      descripcion: "Camiseta oversize negra de algodón premium.",
+      talleProducto: "L",
+      stock: 10,
+      color: "Negro",
+      imgs: [
+        {
+          id: 101,
+          idProducto: 1,
+          url: imgEjemplo,
+          principal: true,
+        },
+      ],
+    },
+    {
+      id: Date.now()+Math.random(),
+      nombre: "Camiseta Oversize Negra",
+      precio: 7999,
+      idCategoria: 1,
+      descripcion: "Camiseta oversize negra de algodón premium.",
+      talleProducto: "XL",
+      stock: 8,
+      color: "Negro",
+      imgs: [
+        {
+          id: 101,
+          idProducto: 1,
+          url: imgEjemplo,
+          principal: true,
+        },
+      ],
+    },
+    {
+      id: Date.now()+Math.random(),
       nombre: "Buzo Hoodie Gris Minimalista",
-      stock: 3,
       precio: 15499,
       idCategoria: 2,
       descripcion: "Buzo gris claro con diseño minimalista.",
-      idTalleProducto: 2,
+      talleProducto: "S",
+      stock: 5,
       color: "Gris",
       imgs: [
         {
@@ -42,186 +97,237 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
       ],
     },
     {
-      id: 3,
-      nombre: "Pantalón Cargo Verde Militar",
-      stock: 9,
-      precio: 18999,
-      idCategoria: 3,
-      descripcion: "Pantalón cargo verde militar resistente.",
-      idTalleProducto: 3,
-      color: "Verde Militar",
+      id: Date.now()+Math.random(),
+      nombre: "Buzo Hoodie Gris Minimalista",
+      precio: 15499,
+      idCategoria: 2,
+      descripcion: "Buzo gris claro con diseño minimalista.",
+      talleProducto: "M",
+      stock: 11,
+      color: "Gris",
       imgs: [
         {
-          id: 103,
-          idProducto: 3,
+          id: 102,
+          idProducto: 2,
           url: imgEjemplo,
           principal: true,
         },
       ],
     },
     {
-      id: 21,
-      nombre: "Camiseta Oversize Negra",
-      stock: 8,
-      precio: 7999,
-      idCategoria: 1,
-      descripcion: "Camiseta oversize negra de algodón premium.",
-      idTalleProducto: 1,
-      color: "Negro",
+      id: Date.now()+Math.random(),
+      nombre: "Buzo Hoodie Gris Minimalista",
+      precio: 15499,
+      idCategoria: 2,
+      descripcion: "Buzo gris claro con diseño minimalista.",
+      talleProducto: "L",
+      stock: 9,
+      color: "Gris",
       imgs: [
         {
-          id: 101,
-          idProducto: 1,
+          id: 102,
+          idProducto: 2,
+          url: imgEjemplo,
+          principal: true,
+        },
+      ],
+    },
+    {
+      id: Date.now()+Math.random(),
+      nombre: "Buzo Hoodie Gris Minimalista",
+      precio: 15499,
+      idCategoria: 2,
+      descripcion: "Buzo gris claro con diseño minimalista.",
+      talleProducto: "XL",
+      stock: 6,
+      color: "Gris",
+      imgs: [
+        {
+          id: 102,
+          idProducto: 2,
+          url: imgEjemplo,
+          principal: true,
+        },
+      ],
+    },
+    {
+      id: Date.now()+Math.random(),
+      nombre: "Pantalón Cargo Verde Militar",
+      precio: 18999,
+      idCategoria: 3,
+      descripcion: "Pantalón cargo verde militar resistente.",
+      talleProducto: "S",
+      stock: 8,
+      color: "Verde Militar",
+      imgs: [
+        {
+          id: 103,
+          idProducto: 3,
           url: imgEjemplo2,
           principal: true,
         },
       ],
     },
     {
-      id: 22,
-      nombre: "Buzo Hoodie Gris Minimalista",
-      stock: 3,
-      precio: 15499,
-      idCategoria: 2,
-      descripcion: "Buzo gris claro con diseño minimalista.",
-      idTalleProducto: 2,
-      color: "Gris",
-      imgs: [
-        {
-          id: 102,
-          idProducto: 2,
-          url: imgEjemplo,
-          principal: true,
-        },
-      ],
-    },
-    {
-      id: 23,
+      id: Date.now()+Math.random(),
       nombre: "Pantalón Cargo Verde Militar",
-      stock: 9,
       precio: 18999,
       idCategoria: 3,
       descripcion: "Pantalón cargo verde militar resistente.",
-      idTalleProducto: 3,
+      talleProducto: "M",
+      stock: 3,
       color: "Verde Militar",
       imgs: [
         {
           id: 103,
           idProducto: 3,
-          url: imgEjemplo,
+          url: imgEjemplo2,
           principal: true,
         },
       ],
     },
     {
-      id: 31,
-      nombre: "Camiseta Oversize Negra",
-      stock: 8,
-      precio: 7999,
-      idCategoria: 1,
-      descripcion: "Camiseta oversize negra de algodón premium.",
-      idTalleProducto: 1,
-      color: "Negro",
-      imgs: [
-        {
-          id: 101,
-          idProducto: 1,
-          url: imgEjemplo,
-          principal: true,
-        },
-      ],
-    },
-    {
-      id: 32,
-      nombre: "Buzo Hoodie Gris Minimalista",
-      stock: 3,
-      precio: 15499,
-      idCategoria: 2,
-      descripcion: "Buzo gris claro con diseño minimalista.",
-      idTalleProducto: 2,
-      color: "Gris",
-      imgs: [
-        {
-          id: 102,
-          idProducto: 2,
-          url: imgEjemplo,
-          principal: true,
-        },
-      ],
-    },
-    {
-      id: 33,
+      id: Date.now()+Math.random(),
       nombre: "Pantalón Cargo Verde Militar",
-      stock: 9,
       precio: 18999,
       idCategoria: 3,
       descripcion: "Pantalón cargo verde militar resistente.",
-      idTalleProducto: 3,
+      talleProducto: "L",
+      stock: 5,
       color: "Verde Militar",
       imgs: [
         {
           id: 103,
           idProducto: 3,
-          url: imgEjemplo,
+          url: imgEjemplo2,
           principal: true,
         },
       ],
     },
     {
-      id: 41,
-      nombre: "Camiseta Oversize Negra",
-      stock: 8,
-      precio: 7999,
-      idCategoria: 1,
-      descripcion: "Camiseta oversize negra de algodón premium.",
-      idTalleProducto: 1,
-      color: "Negro",
-      imgs: [
-        {
-          id: 101,
-          idProducto: 1,
-          url: imgEjemplo,
-          principal: true,
-        },
-      ],
-    },
-    {
-      id: 42,
-      nombre: "Buzo Hoodie Gris Minimalista",
-      stock: 3,
-      precio: 15499,
-      idCategoria: 2,
-      descripcion: "Buzo gris claro con diseño minimalista.",
-      idTalleProducto: 2,
-      color: "Gris",
-      imgs: [
-        {
-          id: 102,
-          idProducto: 2,
-          url: imgEjemplo,
-          principal: true,
-        },
-      ],
-    },
-    {
-      id: 43,
+      id: Date.now()+Math.random(),
       nombre: "Pantalón Cargo Verde Militar",
-      stock: 9,
       precio: 18999,
       idCategoria: 3,
       descripcion: "Pantalón cargo verde militar resistente.",
-      idTalleProducto: 3,
+      talleProducto: "XL",
+      stock: 7,
       color: "Verde Militar",
       imgs: [
         {
           id: 103,
           idProducto: 3,
-          url: imgEjemplo,
+          url: imgEjemplo2,
           principal: true,
         },
       ],
     },
-  ],
+    {
+      id: Date.now()+Math.random(),
+      nombre: "Remera Básica Blanca",
+      precio: 21999,
+      idCategoria: 3,
+      descripcion: "Remera básica blanca de algodón orgánico.",
+      talleProducto: "S",
+      stock: 3,
+      color: "Verde Militar",
+      imgs: [
+        {
+          id: 103,
+          idProducto: 3,
+          url: imgEjemplo2,
+          principal: true,
+        },
+      ],
+    },
+    {
+      id: Date.now()+Math.random(),
+      nombre: "Remera Básica Blanca",
+      precio: 21999,
+      idCategoria: 6,
+      descripcion: "Remera básica blanca de algodón orgánico.",
+      talleProducto: "M",
+      stock: 3,
+      color: "Verde Militar",
+      imgs: [
+        {
+          id: 103,
+          idProducto: 3,
+          url: imgEjemplo2,
+          principal: true,
+        },
+      ],
+    },
+    {
+      id: Date.now()+Math.random(),
+      nombre: "Remera Básica Blanca",
+      precio: 21999,
+      idCategoria: 3,
+      descripcion: "Remera básica blanca de algodón orgánico.",
+      talleProducto: "L",
+      stock: 5,
+      color: "Verde Militar",
+      imgs: [
+        {
+          id: 103,
+          idProducto: 3,
+          url: imgEjemplo2,
+          principal: true,
+        },
+      ],
+    },
+    {
+      id: Date.now()+Math.random(),
+      nombre: "Remera Básica Blanca",
+      precio: 21999,
+      idCategoria: 8,
+      descripcion: "Remera básica blanca de algodón orgánico.",
+      talleProducto: "XL",
+      stock: 3,
+      color: "Verde Militar",
+      imgs: [
+        {
+          id: 103,
+          idProducto: 3,
+          url: imgEjemplo2,
+          principal: true,
+        },
+      ],
+    },
+    
+  ]
+  const agruparProductosPorNombre = (productos: IProducto[]): IProductoAgrupado[] => {
+  const agrupados: IProductoAgrupado[] = [];
+
+  productos.forEach((prod) => {
+    const existente = agrupados.find((p) => p.nombre === prod.nombre);
+    const variante = {
+      talle: prod.talleProducto,
+      stock: prod.stock,
+      idProducto: prod.id,
+    };
+
+    if (!existente) {
+      agrupados.push({
+        id: prod.id,
+          imgs: prod.imgs,
+          nombre: prod.nombre,
+          precio: prod.precio,
+          idCategoria: prod.idCategoria,
+          descripcion: prod.descripcion,
+          talleStock: [variante],
+          color: prod.color
+      });
+    } else {
+      existente.talleStock.push(variante);
+    }
+  });
+
+  return agrupados;
+};
+export const useProductoStore = create<IProductoState>((set, get) => ({
+  productos: [...productosEjemplo],
+  productosAgrupados: agruparProductosPorNombre(productosEjemplo),
   activeProducto: null,
 
   setActiveProducto: (producto) => set({ activeProducto: producto }),

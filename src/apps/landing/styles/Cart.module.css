@@ -69,3 +69,12 @@
   justify-content: center;
   align-items: center;
 }
+
+/* Carrito vacio */
+.emptyCart{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5rem;
+}

@@ -91,11 +91,16 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
 }
 
-/* Flex-column */
+/* Flex */
 .flex-page{
   display: flex;
   flex-direction: column;
   height: 100vh;
+}
+.flex-end{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 /* Inputs */
 .input-white {
