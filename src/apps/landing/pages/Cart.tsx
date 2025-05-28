@@ -4,8 +4,11 @@ import styles from "../styles/Cart.module.css";
 import { ProductCart } from "../components/cart/ProductCart";
 import { useCarritoStore } from "../../../store/slices/CarritoStore";
 import { useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
+  const navigate = useNavigate();
   const detalles = useCarritoStore((state) => state.detallesProducto);
   const total = detalles.reduce(
     (sum, detalle) => sum + detalle.producto.precio * detalle.cantidad,
@@ -31,14 +34,49 @@ export const Cart = () => {
         <h2 className={styles.title}>Tu carrito</h2>
         <div className={styles.grid}>
           <div className={styles.products}>
-            {useCarritoStore((state) => state.detallesProducto).map(
-              (detalle, i) => (
-                <div className={styles.separatorGap}>
-                  {i !== 0 && <div className="separator" />} {/* Separador */}
-                  <ProductCart detalleCompra={detalle} />
-                </div>
-              )
-            )}
+            <AnimatePresence mode="wait">
+              {detalles.length > 0 ? (
+                detalles.map((detalle, i) => (
+                  <motion.div
+                    key={detalle.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ type: "tween", stiffness: 300 }}
+                    className={styles.separatorGap}
+                  >
+                    {i !== 0 && <div className="separator" />} {/* Separador */}
+                    <ProductCart detalleCompra={detalle} />
+                  </motion.div>
+                ))
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ type: "tween", stiffness: 300 }}
+                  className={styles.separatorGap}
+                >
+                  <div className={styles.emptyCart}>
+                    <p
+                      style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      El carrito está vacio
+                    </p>
+                    <button
+                      className="button-black"
+                      onClick={() => navigate("/")}
+                    >
+                      Ir a comprar
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
           <div>
             {/* Seccion de Orden */}
@@ -61,12 +99,16 @@ export const Cart = () => {
                 </div>
                 <div className={styles.itemValue}>
                   <p>Envio</p>
-                  <span className="bold">${envioPrice.toLocaleString("es-AR")}</span>
+                  <span className="bold">
+                    ${envioPrice.toLocaleString("es-AR")}
+                  </span>
                 </div>
                 <div className="separator"></div>
                 <div className={styles.totalValue}>
                   <p>Total</p>
-                  <span className="bold">${sumTotal.toLocaleString("es-AR")}</span>
+                  <span className="bold">
+                    ${sumTotal.toLocaleString("es-AR")}
+                  </span>
                 </div>
               </div>
               {/* Button de cupón */}
