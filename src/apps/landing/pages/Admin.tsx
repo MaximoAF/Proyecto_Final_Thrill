@@ -1,4 +1,4 @@
-import { Aside } from "../components/Aside"
+import { Aside } from "../components/AsideAdmin"
 import { HeaderAdmin } from "../components/HeaderAdmin"
 import styles from "../styles/Admin.module.css"
 export const Admin = () => {
