@@ -35,7 +35,7 @@ export const Home = () => {
       </div>
 
       {/* Gallery */}
-      <ArticleGallery title='Nuevos Ingresos' articles={useProductoStore((state)=>state.productos)}/>
+      <ArticleGallery title='Nuevos Ingresos' articles={useProductoStore((state)=>state.productosAgrupados)}/>
 
       {/* Separador */}
       <div id='separator' style={{margin: '3rem 0'}}>
@@ -43,7 +43,7 @@ export const Home = () => {
       </div>
 
       {/* Gallery */}
-      <ArticleGallery  title='Lo mas vendidos' articles={useProductoStore((state)=>state.productos)}/>
+      <ArticleGallery  title='Lo mas vendidos' articles={useProductoStore((state)=>state.productosAgrupados)}/>
 
       {/* Categorias */}
       <Categories/>

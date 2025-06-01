@@ -1,15 +1,14 @@
 import { IDetalleCompra } from "../../types/IDetalleCompra";
-import { IProducto } from "../../types/IProducto";
 
 export interface ICarritoState {
   detallesProducto: IDetalleCompra[];
-  activeProducto: IDetalleCompra | null;
+  activeProductoDetalle: IDetalleCompra | null;
 
-  setActiveProducto: (prdocuto: IDetalleCompra) => void;
-  clearActiveProducto: () => void;
+  setActiveProductoDetalle: (prdocuto: IDetalleCompra) => void;
+  clearActiveProductoDetalle: () => void;
 
-  addProducto: (producto: IProducto) => void;
-  removeProducto: (ordentId: string) => void;
-  addCantidad: (ordenId: string) => void;
-  discountCantidad: (ordenId: string) => void;
+  addProductoDetalle: (detalle: IDetalleCompra) => void;
+  removeProductoDetalle: (detalleId: string) => void;
+  addCantidad: (detalleId: string) => void;
+  discountCantidad: (detalleId: string) => void;
 }

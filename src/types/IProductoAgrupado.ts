@@ -1,13 +1,13 @@
 import { IImageProducto } from "./IImageProducto";
+import { ITalleStockAgrupado } from './ITalleStockAgrupado';
 
-export interface IProducto {
+export interface IProductoAgrupado {
   id: number;
   imgs: IImageProducto[]
   nombre: string;
   precio: number;
   idCategoria: number;
   descripcion: string;
-  talleProducto: string;
-  stock: number;
+  talleStock: ITalleStockAgrupado[];
   color: string;
 }
