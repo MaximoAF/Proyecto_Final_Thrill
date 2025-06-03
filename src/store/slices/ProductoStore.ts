@@ -343,9 +343,9 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
       productos: state.productos.filter((p) => p.id.toString() !== productoId),
     })),
 
-  getProductoById: (productoId) => {
-    return get().productos.find((p) => p.id.toString() === productoId);
-  },
+  getProductoById: (productoId) => 
+    get().productos.find((p) => p.id.toString() === productoId),
+  
   updateProducto: (producto) =>
     set((state) => ({
       productos: state.productos.map((p) =>

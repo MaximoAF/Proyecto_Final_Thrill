@@ -9,6 +9,8 @@ export interface ICarritoState {
 
   addProductoDetalle: (detalle: IDetalleCompra) => void;
   removeProductoDetalle: (detalleId: string) => void;
-  addCantidad: (detalleId: string) => void;
-  discountCantidad: (detalleId: string) => void;
+  addCantidad: (detalleId: string, cantidad: number) => void;
+  discountCantidad: (detalleId: string, cantidad: number) => void;
+
+  getDetalleById: (detalleId: string) => IDetalleCompra | undefined
 }

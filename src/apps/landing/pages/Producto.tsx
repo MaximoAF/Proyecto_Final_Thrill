@@ -13,6 +13,7 @@ import { ITalleStockAgrupado } from "../../../types/ITalleStockAgrupado";
 import { IProducto } from "../../../types/IProducto";
 
 export const Producto = () => {
+  const activeDetalle = useCarritoStore((state) => state.activeProductoDetalle);
   const productId = useParams().productId || "";
   const navigate = useNavigate();
   const productoAgrupado = useProductoStore
@@ -42,26 +43,41 @@ export const Producto = () => {
           .getState()
           .getProductoById(variante.idProducto.toString()) || null
       );
-      setCantidad(1)
+      setCantidad(1);
     }
   };
 
   const addToCart = () => {
     if (producto) {
-      const newDetalle: IDetalleCompra = {
-        id: Date.now() + Math.random(),
-        producto: producto,
-        cantidad: cantidad,
-        idOrdenDeCompra: 0,
-      };
-      if (producto && selectedSize) {
-        useCarritoStore.getState().addProductoDetalle(newDetalle);
-        useCarritoStore.getState().setActiveProductoDetalle(newDetalle);
+      // Verificamos si el producto ya esta en el carrito
+      const isInCart = useCarritoStore
+        .getState()
+        .detallesProducto.find(
+          (detalle) => detalle.producto.id === producto.id
+        );
+      if (isInCart) {
+        useCarritoStore
+          .getState()
+          .addCantidad(isInCart.id.toString(), cantidad);
+        const result = useCarritoStore
+          .getState()
+          .getDetalleById(isInCart.id.toString());
+        result && useCarritoStore.getState().setActiveProductoDetalle(result);
         setSizeError(false);
         setShowAddToCart(true);
-        console.log(
-          `Producto agregado al carrito: ${producto.nombre}, Cantidad: ${cantidad}, Talle: ${selectedSize}`
-        );
+      } else {
+        const newDetalle: IDetalleCompra = {
+          id: Date.now() + Math.random(),
+          producto: producto,
+          cantidad: cantidad,
+          idOrdenDeCompra: 0,
+        };
+        if (producto && selectedSize) {
+          useCarritoStore.getState().addProductoDetalle(newDetalle);
+          useCarritoStore.getState().setActiveProductoDetalle(newDetalle);
+          setSizeError(false);
+          setShowAddToCart(true);
+        }
       }
     } else {
       setSizeError(true);
@@ -180,6 +196,7 @@ export const Producto = () => {
           {/* Mensaje de agregado al carrito */}
           <AnimatePresence>
             {showAdedToCart &&
+              activeDetalle &&
               useCarritoStore.getState().activeProductoDetalle && (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -219,13 +236,7 @@ export const Producto = () => {
                     </div>
                     {/* Separador */}
                     <div className="separator"></div>
-
-                    <ProductCartView
-                      detalleCompra={
-                        useCarritoStore.getState().activeProductoDetalle ||
-                        useCarritoStore.getState().detallesProducto[0]
-                      }
-                    />
+                    <ProductCartView detalleCompra={activeDetalle} />
                     <div style={{ display: "flex", gap: "1rem" }}>
                       <button
                         style={{ marginTop: "3rem", flexGrow: "1" }}

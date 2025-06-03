@@ -10,13 +10,13 @@ interface IProductCartProps {
 export const ProductCart: FC<IProductCartProps> = ({ detalleCompra }) => {
   const handleMinus = () => {
     if (detalleCompra.cantidad > 1) {
-      useCarritoStore.getState().discountCantidad(detalleCompra.id.toString());
+      useCarritoStore.getState().discountCantidad(detalleCompra.id.toString(),1);
     }
   };
   const handleAdd = () => {
     if (detalleCompra.producto)
       if (detalleCompra.cantidad < detalleCompra.producto.stock)
-        useCarritoStore.getState().addCantidad(detalleCompra.id.toString());
+        useCarritoStore.getState().addCantidad(detalleCompra.id.toString(),1);
   };
   return (
     <div className={styles.container}>

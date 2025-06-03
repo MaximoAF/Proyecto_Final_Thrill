@@ -22,6 +22,9 @@ export const ProductCartView: FC<IProductCartViewProps> = ({ detalleCompra }) =>
             <p>
               Size: <span className={styles.gray}>{detalleCompra.producto.talleProducto}</span>
             </p>
+            <p>
+              Cantidad: <span className={styles.gray}>{detalleCompra.cantidad}</span>
+            </p>
           </div>
           <p className={styles.price}>
             $
