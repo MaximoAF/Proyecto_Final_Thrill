@@ -12,7 +12,7 @@ export const Aside = () => {
         </div>
         <div className={styles.buttonContainers}>
             <button onClick={()=>navigate('/dashboard-admin')}><i className="fa-solid fa-chart-simple"></i> Dashboard</button>
-            <button><i className="fa-solid fa-list"></i> Productos</button>
+            <button onClick={()=>navigate('/editar-producto')}><i className="fa-solid fa-list"></i> Productos</button>
             <button><i className="fa-solid fa-layer-group"></i> Categorias</button>
             <button><i className="fa-solid fa-users"></i> Usuarios</button>
         </div>
