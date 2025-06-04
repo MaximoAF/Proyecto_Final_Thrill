@@ -73,6 +73,10 @@
   display: flex;
   gap: 1rem;
 }
+
+.buttonsAction :hover{
+  background-color: rgb(54, 54, 54);
+}
 .cuantity{
   display: flex;
   justify-content: space-evenly;
