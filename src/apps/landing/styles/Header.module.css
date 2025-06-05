@@ -24,7 +24,7 @@
   display: flex;
   align-items: center;
   gap: 4rem;
-  max-width: 78rem;
+  max-width: 100%;
   margin: 1.5rem auto;
   padding: 0 1rem;
   
@@ -36,6 +36,7 @@
 .imgContainer{
   width: 8rem;
   transition: transform .5s ease ;
+  margin-left: 1rem;
 }
 .imgContainer:hover{
   transform: scale(1.1);
@@ -45,6 +46,11 @@
   display: flex;
   gap: 1rem;
 }
+
+.navButtons select{
+  width: 6rem;
+}
+
 .button{
   background: none;
   border: none;
@@ -64,11 +70,13 @@
   background: none;
   border: none;
   width: 100%;
+  font-size: medium;
 }
 .inputBuscador:focus{
   outline: none;
 }
 .icons{
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
+  margin-right: 2rem;
 }
