@@ -87,7 +87,7 @@ export const Producto = () => {
   useEffect(() => {
     setSelectedSize(""); // reiniciar selección
     setCantidad(1); // reiniciar cantidad
-    document.title = `${productoAgrupado?.nombre} - Thrill`;
+    document.title = `${productoAgrupado?.nombre || 'Error'} - Thrill`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [productId]);
   return (
@@ -253,7 +253,8 @@ export const Producto = () => {
         </div>
       ) : (
         <div className={styles.errorContainer}>
-          <div>
+          {/* Error Producto */}
+          <div style={{textAlign: "center"}}>
             <h2>Producto no encontrado</h2>
             <p>Lo sentimos, el producto que buscas no existe.</p>
           </div>

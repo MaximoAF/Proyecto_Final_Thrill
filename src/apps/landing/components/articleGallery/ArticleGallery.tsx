@@ -40,7 +40,7 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
               exit={{ opacity: 0, y: -20 }}
               whileHover={{ scale: 1.03 }}
               transition={{ type: "spring", stiffness: 300 }}
-              onClick={() => { navigate(`/producto/${art.id}`); }}
+              onClick={() => { navigate(`/p/${art.id}`); }}
             >
               <div className={styles.imgContainer}>
                 {art.imgs.length > 0 ? (
