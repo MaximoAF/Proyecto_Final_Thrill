@@ -10,4 +10,5 @@ export interface IProducto {
   descripcion: string;
   idTalleProducto: number;
   color: string;
+  descuento: number;
 }

@@ -22,6 +22,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 2,
@@ -40,6 +41,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 3,
@@ -58,6 +60,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 21,
@@ -76,6 +79,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 22,
@@ -94,6 +98,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 23,
@@ -112,6 +117,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 31,
@@ -130,6 +136,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 32,
@@ -148,6 +155,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 33,
@@ -166,6 +174,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 41,
@@ -184,6 +193,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 42,
@@ -202,6 +212,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
     {
       id: 43,
@@ -220,6 +231,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
           principal: true,
         },
       ],
+      descuento:0,
     },
   ],
   activeProducto: null,
