@@ -65,6 +65,11 @@ button:hover {
   transform: scale(1.05);
   opacity: 90%;
 }
+select {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -91,11 +96,21 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
 }
 
-/* Flex-column */
+/* Flex */
 .flex-page{
   display: flex;
   flex-direction: column;
   height: 100vh;
+}
+.flex-end{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.flex-between{
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
 }
 /* Inputs */
 .input-white {
@@ -155,6 +170,11 @@ background-color: rgb(54, 54, 54);;
 .bold-24px{
   color: var(--black-color);
   font-size: 1.5rem;
+  font-weight: bold;
+}
+.bold-32px{
+  color: var(--black-color);
+  font-size: 2rem;
   font-weight: bold;
 }
 

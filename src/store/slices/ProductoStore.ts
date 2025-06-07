@@ -1,9 +1,44 @@
 import { create } from "zustand";
 import { IProductoState } from "../types/IProductoState";
-import imgEjemplo from "../../assets/imgs/remeraEj.png";
-import imgEjemplo2 from "../../assets/imgs/imageEj2.png";
+import { IProducto, productosEjemplo } from "../../types/IProducto";
+import { IProductoAgrupado } from "../../types/IProductoAgrupado";
 
+const agruparProductosPorNombre = (
+  productos: IProducto[]
+): IProductoAgrupado[] => {
+  const agrupados: IProductoAgrupado[] = [];
+
+  productos.forEach((prod) => {
+    const existente = agrupados.find((p) => p.nombre === prod.nombre);
+    const variante = {
+      talle: prod.talleProducto,
+      stock: prod.stock,
+      idProducto: prod.id,
+    };
+
+    if (!existente) {
+      agrupados.push({
+        id: prod.id,
+        imgs: prod.imgs,
+        nombre: prod.nombre,
+        precio: prod.precio,
+        idCategoria: prod.idCategoria,
+        descripcion: prod.descripcion,
+        talleStock: [variante],
+        color: prod.color,
+      });
+    } else {
+      existente.talleStock.push(variante);
+    }
+  });
+
+  return agrupados;
+};
 export const useProductoStore = create<IProductoState>((set, get) => ({
+<<<<<<< HEAD
+  productos: [...productosEjemplo],
+  productosAgrupados: agruparProductosPorNombre(productosEjemplo),
+=======
   productos: [
     {
       id: 1,
@@ -234,6 +269,7 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
       descuento:0,
     },
   ],
+>>>>>>> 44a7e372b06a005ee36e0ea676aa7d5516dda2d5
   activeProducto: null,
 
   setActiveProducto: (producto) => set({ activeProducto: producto }),
@@ -249,9 +285,9 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
       productos: state.productos.filter((p) => p.id.toString() !== productoId),
     })),
 
-  getProductoById: (productoId) => {
-    return get().productos.find((p) => p.id.toString() === productoId);
-  },
+  getProductoById: (productoId) =>
+    get().productos.find((p) => p.id.toString() === productoId),
+
   updateProducto: (producto) =>
     set((state) => ({
       productos: state.productos.map((p) =>

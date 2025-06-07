@@ -10,13 +10,13 @@ interface IProductCartProps {
 export const ProductCart: FC<IProductCartProps> = ({ detalleCompra }) => {
   const handleMinus = () => {
     if (detalleCompra.cantidad > 1) {
-      useCarritoStore.getState().discountCantidad(detalleCompra.id.toString());
+      useCarritoStore.getState().discountCantidad(detalleCompra.id.toString(),1);
     }
   };
   const handleAdd = () => {
     if (detalleCompra.producto)
       if (detalleCompra.cantidad < detalleCompra.producto.stock)
-        useCarritoStore.getState().addCantidad(detalleCompra.id.toString());
+        useCarritoStore.getState().addCantidad(detalleCompra.id.toString(),1);
   };
   return (
     <div className={styles.container}>
@@ -31,7 +31,7 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleCompra }) => {
               Color: <span className={styles.gray}>{detalleCompra.producto.color}</span>
             </p>
             <p>
-              Size: <span className={styles.gray}>{detalleCompra.producto.idTalleProducto}</span>
+              Size: <span className={styles.gray}>{detalleCompra.producto.talleProducto}</span>
             </p>
           </div>
           <p className={styles.price}>
@@ -44,7 +44,7 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleCompra }) => {
       </div>
       <div className={styles.buttonsFlex}>
         <div className={styles.trashButton}>
-          <div className="i-btn" onClick={() => useCarritoStore.getState().removeProducto(detalleCompra.id.toString())}>
+          <div className="i-btn" onClick={() => useCarritoStore.getState().removeProductoDetalle(detalleCompra.id.toString())}>
             <i className="fa-regular fa-trash-can"></i>
           </div>
         </div>

@@ -1,8 +1,15 @@
 import { create } from "zustand";
 import { ICarritoState } from "../types/ICarritoState";
 
-import imgEjemplo from "../../assets/imgs/remeraEj.png";
+export const useCarritoStore = create<ICarritoState>((set, get) => ({
+  detallesProducto: [],
+  activeProductoDetalle: null,
 
+<<<<<<< HEAD
+  setActiveProductoDetalle: (detalle) =>
+    set({ activeProductoDetalle: detalle }),
+  clearActiveProductoDetalle: () => set({ activeProductoDetalle: null }),
+=======
 export const useCarritoStore = create<ICarritoState>((set) => ({
   detallesProducto: [{
     id: Date.now() + Math.random(),
@@ -53,46 +60,52 @@ export const useCarritoStore = create<ICarritoState>((set) => ({
     idOrdenDeCompra: 0,
   }],
   activeProducto: null,
+>>>>>>> 44a7e372b06a005ee36e0ea676aa7d5516dda2d5
 
-  setActiveProducto: (producto) => set({ activeProducto: producto }),
-  clearActiveProducto: () => set({ activeProducto: null }),
-
-  addProducto: (producto) => {
+  addProductoDetalle: (detalle) => {
     set((state) => ({
-      detallesProducto: [
-        ...state.detallesProducto,
-        {
-          id: Date.now(),
-          producto: producto,
-          cantidad: 1,
-          idOrdenDeCompra: 0,
-        },
-      ],
+      detallesProducto: [...state.detallesProducto, detalle],
     }));
   },
-  removeProducto: (productoId) => {
+  removeProductoDetalle: (detalleId) => {
     set((state) => ({
       detallesProducto: state.detallesProducto.filter(
-        (producto) => String(producto.id) !== String(productoId)
+        (detalle) => String(detalle.id) !== String(detalleId)
       ),
     }));
   },
-  addCantidad: (detalleId) => {
+  addCantidad: (detalleId, cantidad) => {
     set((state) => ({
-      detallesProducto: state.detallesProducto.map((detalle) =>
-        String(detalle.id) === String(detalleId)
-          ? { ...detalle, cantidad: detalle.cantidad + 1 }
-          : detalle
-      ),
+      detallesProducto: state.detallesProducto.map((detalle) => {
+        if (detalle.id.toString() === detalleId.toString()) {
+          if (detalle.cantidad + cantidad <= detalle.producto.stock) {
+            return { ...detalle, cantidad: detalle.cantidad + cantidad };
+          } else {
+            return detalle;
+          }
+        } else {
+          return detalle;
+        }
+      }),
     }));
   },
-  discountCantidad: (detalleId) => {
+  discountCantidad: (detalleId, cantidad) => {
     set((state) => ({
-      detallesProducto: state.detallesProducto.map((detalle) =>
-        String(detalle.id) === String(detalleId)
-          ? { ...detalle, cantidad: detalle.cantidad - 1 }
-          : detalle
-      ),
+      detallesProducto: state.detallesProducto.map((detalle) => {
+        if (detalle.id.toString() === detalleId.toString()) {
+          if (detalle.cantidad - cantidad >= 0) {
+            return { ...detalle, cantidad: detalle.cantidad -cantidad };
+          } else {
+            return detalle;
+          }
+        } else {
+          return detalle;
+        }
+      }),
     }));
   },
+  getDetalleById: (detalleId) =>
+    get().detallesProducto.find(
+      (detalle) => detalle.id.toString() === detalleId
+    ),
 }));
