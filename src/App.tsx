@@ -8,6 +8,7 @@ import { Admin } from "./apps/landing/pages/Admin";
 import { DashboardAdmin } from './apps/landing/components/DashboardAdmin';
 import { EditarProducto } from "./apps/landing/components/EditarProducto";
 import { CrearProducto } from "./apps/landing/components/FormulariosProducto/CrearProducto";
+import { EditarProductoForm } from "./apps/landing/components/FormulariosProducto/EditarProductoForm";
 
 export const App = () => {
   return (
@@ -21,6 +22,7 @@ export const App = () => {
       <Route path="/dashboard-admin" element={<DashboardAdmin />} />
       <Route path="/editar-producto" element={<EditarProducto/>}/>
       <Route path="/formulario-creacion" element={<CrearProducto/>}/>
+      <Route path="/formulario-editar" element={<EditarProductoForm/>}/>
     </Routes>
   );
 };
