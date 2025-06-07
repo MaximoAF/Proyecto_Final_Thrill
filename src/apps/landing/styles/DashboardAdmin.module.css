@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  gap: 20rem;
+  height: 100%;
+}
+.cuadros{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.vistasInfo{
+  display: grid;
+  height: 10rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  padding-left: 2rem;
+  background-color: #fff;
+  justify-content: start;
+}
+
+.vistasInfo i{
+  font-size: 1.5rem;
+}
+
+.vistasInfo h4{
+  font-size: 2rem;
+}
+
+.vistasInfo p{
+  font-size: 1.2rem;
+}
+
+.graficoVentas {
+  height: 13rem;
+  width: 60rem;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  text-align: center;
+}

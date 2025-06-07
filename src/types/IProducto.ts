@@ -13,6 +13,7 @@ export interface IProducto {
   talleProducto: string;
   stock: number;
   color: string;
+  descuento: number;
 }
 
 // Productos Ejemplos

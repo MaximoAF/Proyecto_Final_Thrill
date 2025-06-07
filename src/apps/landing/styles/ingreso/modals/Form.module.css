@@ -1,11 +1,9 @@
 .form {
   height: 30rem;
-
   background-color: var(--white-color);
   border: 1px var(--black-40) solid;
   border-radius: 1rem;
   padding: 1.5rem;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;

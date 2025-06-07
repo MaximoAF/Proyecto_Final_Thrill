@@ -1,9 +1,9 @@
-import { Aside } from "../components/Aside"
+import { Aside } from "../components/AsideAdmin"
 import { HeaderAdmin } from "../components/HeaderAdmin"
 import styles from "../styles/Admin.module.css"
 export const Admin = () => {
   return (
-    <div className="aside-main__container">
+    <div className="aside-mainContainer">
       <Aside/>
       <div className={styles.main}>
         <HeaderAdmin/>
