@@ -3,13 +3,13 @@ import { HeaderAdmin } from './HeaderAdmin'
 import styles from './../styles/CategoriasAdmin.module.css'
 import { FC, useState } from 'react'
 import { ICategoria } from '../../../types/ICategoria'
-import { UseCategoriaStore } from '../../../store/slices/CategoriaStore'
+import { useCategoriaStore } from '../../../store/slices/CategoriaStore'
 import { EliminarCategoria } from './FormulariosCategorias/EliminarCategoria'
 import { CrearCategoria } from './FormulariosCategorias/CrearCategoria'
 import { EditarCategoria } from './FormulariosCategorias/EditarCategoria'
 
 export const CategoriasAdmin: FC = () => {
-  const categorias = UseCategoriaStore((state) => state.categorias)
+  const categorias = useCategoriaStore((state) => state.categorias)
   const [paginaActual, setPaginaActual] = useState(1)
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
   const [mostrarFormularioEditar, setMostrarFormularioEditar] = useState(false)
@@ -78,7 +78,7 @@ export const CategoriasAdmin: FC = () => {
                 <div className={styles.productoCard}>
                   <div className={styles.info}>
                     <h5>{detalle.nombre}</h5>
-                    <p>ID Tipo: {detalle.idTipo}</p>
+                    <p>ID Tipo: {detalle.tipo}</p>
                     <p>Categoría padre: {detalle.idCategoriaPadre}</p>
                   </div>
                   <div className={styles.containerButtonActions}>

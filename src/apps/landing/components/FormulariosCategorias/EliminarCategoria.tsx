@@ -1,4 +1,4 @@
-import { UseCategoriaStore } from "../../../../store/slices/CategoriaStore";
+import { useCategoriaStore } from "../../../../store/slices/CategoriaStore";
 import styles from "../../styles/FormProducto/EliminarProducto.module.css";
 import { ICategoria } from "../../../../types/ICategoria";
 import { FC } from "react";
@@ -10,7 +10,7 @@ interface IDashboardcategorieProps {
 
 export const EliminarCategoria: FC<IDashboardcategorieProps> = ({ categoria, onClose }) => {
   const handleEliminar = () => {
-    UseCategoriaStore.getState().removeCategoria(categoria.id.toString());
+    useCategoriaStore.getState().removeCategoria(categoria.id);
     onClose();
   };
 
