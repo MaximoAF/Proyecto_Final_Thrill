@@ -77,10 +77,6 @@
   display: flex;
   gap: 1rem;
 }
-
-.buttonsAction :hover{
-  background-color: rgb(54, 54, 54);
-}
 .cuantity{
   display: flex;
   justify-content: space-evenly;
@@ -89,6 +85,10 @@
   width: 8rem;
   border-radius: 1.5rem;
   background-color: var(--palet-color-1);
+  transition: background-color .2s ease;
+}
+.cuantity:hover{
+  background-color: var(--black-10); 
 }
 /* Aded to cart modal */
 .addedToCart{
