@@ -1,0 +1,22 @@
+.container{
+  height: 17rem;
+  width: 25rem;
+  background-color: #fff;
+  border-radius: 1.5rem;
+  align-items: center;
+  justify-content: center;
+}
+.info{
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  gap: 1.5rem;
+}
+.info p{
+  font-size: 1.2rem;
+}
+.containerButton{
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+}

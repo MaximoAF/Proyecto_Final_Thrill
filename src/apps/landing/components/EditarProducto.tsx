@@ -5,18 +5,19 @@ import { HeaderAdmin } from "./HeaderAdmin";
 import { useProductoStore } from "../../../store/slices/ProductoStore";
 import { CrearProducto } from "./FormulariosProducto/CrearProducto";
 import {EditarProductoForm} from "./FormulariosProducto/EditarProductoForm"
+import { EliminarProducto } from "./FormulariosProducto/EliminarProducto";
 import { IProducto } from "../../../types/IProducto";
-import { FC } from "react";
 
-interface IDashboardproductProps {
-  producto: IProducto
-}
 
-export const EditarProducto: FC<IDashboardproductProps> = () => {
+
+
+export const EditarProducto = () => {
   const productos = useProductoStore((state) => state.productos);
   const [paginaActual, setPaginaActual] = useState(1);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [mostrarFormularioEditar, setMostrarFormularioEditar] = useState(false);
+  const [mostrarEliminar, setMostrarEliminar] = useState(false);
+  const [productoSeleccionado, setProductoSeleccionado] = useState<IProducto | null>(null);
 
   const productosPorPagina = 10;
   const totalPaginas = Math.ceil(productos.length / productosPorPagina);
@@ -43,6 +44,18 @@ export const EditarProducto: FC<IDashboardproductProps> = () => {
           <EditarProductoForm onClose={() => setMostrarFormularioEditar(false)} />  
         </div>
       )}
+      {productoSeleccionado && mostrarEliminar && (
+        <div className="overlay">
+          <EliminarProducto
+            producto={productoSeleccionado}
+            onClose={() => {
+              setMostrarEliminar(false);
+              setProductoSeleccionado(null);
+            }}
+          />
+        </div>
+      )}
+
       <Aside />
       <div className={styles.container}>
         <HeaderAdmin />
@@ -66,11 +79,17 @@ export const EditarProducto: FC<IDashboardproductProps> = () => {
                   <p>Unidades: {detalle.stock}</p>
                   <p>Descuento aplicado: {detalle.descuento}%</p>
                 </div>
-                <div className={styles.containerButton}>
+                <div className={styles.containerButtonActions}>
                   <button 
                   className="button-black"
                   onClick={() => setMostrarFormularioEditar(true)}>Editar</button>
-                  <button className="button-black" onClick={() => useProductoStore.getState().removeProducto(detalle.id.toString())}>Eliminar</button>
+                  <button
+                    className="button-black"
+                    onClick={() => {
+                      setProductoSeleccionado(detalle);
+                      setMostrarEliminar(true);}}>
+                      Eliminar
+                  </button>
                 </div>
               </div>
             </div>

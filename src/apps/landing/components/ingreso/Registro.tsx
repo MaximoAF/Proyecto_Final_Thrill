@@ -1,75 +1,130 @@
-import { useState } from "react";
+import { useFormik } from "formik";
 import styles from "../../styles/ingreso/modals/Form.module.css";
+import { UsuarioStore } from "../../../../store/slices/UsuarioStore";
+import { IUsuario } from "../../../../types/IUsuario";
+import * as yup from "yup";
 
 interface RegisterProps {
   toggleForm: () => void;
 }
 
+type TypeInitialValues = {
+  nombre: string;
+  email: string;
+  password: string;
+  repeatpassword: string;
+};
+
+const validationSchema = yup.object({
+  nombre: yup.string().required("Campo requerido"),
+  email: yup.string().email("Correo no válido").required("Campo requerido"),
+  password: yup.string().required("Campo requerido").min(6, "Mínimo 6 caracteres"),
+  repeatpassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Las contraseñas no coinciden")
+    .required("Campo requerido"),
+});
+
 export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
-	const [username, setUsername] = useState("");
-		const [password, setPassword] = useState("");
-		const [repeatPassword, setRepeatPassword] = useState("");
-	
-	return (
-		<form className={styles.form}>
-		<div className={styles.content}>
-			<h3 className={styles.title}>Registrarse</h3>
+  const addUsuario = UsuarioStore((state) => state.addUsuario);
 
-			<div className={styles.input}>
-				<div className={styles.icon}>
-					<i className="fa-regular fa-envelope"></i>
-				</div>
-				<input
-					type="text"
-					placeholder="Ingrese un nombre de usuario:"
-					value={username}
-					onChange={(e) => setUsername(e.target.value)}
-				/>
-			</div>
+  const formik = useFormik<TypeInitialValues>({
+    initialValues: {
+      nombre: "",
+      email: "",
+      password: "",
+      repeatpassword: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      const nuevoUsuario: IUsuario = {
+        id: Date.now(),
+        nombre: values.nombre,
+        email: values.email,
+        password: values.password,
+        idUsuarioDireccion: "",
+      };
 
-			<div className={styles.input}>
-				<div className={styles.icon}>
-					<i className="fa-solid fa-asterisk"></i>
-				</div>
-				<input
-					type="password"
-					placeholder="Ingrese una contraseña:"
-					value={password}
-					onChange={(e) => setPassword(e.target.value)}
-				/>
-			</div>
+      addUsuario(nuevoUsuario);
+      alert("Usuario registrado con éxito");
+      toggleForm();
+    },
+  });
 
-			<div className={styles.input}>
-				<div className={styles.icon}>
-					<i className="fa-solid fa-asterisk"></i>
-				</div>
-				<input
-					type="password"
-					placeholder="Repita la contraseña:"
-					value={repeatPassword}
-					onChange={(e) => setRepeatPassword(e.target.value)}
-				/>
-			</div>
-		</div>
+  return (
+    <form className={styles.form} onSubmit={formik.handleSubmit}>
+      <div className={styles.content}>
+        <h3 className={styles.title}>Registrarse</h3>
 
-		<div className='button-container'>
-			<button
-				className='button-black'
-				onClick={(e) => {
-					e.preventDefault();
-					console.log("Registro", { username, password, repeatPassword });
-				}}
-			>
-				Crear cuenta
-			</button>
-		</div>
+        <div className={styles.input}>
+          <div className={styles.icon}>
+            <i className="fa-regular fa-circle-user"></i>
+          </div>
+          <input
+            type="text"
+            placeholder="Ingrese su nombre:"
+            {...formik.getFieldProps("nombre")}
+          />
+        </div>
+          {formik.touched.nombre && formik.errors.nombre && (
+            <small className={styles.error}>{formik.errors.nombre}</small>
+          )}
 
-		<p className={styles.registerText}>
-			¿Ya tenés una cuenta?{" "}
-			<span className={styles.link} onClick={toggleForm}>
-				Iniciá sesión
-			</span>
-		</p>
-	</form>
-);
-}
+        <div className={styles.input}>
+          <div className={styles.icon}>
+            <i className="fa-regular fa-envelope"></i>
+          </div>
+          <input
+            type="text"
+            placeholder="Ingrese su correo electrónico:"
+            {...formik.getFieldProps("email")}
+          />
+        </div>
+          {formik.touched.email && formik.errors.email && (
+            <small className={styles.error}>{formik.errors.email}</small>
+          )}
+
+        <div className={styles.input}>
+          <div className={styles.icon}>
+            <i className="fa-solid fa-asterisk"></i>
+          </div>
+          <input
+            type="password"
+            placeholder="Ingrese una contraseña:"
+            {...formik.getFieldProps("password")}
+          />
+        </div>
+          {formik.touched.password && formik.errors.password && (
+            <small className={styles.error}>{formik.errors.password}</small>
+          )}
+
+        <div className={styles.input}>
+          <div className={styles.icon}>
+            <i className="fa-solid fa-asterisk"></i>
+          </div>
+          <input
+            type="password"
+            placeholder="Repita la contraseña:"
+            {...formik.getFieldProps("repeatpassword")}
+          />
+        </div>
+          {formik.touched.repeatpassword && formik.errors.repeatpassword && (
+            <small className={styles.error}>{formik.errors.repeatpassword}</small>
+          )}
+      </div>
+
+      <div className="button-container">
+        <button className="button-black" type="submit">
+          Crear cuenta
+        </button>
+      </div>
+
+      <p className={styles.registerText}>
+        ¿Ya tenés una cuenta?{" "}
+        <span className={styles.link} onClick={toggleForm}>
+          Iniciá sesión
+        </span>
+      </p>
+    </form>
+  );
+};

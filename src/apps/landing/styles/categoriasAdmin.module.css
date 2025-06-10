@@ -58,13 +58,18 @@ button:hover {
 .selected {
   border: 2px solid var(--black-20);
 }
+.products{
+  display: grid;
+  gap: 2rem;
+  padding: 5rem;
+}
 .separatorGap{
   display: grid;
   gap: 1rem;
 }
 .productoCard {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; 
   align-items: center;
   padding: 1.5rem;
   border: 1px solid #ddd;
@@ -79,11 +84,8 @@ button:hover {
 }
 
 .products {
-  display: grid;
-  gap: 2rem;
-  padding: 5rem;
   gap: 1rem;
-  height: 48rem;
+  height: 50rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
