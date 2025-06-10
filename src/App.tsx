@@ -9,6 +9,8 @@ import { DashboardAdmin } from './apps/landing/components/DashboardAdmin';
 import { EditarProducto } from "./apps/landing/components/EditarProducto";
 import { CrearProducto } from "./apps/landing/components/FormulariosProducto/CrearProducto";
 import { EditarProductoForm } from "./apps/landing/components/FormulariosProducto/EditarProductoForm";
+import { CategoriasAdmin } from "./apps/landing/components/CategoriasAdmin";
+import { UsuariosAdmin } from "./apps/landing/components/usuariosAdmin";
 
 export const App = () => {
   return (
@@ -20,9 +22,12 @@ export const App = () => {
       <Route path="/producto/:productId" element={<Producto/>}/>
       <Route path="/admin" element={<Admin/>}/>
       <Route path="/dashboard-admin" element={<DashboardAdmin />} />
-      <Route path="/editar-producto" element={<EditarProducto/>}/>
-      <Route path="/formulario-creacion" element={<CrearProducto/>}/>
-      <Route path="/formulario-editar" element={<EditarProductoForm/>}/>
+      <Route path="/editar-producto" element={<EditarProducto />}/>
+      <Route path="/formulario-creacion" element={<CrearProducto />}/>
+      <Route path="/formulario-editar" element={<EditarProductoForm />}/>
+      <Route path="/categorias" element={<CategoriasAdmin />}/>
+      <Route path="/usuarios" element={<UsuariosAdmin />}/>
+
     </Routes>
   );
 };
