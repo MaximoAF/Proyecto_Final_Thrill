@@ -1,54 +1,33 @@
 import { create } from "zustand";
+import { categoriasEjemplo } from "../../types/ICategoria";
 import { ICategoriaState } from "../types/ICategoriaState";
 
-export const UseCategoriaStore = create<ICategoriaState>((set, get) => ({
-  categorias: [
-    {
-      id: 1,
-      nombre: "Ropa Deportiva",
-      idTipo: 1,
-      idCategoriaPadre: 0,
-    },
-    {
-      id: 2,
-      nombre: "Ropa Casual",
-      idTipo: 1,
-      idCategoriaPadre: 0,
-    },
-  ],
-
+export const useCategoriaStore = create<ICategoriaState>((set, get) => ({
+  categorias: categoriasEjemplo,
   activeCategoria: null,
 
-  setActiveCategoria: (categoria) =>
-    set({ activeCategoria: categoria }),
+  tiposUnicos: Array.from(new Set(categoriasEjemplo.map((cat) => cat.tipo))),
 
-  clearActiveCategoria: () =>
-    set({ activeCategoria: null }),
+  setActiveCategoria: (categoria) => set({ activeCategoria: categoria }),
+  clearActiveCategoria: () => set({ activeCategoria: null }),
 
-  addCategoria: (categoria) =>
+  addCategoria: (categoria) => {
     set((state) => ({
       categorias: [...state.categorias, categoria],
-    })),
-
-  removeCategoria: (categoriaId) =>
-    set((state) => ({
-      categorias: state.categorias.filter(
-        (p) => p.id.toString() !== categoriaId.toString()
-      ),
-    })),
-
-  getCategoriaById: (categoriaId) => {
-    return get().categorias.find(
-      (p) => p.id.toString() === categoriaId.toString()
-    );
+    }));
   },
-
-  updateCategoria: (categoria) =>
+  removeCategoria: (categoriaId) => {
     set((state) => ({
-      categorias: state.categorias.map((p) =>
-        p.id.toString() === categoria.id.toString()
-          ? { ...p, ...categoria }
-          : p
+      categorias: state.categorias.filter((cat) => cat.id !== categoriaId),
+    }));
+  },
+  updateCategoria: (categoria) => {
+    set((state) => ({
+      categorias: state.categorias.map((cat) =>
+        cat.id === categoria.id ? categoria : cat
       ),
-    })),
+    }));
+  },
+  getCategoriaById: (categoriaId) => get().categorias.find((cat) => cat.id === categoriaId),
+  getCategoriaByName: (categoriaName) => get().categorias.find((cat) => cat.nombre.toLowerCase() === categoriaName.toLowerCase()),
 }));

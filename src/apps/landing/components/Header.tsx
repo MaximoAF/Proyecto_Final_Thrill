@@ -3,10 +3,15 @@ import thrillLogoBlack from "../../../assets/svg/thrill_logo-dark.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
 
 export const Header = () => {
   const navigate = useNavigate();
   const [oferClosed, setOferClosed] = useState<boolean>(false);
+  const categorias = useCategoriaStore((state) => state.categorias);
+  const categoriasPadres = categorias.filter(
+    (cat) => cat.idCategoriaPadre === null
+  );
 
   return (
     <div>
@@ -15,7 +20,7 @@ export const Header = () => {
           <motion.div
             className={styles.sale}
             initial={{ opacity: 1, y: 0 }}
-            animate={{ opacity: 1, y: 0}}
+            animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20, height: 0 }}
             transition={{ duration: 0.3 }}
           >
@@ -35,14 +40,20 @@ export const Header = () => {
         </div>
 
         <div className={styles.navButtons}>
-          <select className={styles.button} name="header_buttons">
-            <option value="Tienda" selected>
-              Tienda
+          <select
+            className={styles.button}
+            name="header_buttons"
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value !== "Categorias") navigate(`/c/${value.toLowerCase()}`);
+            }}
+          >
+            <option value="Categorias" selected>
+              Categorias
             </option>
-            <option value="Opcion 1">Opcion 1</option>
-            <option value="Opcion 2">Opcion 2</option>
-            <option value="Opcion 3">Opcion 3</option>
-            <option value="Opcion 4">Opcion 4</option>
+            {categoriasPadres.map((cat) => (
+              <option value={cat.nombre}>{cat.nombre}</option>
+            ))}
           </select>
           <button className={styles.button}>Promociones</button>
           <button className={styles.button}>Outfits</button>

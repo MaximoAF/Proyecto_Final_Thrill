@@ -1,10 +1,10 @@
-import styles from '../styles/Categories.module.css'
+import styles from '../styles/CategoriesGrid.module.css'
 import imgShoes from '../../../assets/imgs/shoes.png'
 import imgPants from '../../../assets/imgs/pants.png'
 import imgSweaters from '../../../assets/imgs/sweaters.png'
 import imgTshirts from '../../../assets/imgs/tshirt.png'
 
-export const Categories = () => {
+export const CategoriesGrid = () => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
