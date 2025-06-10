@@ -2,6 +2,7 @@ import { IImageProducto } from "./IImageProducto";
 
 import imgEjemplo from "../assets/imgs/remeraEj.png";
 import imgEjemplo2 from "../assets/imgs/imageEj2.png";
+import { IDescuento } from "./IDescuento";
 
 export interface IProducto {
   id: number;
@@ -13,12 +14,12 @@ export interface IProducto {
   talleProducto: string;
   stock: number;
   color: string;
-  descuento: number;
+  descuentos: IDescuento[];
 }
 
 // Productos Ejemplos
 const generateId = () => Number(`${Date.now()}${Math.floor(Math.random() * 1000)}`);
-export const productosEjemplo = [
+export const productosEjemplo:IProducto[] = [
     {
       id: generateId(),
       nombre: "Camiseta Oversize Negra",
@@ -36,6 +37,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -54,6 +56,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -72,6 +75,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -90,6 +94,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -108,6 +113,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -126,6 +132,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -144,6 +151,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -162,6 +170,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -180,6 +189,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -198,6 +208,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -216,6 +227,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -234,6 +246,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -252,6 +265,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -270,6 +284,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -288,6 +303,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     {
       id: generateId(),
@@ -306,6 +322,7 @@ export const productosEjemplo = [
           principal: true,
         },
       ],
+      descuentos: []
     },
     // REMERA OVERSIZE NEGRA
   {
@@ -325,6 +342,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
   {
     id: generateId(),
@@ -343,6 +361,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
   {
     id: generateId(),
@@ -361,6 +380,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
   {
     id: generateId(),
@@ -379,6 +399,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
 
   // PANTALÓN CARGO BEIGE
@@ -399,6 +420,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
   {
     id: generateId(),
@@ -417,6 +439,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
   {
     id: generateId(),
@@ -435,6 +458,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
   {
     id: generateId(),
@@ -453,6 +477,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
 
   // CAMPERA PUFFER NEGRA
@@ -473,6 +498,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
   {
     id: generateId(),
@@ -491,6 +517,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
   {
     id: generateId(),
@@ -509,6 +536,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
   {
     id: generateId(),
@@ -527,6 +555,7 @@ export const productosEjemplo = [
         principal: true,
       },
     ],
+    descuentos: []
   },
     
   ]
