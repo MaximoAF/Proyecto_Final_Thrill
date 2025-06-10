@@ -7,13 +7,11 @@ import { CrearProducto } from "./FormulariosProducto/CrearProducto";
 import {EditarProductoForm} from "./FormulariosProducto/EditarProductoForm"
 import { EliminarProducto } from "./FormulariosProducto/EliminarProducto";
 import { IProducto } from "../../../types/IProducto";
-import { FC } from "react";
 
-interface IDashboardproductProps {
-  producto: IProducto
-}
 
-export const EditarProducto: FC<IDashboardproductProps> = () => {
+
+
+export const EditarProducto = () => {
   const productos = useProductoStore((state) => state.productos);
   const [paginaActual, setPaginaActual] = useState(1);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
