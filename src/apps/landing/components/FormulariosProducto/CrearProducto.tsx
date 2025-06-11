@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import styles from "../../styles/FormProducto/CrearProducto.module.css";
+import { handleImageUpload } from "./UploadImage";
 
 interface ICrearProductoProps {
   onClose: () => void;
@@ -34,10 +35,25 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({ onClose }) => {
       promotion: yup.string().required("Promoción es requerida"),
       images: yup.array().min(1, "Debes subir al menos una imagen"),
     }),
-    onSubmit: (values) => {
-      console.log("Formulario enviado con:", values);
-      onClose();
-    },
+onSubmit: async (values) => {
+  try {
+    const urls = await handleImageUpload(values.images);
+    console.log("URLs subidas:", urls);
+
+    const producto = {
+      name: values.name,
+      price: values.price,
+      stock: values.stock,
+      promotion: values.promotion,
+      images: urls,
+    };
+
+    console.log("Producto final:", producto);
+    onClose();
+  } catch (error) {
+    console.error("Error subiendo imágenes:", error);
+  }
+},
   });
 
   const handleImagenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
