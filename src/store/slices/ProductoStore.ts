@@ -1,42 +1,9 @@
 import { create } from "zustand";
 import { IProductoState } from "../types/IProductoState";
-import { IProducto, productosEjemplo } from "../../types/IProducto";
-import { IProductoAgrupado } from "../../types/IProductoAgrupado";
+import { IProducto } from "../../types/IProducto";
 
-const agruparProductosPorNombre = (
-  productos: IProducto[]
-): IProductoAgrupado[] => {
-  const agrupados: IProductoAgrupado[] = [];
-
-  productos.forEach((prod) => {
-    const existente = agrupados.find((p) => p.nombre === prod.nombre);
-    const variante = {
-      talle: prod.talleProducto,
-      stock: prod.stock,
-      idProducto: prod.id,
-    };
-
-    if (!existente) {
-      agrupados.push({
-        id: prod.id,
-        imgs: prod.imgs,
-        nombre: prod.nombre,
-        precio: prod.precio,
-        idCategoria: prod.idCategoria,
-        descripcion: prod.descripcion,
-        talleStock: [variante],
-        color: prod.color,
-      });
-    } else {
-      existente.talleStock.push(variante);
-    }
-  });
-
-  return agrupados;
-};
 export const useProductoStore = create<IProductoState>((set, get) => ({
-  productos: [...productosEjemplo],
-  productosAgrupados: agruparProductosPorNombre(productosEjemplo),
+  productos: [],
   activeProducto: null,
 
   setActiveProducto: (producto) => set({ activeProducto: producto }),

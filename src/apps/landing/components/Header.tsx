@@ -9,9 +9,6 @@ export const Header = () => {
   const navigate = useNavigate();
   const [oferClosed, setOferClosed] = useState<boolean>(false);
   const categorias = useCategoriaStore((state) => state.categorias);
-  const categoriasPadres = categorias.filter(
-    (cat) => cat.idCategoriaPadre === null
-  );
 
   return (
     <div>
@@ -51,7 +48,7 @@ export const Header = () => {
             <option value="Categorias" selected>
               Categorias
             </option>
-            {categoriasPadres.map((cat) => (
+            {categorias.map((cat) => (
               <option value={cat.nombre}>{cat.nombre}</option>
             ))}
           </select>

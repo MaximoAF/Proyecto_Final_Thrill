@@ -1,4 +1,7 @@
+import { ITipo } from "./ITipo";
+
 export interface ITalle {
   id: number;
-  nombre: string;
+  talle: string;
+  tipo: ITipo;
 }

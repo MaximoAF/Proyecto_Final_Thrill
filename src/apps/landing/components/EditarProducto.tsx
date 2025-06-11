@@ -57,20 +57,19 @@ export const EditarProducto: FC<IDashboardproductProps> = () => {
         </div>
 
         <div className={styles.products}>
-          {productosPagina.map((detalle) => (
-            <div key={detalle.id} className={styles.separatorGap}>
+          {productosPagina.map((prod) => (
+            <div key={prod.id} className={styles.separatorGap}>
               <div className={styles.productoCard}>
                 <div className={styles.info}>
-                  <h5>{detalle.nombre}</h5>
-                  <p>Precio: {detalle.precio} $</p>
-                  <p>Unidades: {detalle.stock}</p>
-                  <p>Descuento aplicado: {detalle.descuento}%</p>
+                  <h5>{prod.nombre}</h5>
+                  <p>Precio: ${prod.precio}</p>
+                  <p>Descuento aplicado: {`%${prod.descuentos[0].porcentajeDesc}` || 'ninguno'}</p>
                 </div>
                 <div className={styles.containerButton}>
                   <button 
                   className="button-black"
                   onClick={() => setMostrarFormularioEditar(true)}>Editar</button>
-                  <button className="button-black" onClick={() => useProductoStore.getState().removeProducto(detalle.id.toString())}>Eliminar</button>
+                  <button className="button-black" onClick={() => useProductoStore.getState().removeProducto(prod.id.toString())}>Eliminar</button>
                 </div>
               </div>
             </div>

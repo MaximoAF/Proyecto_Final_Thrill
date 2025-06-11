@@ -4,8 +4,6 @@ export interface ICategoriaState {
   categorias: ICategoria[];
   activeCategoria: ICategoria | null;
 
-  tiposUnicos: string[]
-
   setActiveCategoria: (categoria: ICategoria) => void;
   clearActiveCategoria: () => void;
 

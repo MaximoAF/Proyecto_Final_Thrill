@@ -11,7 +11,7 @@ export const Cart = () => {
   const navigate = useNavigate();
   const detalles = useCarritoStore((state) => state.detallesProducto);
   const total = detalles.reduce(
-    (sum, detalle) => sum + detalle.producto.precio * detalle.cantidad,
+    (sum, detalle) => sum + detalle.productotalle.producto.precio * detalle.cantidad,
     0
   );
   const discount = 0.1;
@@ -46,7 +46,7 @@ export const Cart = () => {
                     className={styles.separatorGap}
                   >
                     {i !== 0 && <div className="separator" />} {/* Separador */}
-                    <ProductCart detalleCompra={detalle} />
+                    <ProductCart detalleOrden={detalle} />
                   </motion.div>
                 ))
               ) : (
