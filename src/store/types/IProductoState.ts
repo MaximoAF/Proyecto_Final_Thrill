@@ -1,9 +1,10 @@
 import { IProducto } from "../../types/IProducto";
 
-
 export interface IProductoState {
   productos: IProducto[];
   activeProducto: IProducto | null;
+
+  loadProducts: () => Promise<void>;
 
   setActiveProducto: (producto: IProducto) => void;
   clearActiveProducto: () => void;

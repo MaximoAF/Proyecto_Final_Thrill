@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { UsuarioStore } from "../../../../store/slices/UsuarioStore";
+import { UsuarioStore } from "../../../../store/slices/SesionStore";
 import styles from "../../styles/ingreso/modals/Form.module.css";
 
 interface LoginProps {
@@ -78,13 +78,18 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
             ></i>
           </div>
         </div>
-        {(formik.touched.password || formik.submitCount > 0) && formik.errors.password && (
-          <small className={styles.error}>{formik.errors.password}</small>
-        )}
+        {(formik.touched.password || formik.submitCount > 0) &&
+          formik.errors.password && (
+            <small className={styles.error}>{formik.errors.password}</small>
+          )}
       </div>
 
       <div className="button-container">
-        <button className="button-black" type="submit" disabled={formik.isSubmitting}>
+        <button
+          className="button-black"
+          type="submit"
+          disabled={formik.isSubmitting}
+        >
           Iniciar sesión
         </button>
       </div>

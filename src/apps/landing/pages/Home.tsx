@@ -8,7 +8,11 @@ import { useProductoStore } from "../../../store/slices/ProductoStore";
 import { useEffect } from "react";
 
 export const Home = () => {
+  const productos = useProductoStore((state) => state.productos);
+  const loadProducts = useProductoStore((state) => state.loadProducts);
+  
   useEffect(() => {
+    loadProducts();
     document.title = `Thrill`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -50,10 +54,7 @@ export const Home = () => {
       </div>
 
       {/* Gallery */}
-      <ArticleGallery
-        title="Nuevos Ingresos"
-        productos={useProductoStore((state) => state.productos)}
-      />
+      <ArticleGallery title="Nuevos Ingresos" productos={productos} />
 
       {/* Separador */}
       <div id="separator" style={{ margin: "3rem 0" }}>
@@ -61,10 +62,7 @@ export const Home = () => {
       </div>
 
       {/* Gallery */}
-      <ArticleGallery
-        title="Lo mas vendidos"
-        productos={useProductoStore((state) => state.productos)}
-      />
+      <ArticleGallery title="Lo mas vendidos" productos={productos} />
 
       {/* Categorias */}
       <CategoriesGrid />

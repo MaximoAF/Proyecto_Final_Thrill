@@ -1,8 +1,9 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "../../styles/articleGallery/ArticleGallery.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { IProducto } from "../../../../types/IProducto";
+import loadingIcon from "../../../../assets/Loading_icon.gif";
 
 interface IArticleGalleryProps {
   title: string;
@@ -14,9 +15,7 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
   productos,
 }) => {
   const [showAll, setShowAll] = useState<boolean>(false);
-  const [filtered, setFiltered] = useState<IProducto[]>(
-    productos.slice(0, 4)
-  );
+  const [filtered, setFiltered] = useState<IProducto[]>([]);
   const navigate = useNavigate();
 
   const handleShow = () => {
@@ -28,9 +27,29 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
     setShowAll(!showAll);
   };
 
+  useEffect(() => {
+    setFiltered(showAll ? productos : productos.slice(0, 4));
+  }, [productos, showAll]);
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>{title.toUpperCase()}</h2>
+      {productos.length < 1 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <img
+            style={{ height: "20rem", width: "30rem" }}
+            src={loadingIcon}
+            alt="loading..."
+          />
+        </div>
+      )}
       <div className={styles.articleGrid}>
         <AnimatePresence>
           {/* Productos */}

@@ -4,6 +4,7 @@ import { IUsuario } from "./IUsuario";
 
 export interface IOrdenCompra {
   id: number;
+  eliminado: boolean;
   fecha: string;
   cantidad: number;
   total: number;

@@ -1,8 +1,5 @@
-import { IProducto } from "./IProducto";
-
 export interface IImagen {
   id: number;
+  eliminado: boolean;
   url: string;
-  publicId: string;
-  producto: IProducto;
 }
