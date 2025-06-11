@@ -6,26 +6,39 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
   productos: [],
   activeProducto: null,
 
-  setActiveProducto: (producto) => set({ activeProducto: producto }),
-  clearActiveProducto: () => set({ activeProducto: null }),
+  setActiveProducto: (producto: IProducto | null) => {
+    set({ activeProducto: producto });
+  },
 
-  addProducto: (producto) =>
+  clearActiveProducto: () => {
+    set({ activeProducto: null });
+  },
+
+  addProducto: (producto: IProducto) => {
     set((state) => ({
       productos: [...state.productos, producto],
-    })),
+    }));
+  },
 
-  removeProducto: (productoId) =>
-    set((state) => ({
-      productos: state.productos.filter((p) => p.id.toString() !== productoId),
-    })),
+removeProducto: (productoId) => {
+  set((state) => ({
+    productos: state.productos.filter(
+      (producto) => producto.id.toString() !== productoId
+    ),
+  }));
+},
 
-  getProductoById: (productoId) =>
-    get().productos.find((p) => p.id.toString() === productoId),
+getProductoById: (productoId) => {
+  return get().productos.find(
+    (producto) => producto.id.toString() === productoId
+  );
+},
 
-  updateProducto: (producto) =>
+  updateProducto: (producto: IProducto) => {
     set((state) => ({
       productos: state.productos.map((p) =>
-        p.id.toString() === producto.id.toString() ? { ...p, ...producto } : p
+        p.id === producto.id ? producto : p
       ),
-    })),
+    }));
+  },
 }));
