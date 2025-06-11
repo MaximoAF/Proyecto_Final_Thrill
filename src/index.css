@@ -82,6 +82,7 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 100vw;
   display: grid;
   grid-template-columns: 1fr 4fr;
+  overflow: hidden; /* evita que el scroll esté en este contenedor */
 }
 @media (min-width: 768px) {
   .aside-main__container {

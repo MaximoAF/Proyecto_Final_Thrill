@@ -5,11 +5,12 @@ import { IOrdenCompra } from "./IOrdenCompra";
 
 export interface IUsuario {
   id: number;
+  eliminado: boolean;
   username: string;
   email: string;
   password: string;
   rol: string;
-  imagenPerfil: IImagen;
+  imagenPerfil: IImagen | null;
   ordenes: IOrdenCompra[];
   direcciones: IDireccion[];
   carrito: IDetalleOrden[];

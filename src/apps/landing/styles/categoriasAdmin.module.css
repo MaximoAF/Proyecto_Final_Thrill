@@ -1,9 +1,11 @@
-.container{
-display: flex;
-flex-direction: column;
-height: 100%;
+.container {
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+  height: 100vh;
 }
-.container h4{
+.container h4 {
   display: flex;
   padding-left: 8rem;
   padding-top: 3rem;
@@ -18,14 +20,14 @@ height: 100%;
   padding-bottom: 1rem;
 }
 
-.addContainer{
+.addContainer {
   display: flex;
   justify-content: right;
   padding-right: 2rem;
   padding-bottom: 1rem;
 }
 
-.buttonsContainer button{
+.buttonsContainer button {
   height: 2.5rem;
   min-width: 2.5rem;
   margin: 0 0.25rem;
@@ -34,7 +36,7 @@ height: 100%;
   border-radius: 2rem;
 }
 
-.pasarPagina{
+.pasarPagina {
   height: 2.5rem;
   width: 6rem;
   border: 1px solid var(--black-20);
@@ -58,18 +60,18 @@ button:hover {
 .selected {
   border: 2px solid var(--black-20);
 }
-.products{
+.products {
   display: grid;
   gap: 2rem;
   padding: 5rem;
 }
-.separatorGap{
+.separatorGap {
   display: grid;
   gap: 1rem;
 }
 .productoCard {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
   border: 1px solid #ddd;
@@ -117,4 +119,3 @@ button:hover {
   font-size: 0.95rem;
   color: #555;
 }
-
