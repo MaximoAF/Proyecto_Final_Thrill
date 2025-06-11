@@ -2,8 +2,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { UsuarioStore } from "../../../../store/slices/SesionStore";
 import styles from "../../styles/ingreso/modals/Form.module.css";
+import { useSesionStore } from "../../../../store/slices/SesionStore";
 
 interface LoginProps {
   toggleForm: () => void;
@@ -11,8 +11,8 @@ interface LoginProps {
 
 export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
   const navigate = useNavigate();
-  const usuarios = UsuarioStore((state) => state.usuarios);
-  const setActiveUsuario = UsuarioStore((state) => state.setActiveUsuario);
+  const usuarios = useSesionStore((state) => state.sesion);
+  const setActiveUsuario = useSesionStore((state) => state.setSesion);
   const [showPass, setShowPass] = useState(false);
 
   const formik = useFormik({
@@ -25,11 +25,7 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
       password: yup.string().required("Campo requerido"),
     }),
     onSubmit: (values, { setFieldError, setSubmitting }) => {
-      const usuario = usuarios.find(
-        (u) =>
-          u.email.trim().toLowerCase() === values.email.trim().toLowerCase() &&
-          u.password === values.password
-      );
+      const usuario = useSesionStore((state)=>state.sesion)
 
       if (usuario) {
         setActiveUsuario(usuario);

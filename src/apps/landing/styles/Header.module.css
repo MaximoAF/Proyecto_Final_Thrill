@@ -49,6 +49,9 @@
   background: none;
   border: none;
 }
+.button:hover{
+  background: none;
+}
 .buscador{
   display: flex;
   align-items: center;

@@ -43,12 +43,11 @@
 }
 .input {
   display: flex;
-  height: 3rem;
   gap: 1rem;
 
   background-color: var(--palet-color-1);
   border-radius: 1.5rem;
-  padding: 0 1rem;
+  padding: 0px 1rem;
 }
 .icon {
   font-size: 1.5rem;
@@ -68,8 +67,14 @@
   color: var(--black-color);
   border: none;
 }
+.button:hover {
+  opacity: 90%;
+  background-color: var(--palet-color-1);
+  color: var(--black-color);
+}
 input {
   flex-grow: 1;
+  height: 2rem;
   background: none;
   border: none;
   outline: none;
@@ -101,12 +106,18 @@ input {
   width: 3rem;
   height: 3rem;
   border: 1px var(--black-40) solid;
+  background-color: var(--white-color);
   border-radius: 1.5rem;
   font-size: 1.5rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.socialIcon:hover{
+  background-color: var(--white-color);
+  opacity: 90%;
+  transform: scale(1.1);
 }
 .socialIconFB{
   width: 3rem;
@@ -116,10 +127,16 @@ input {
   font-size: 1.5rem;
   background-color: var(--black-color);
   color: var(--white-color);
-
+  
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.socialIconFB:hover{
+  background-color: var(--black-color);
+  color: var(--white-color);
+  opacity: 90%;
+  transform: scale(1.1);
 }
 
 /* Copyrigth */

@@ -10,17 +10,22 @@ import { ProductCartView } from "../components/cart/ProductCartView";
 import { AnimatePresence, motion } from "framer-motion";
 import { IProducto } from "../../../types/IProducto";
 import { IProductoTalle } from "../../../types/IProductoTalle";
+import { productoService } from "../../../services/productoService";
+import loadingIcon from "../../../assets/Loading_icon.gif";
 
 export const Producto = () => {
   const activeDetalle = useCarritoStore((state) => state.activeProductoDetalle);
+  const productos = useProductoStore((state) => state.productos);
   const productId = useParams().productId || "";
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedSize, setSelectedSize] = useState<IProductoTalle | null>(null);
   const [sizeError, setSizeError] = useState<boolean>(false);
   const [cantidad, setCantidad] = useState<number>(1);
   const [showAdedToCart, setShowAddToCart] = useState<boolean>(false);
   const [productoStock, setProductoStock] = useState<number>(0);
-  const [producto, setproducto] = useState<IProducto | null>(null);
+  const [producto, setProducto] = useState<IProducto | null>(null);
 
   const handleMinus = () => {
     if (cantidad > 1) setCantidad(cantidad - 1);
@@ -74,11 +79,25 @@ export const Producto = () => {
   };
 
   useEffect(() => {
-    setSelectedSize(null); // reiniciar selección
-    setCantidad(1); // reiniciar cantidad
-    
-    document.title = `${producto?.nombre || "Error"} - Thrill`;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const fetchProducto = async () => {
+      setSelectedSize(null);
+      setCantidad(1);
+
+      await useProductoStore.getState().loadProducts();
+
+      const res = await productoService.getById(Number(productId));
+      if (res) {
+        setProducto(res);
+        document.title = `${res.nombre} - Thrill`;
+      } else {
+        setProducto(null);
+        document.title = `Producto no encontrado - Thrill`;
+      }
+
+      setIsLoading(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    fetchProducto();
   }, [productId]);
   return (
     <div>
@@ -94,25 +113,46 @@ export const Producto = () => {
             </Link>
             <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
             <Link to="/" style={{ color: "var(--black-60)" }}>
-              Hombre{" "}
+              {producto.tipo.nombre}{" "}
             </Link>
             <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
-            <span style={{ color: "var(--black-color)" }}>Remera</span>
+            <span style={{ color: "var(--black-color)" }}>
+              {producto.nombre}
+            </span>
           </p>
           {/* Contenido principal */}
           <div className={styles.gridProducto}>
-            <div className={styles.imgGrid}>
-              <div className={styles.imgsGallery}>
-                <img src={producto.imagenes[0].url} alt="Remera" />
-                <img src={producto.imagenes[0].url} alt="Remera" />
-                <img src={producto.imagenes[0].url} alt="Remera" />
+            {producto.imagenes.length > 0 ? (
+              <div className={styles.imgGrid}>
+                <div className={styles.imgsGallery}>
+                  <img src={producto.imagenes[0].url} alt="Imagen" />
+                  <img src={producto.imagenes[0].url} alt="Imagen" />
+                  <img src={producto.imagenes[0].url} alt="Imagen" />
+                </div>
+                <img
+                  className={styles.imgContainer}
+                  src={producto.imagenes[0].url}
+                  alt="Imagen"
+                />
               </div>
-              <img
-                className={styles.imgContainer}
-                src={producto.imagenes[0].url}
-                alt="Remera"
-              />
-            </div>
+            ) : (
+              <div className={styles.imgGrid}>
+                <div className={styles.imgsGallery}>
+                  <div className={styles.noImgContainerSide}>
+                    <i className="fa-solid fa-image"></i>
+                  </div>
+                  <div className={styles.noImgContainerSide}>
+                    <i className="fa-solid fa-image"></i>
+                  </div>
+                  <div className={styles.noImgContainerSide}>
+                    <i className="fa-solid fa-image"></i>
+                  </div>
+                </div>
+                <div className={styles.noImgContainer}>
+                  <i className="fa-solid fa-image"></i>
+                </div>
+              </div>
+            )}
             <div className={styles.productInfo}>
               <div>
                 <h2>{producto.nombre}</h2>
@@ -240,19 +280,29 @@ export const Producto = () => {
           </AnimatePresence>
         </div>
       ) : (
-        <div className={styles.errorContainer}>
-          {/* Error Producto */}
-          <div style={{ textAlign: "center" }}>
-            <h2>Producto no encontrado</h2>
-            <p>Lo sentimos, el producto que buscas no existe.</p>
-          </div>
+        <div>
+          {isLoading ? (
+            <div className={styles.errorContainer}>
+              <div>
+                <img src={loadingIcon} alt="loading..." />  
+              </div>
+            </div>
+          ) : (
+            <div className={styles.errorContainer}>
+              <div style={{ textAlign: "center" }}>
+                <h2>Producto no encontrado</h2>
+                <p>Lo sentimos, el producto que buscas no existe.</p>
+              </div>
 
-          <button
-            className="button-black"
-            onClick={() => window.history.back()}
-          >
-            Volver a la tienda
-          </button>
+              <button
+                className="button-black"
+                onClick={() => window.history.back()}
+              >
+                Volver a la tienda
+              </button>
+            </div>
+          )}
+          {/* Error Producto */}
         </div>
       )}
       {/* Separador */}
@@ -261,10 +311,7 @@ export const Producto = () => {
       </div>
 
       {/* Podria interesarte */}
-      <ArticleGallery
-        title="Esto podría interesarte"
-        productos={useProductoStore((state) => state.productos)}
-      />
+      <ArticleGallery title="Esto podría interesarte" productos={productos} />
 
       {/* Footer */}
       <Footer />

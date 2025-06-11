@@ -1,6 +1,6 @@
 :root {
   /* Paleta de colores */
-  --palet-color-1: #F0F0F0;
+  --palet-color-1: #f0f0f0;
   --palet-color-2: #8b9295;
 
   /* Colores con trasparencia */
@@ -12,11 +12,12 @@
   /* Colores globales */
   --white-color: #fff;
   --black-color: #000;
-  --red-color: #FF3333;
+  --red-color: #ff3333;
 }
 /* Globals */
-html, body{
-  font-family: 'Satoshi', sans-serif; /* Fuente para el texto general */
+html,
+body {
+  font-family: "Satoshi", sans-serif; /* Fuente para el texto general */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -24,10 +25,10 @@ html, body{
   height: 100%;
   scroll-behavior: smooth;
 }
-div{
+div {
   box-sizing: border-box;
 }
-p{
+p {
   margin: 0;
 }
 a {
@@ -38,7 +39,7 @@ h2,
 h3,
 h4 {
   line-height: 1.2;
-  font-family: 'Anton', sans-serif; /* Fuente para los títulos */
+  font-family: "Anton", sans-serif; /* Fuente para los títulos */
   font-weight: normal;
   font-size: 2rem;
   margin: 0;
@@ -60,10 +61,10 @@ button {
   transition: all 0.2s;
   border: none;
   background: none;
+  cursor: pointer;
 }
 button:hover {
   transform: scale(1.05);
-  opacity: 90%;
 }
 select {
   border: none;
@@ -91,24 +92,24 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /* Justify-Content Center */
-.container-center{
+.container-center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 /* Flex */
-.flex-page{
+.flex-page {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
-.flex-end{
+.flex-end {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
-.flex-between{
+.flex-between {
   display: flex;
   justify-content: space-between;
   align-items: end;
@@ -126,7 +127,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /* Buttons */
-.button-container{
+.button-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -138,8 +139,10 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: var(--black-color);
   color: var(--white-color);
 }
-.button-black:hover{
-background-color: rgb(54, 54, 54);;
+.button-black:hover {
+  transform: scale(1.05);
+  background-color: var(--black-color);
+  opacity: 90%;
 }
 .button-white {
   height: 3rem;
@@ -149,38 +152,44 @@ background-color: rgb(54, 54, 54);;
   color: var(--black-color);
   border: 1px var(--black-10) solid;
 }
-.i-btn{
-  transition: transform .1s ease;
-  cursor: pointer;
+.button-white:hover {
+  transform: scale(1.05);
+  opacity: 90%;
+  background-color: var(--white-color);
 }
-.i-btn:hover{
+.i-btn {
+  transition: transform 0.1s ease;
+  cursor: pointer;
+  
+}
+.i-btn:hover {
   transform: scale(1.2);
 }
-.i-btn-disable{
+.i-btn-disable {
   color: var(--black-40);
 }
 /* Bold + FSize */
-.bold{
+.bold {
   color: var(--black-color);
   font-weight: bold;
 }
-.bold-red{
+.bold-red {
   color: var(--red-color);
   font-weight: bold;
 }
-.bold-24px{
+.bold-24px {
   color: var(--black-color);
   font-size: 1.5rem;
   font-weight: bold;
 }
-.bold-32px{
+.bold-32px {
   color: var(--black-color);
   font-size: 2rem;
   font-weight: bold;
 }
 
 /* Separador */
-.separator{
+.separator {
   max-width: 78rem;
   width: 100%;
   background-color: var(--black-10);
@@ -204,7 +213,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
-  
+
   display: flex;
   justify-content: center;
   align-items: center;

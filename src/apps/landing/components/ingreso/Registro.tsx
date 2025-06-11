@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import styles from "../../styles/ingreso/modals/Form.module.css";
-import { UsuarioStore } from "../../../../store/slices/SesionStore";
+import { useSesionStore } from "../../../../store/slices/SesionStore";
 import { IUsuario } from "../../../../types/IUsuario";
 import * as yup from "yup";
 
@@ -29,7 +29,6 @@ const validationSchema = yup.object({
 });
 
 export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
-  const addUsuario = UsuarioStore((state) => state.addUsuario);
 
   const formik = useFormik<TypeInitialValues>({
     initialValues: {
@@ -40,15 +39,7 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
     },
     validationSchema,
     onSubmit: (values) => {
-      const nuevoUsuario: IUsuario = {
-        id: Date.now(),
-        nombre: values.nombre,
-        email: values.email,
-        password: values.password,
-        idUsuarioDireccion: "",
-      };
-
-      addUsuario(nuevoUsuario);
+      
       alert("Usuario registrado con éxito");
       toggleForm();
     },
