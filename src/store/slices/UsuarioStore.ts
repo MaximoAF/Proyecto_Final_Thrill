@@ -4,22 +4,16 @@ import { IUsuario } from "../../types/IUsuario";
 
 export const UsuarioStore = create<IUsuarioState>((set, get) => ({
   usuarios: [
-    {
-      id: 1,
-      nombre: 'Valentín Fernandez',
-      email: 'valfer2003@gmail.com',
-      password: 'prueba',
-      idUsuarioDireccion: '',
-    }
   ],
 
-
-
   activeUsuario: null,
+  token: null,
 
   setActiveUsuario: (usuario: IUsuario) => set({ activeUsuario: usuario }),
+  
+  setToken: (token: string) => set({ token }),
 
-  clearActiveUsuario: () => set({ activeUsuario: null }),
+  clearSession: () => set({ activeUsuario: null, token: null }),
 
   addUsuario: (usuario: IUsuario) =>
     set((state) => ({
@@ -38,12 +32,10 @@ export const UsuarioStore = create<IUsuarioState>((set, get) => ({
       usuarios: state.usuarios.filter((u) => u.id !== id),
     })),
 
-removeUsuario: (usuarioId: string) =>
-  set((state) => ({
-    usuarios: state.usuarios.filter((u) => u.id === Number(usuarioId)
-),
-  })),
-
+  removeUsuario: (usuarioId: string) =>
+    set((state) => ({
+      usuarios: state.usuarios.filter((u) => u.id === Number(usuarioId)),
+    })),
 
   getUsuarioById: (usuarioId: string) => {
     return get().usuarios.find((u) => u.id.toString() === usuarioId);

@@ -7,11 +7,13 @@ import { CrearProducto } from "./FormulariosProducto/CrearProducto";
 import {EditarProductoForm} from "./FormulariosProducto/EditarProductoForm"
 import { EliminarProducto } from "./FormulariosProducto/EliminarProducto";
 import { IProducto } from "../../../types/IProducto";
+import { FC } from "react";
 
+interface IDashboardproductProps {
+  producto: IProducto
+}
 
-
-
-export const EditarProducto = () => {
+export const EditarProducto: FC<IDashboardproductProps> = () => {
   const productos = useProductoStore((state) => state.productos);
   const [paginaActual, setPaginaActual] = useState(1);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -70,13 +72,14 @@ export const EditarProducto = () => {
         </div>
 
         <div className={styles.products}>
-          {productosPagina.map((prod) => (
-            <div key={prod.id} className={styles.separatorGap}>
+          {productosPagina.map((detalle) => (
+            <div key={detalle.id} className={styles.separatorGap}>
               <div className={styles.productoCard}>
                 <div className={styles.info}>
-                  <h5>{prod.nombre}</h5>
-                  <p>Precio: ${prod.precio}</p>
-                  <p>Descuento aplicado: {`%${prod.descuentos[0].porcentajeDesc}` || 'ninguno'}</p>
+                  <h5>{detalle.nombre}</h5>
+                  <p>Precio: {detalle.precio} $</p>
+                  <p>Unidades: {detalle.stock}</p>
+                  <p>Descuento aplicado: {detalle.descuento}%</p>
                 </div>
                 <div className={styles.containerButtonActions}>
                   <button 
@@ -85,7 +88,7 @@ export const EditarProducto = () => {
                   <button
                     className="button-black"
                     onClick={() => {
-                      setProductoSeleccionado(prod);
+                      setProductoSeleccionado(detalle);
                       setMostrarEliminar(true);}}>
                       Eliminar
                   </button>

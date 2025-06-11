@@ -1,8 +1,7 @@
 import { useFormik } from "formik";
 import styles from "../../styles/ingreso/modals/Form.module.css";
-import { UsuarioStore } from "../../../../store/slices/UsuarioStore";
-import { IUsuario } from "../../../../types/IUsuario";
 import * as yup from "yup";
+import axios from "axios";
 
 interface RegisterProps {
   toggleForm: () => void;
@@ -26,8 +25,6 @@ const validationSchema = yup.object({
 });
 
 export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
-  const addUsuario = UsuarioStore((state) => state.addUsuario);
-
   const formik = useFormik<TypeInitialValues>({
     initialValues: {
       nombre: "",
@@ -36,18 +33,21 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
       repeatpassword: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      const nuevoUsuario: IUsuario = {
-        id: Date.now(),
-        nombre: values.nombre,
+    onSubmit: async (values) => {
+      const nuevoUsuario = {
+        username: values.nombre,
         email: values.email,
         password: values.password,
-        idUsuarioDireccion: "",
       };
 
-      addUsuario(nuevoUsuario);
-      alert("Usuario registrado con éxito");
-      toggleForm();
+      try {
+        await axios.post("http://localhost:8080/api/usuarios", nuevoUsuario);
+        alert("Usuario registrado con éxito");
+        toggleForm();
+      } catch (error) {
+        console.error("Error al registrar usuario:", error);
+        alert("Error al registrar el usuario");
+      }
     },
   });
 
@@ -66,9 +66,9 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
             {...formik.getFieldProps("nombre")}
           />
         </div>
-          {formik.touched.nombre && formik.errors.nombre && (
-            <small className={styles.error}>{formik.errors.nombre}</small>
-          )}
+        {formik.touched.nombre && formik.errors.nombre && (
+          <small className={styles.error}>{formik.errors.nombre}</small>
+        )}
 
         <div className={styles.input}>
           <div className={styles.icon}>
@@ -80,9 +80,9 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
             {...formik.getFieldProps("email")}
           />
         </div>
-          {formik.touched.email && formik.errors.email && (
-            <small className={styles.error}>{formik.errors.email}</small>
-          )}
+        {formik.touched.email && formik.errors.email && (
+          <small className={styles.error}>{formik.errors.email}</small>
+        )}
 
         <div className={styles.input}>
           <div className={styles.icon}>
@@ -94,9 +94,9 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
             {...formik.getFieldProps("password")}
           />
         </div>
-          {formik.touched.password && formik.errors.password && (
-            <small className={styles.error}>{formik.errors.password}</small>
-          )}
+        {formik.touched.password && formik.errors.password && (
+          <small className={styles.error}>{formik.errors.password}</small>
+        )}
 
         <div className={styles.input}>
           <div className={styles.icon}>
@@ -108,9 +108,9 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
             {...formik.getFieldProps("repeatpassword")}
           />
         </div>
-          {formik.touched.repeatpassword && formik.errors.repeatpassword && (
-            <small className={styles.error}>{formik.errors.repeatpassword}</small>
-          )}
+        {formik.touched.repeatpassword && formik.errors.repeatpassword && (
+          <small className={styles.error}>{formik.errors.repeatpassword}</small>
+        )}
       </div>
 
       <div className="button-container">

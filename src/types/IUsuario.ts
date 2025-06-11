@@ -9,8 +9,9 @@ export interface IUsuario {
   email: string;
   password: string;
   rol: string;
-  imagenPerfil: IImagen;
+  imagenPerfil?: IImagen;
   ordenes: IOrdenCompra[];
   direcciones: IDireccion[];
   carrito: IDetalleOrden[];
 }
+export type ICrearUsuario = Omit<IUsuario, "id" | "creadoEn" >;
