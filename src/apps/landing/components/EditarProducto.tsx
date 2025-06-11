@@ -1,38 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles/EditarProducto.module.css";
 import { Aside } from "./AsideAdmin";
 import { HeaderAdmin } from "./HeaderAdmin";
 import { useProductoStore } from "../../../store/slices/ProductoStore";
 import { CrearProducto } from "./FormulariosProducto/CrearProducto";
-import {EditarProductoForm} from "./FormulariosProducto/EditarProductoForm"
+import { EditarProductoForm } from "./FormulariosProducto/EditarProductoForm";
 import { EliminarProducto } from "./FormulariosProducto/EliminarProducto";
 import { IProducto } from "../../../types/IProducto";
-import { FC } from "react";
 
-interface IDashboardproductProps {
-  producto: IProducto
-}
-
-export const EditarProducto: FC<IDashboardproductProps> = () => {
+export const EditarProducto = () => {
   const productos = useProductoStore((state) => state.productos);
+  const loadProducts = useProductoStore((state) => state.loadProducts);
+
   const [paginaActual, setPaginaActual] = useState(1);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [mostrarFormularioEditar, setMostrarFormularioEditar] = useState(false);
   const [mostrarEliminar, setMostrarEliminar] = useState(false);
-  const [productoSeleccionado, setProductoSeleccionado] = useState<IProducto | null>(null);
+  const [productoSeleccionado, setProductoSeleccionado] =
+    useState<IProducto | null>(null);
+  const [productosPagina, setProductosPagina] = useState<IProducto[]>([]);
 
   const productosPorPagina = 10;
   const totalPaginas = Math.ceil(productos.length / productosPorPagina);
 
   const indiceInicio = (paginaActual - 1) * productosPorPagina;
   const indiceFin = indiceInicio + productosPorPagina;
-  const productosPagina = productos.slice(indiceInicio, indiceFin);
 
   const cambiarPagina = (pagina: number) => {
     if (pagina >= 1 && pagina <= totalPaginas) {
       setPaginaActual(pagina);
     }
   };
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  useEffect(() => {
+    setProductosPagina(productos.slice(indiceInicio, indiceFin));
+  }, [productos, indiceInicio, indiceFin]);
 
   return (
     <div className="aside-mainContainer">
@@ -43,7 +49,10 @@ export const EditarProducto: FC<IDashboardproductProps> = () => {
       )}
       {mostrarFormularioEditar && (
         <div className="overlay">
-          <EditarProductoForm onClose={() => setMostrarFormularioEditar(false)} />  
+          <EditarProductoForm
+            onClose={() => setMostrarFormularioEditar(false)}
+            producto={productoSeleccionado!}
+          />
         </div>
       )}
       {productoSeleccionado && mostrarEliminar && (
@@ -77,20 +86,27 @@ export const EditarProducto: FC<IDashboardproductProps> = () => {
               <div className={styles.productoCard}>
                 <div className={styles.info}>
                   <h5>{detalle.nombre}</h5>
-                  <p>Precio: {detalle.precio} $</p>
-                  <p>Unidades: {detalle.stock}</p>
-                  <p>Descuento aplicado: {detalle.descuento}%</p>
+                  <p>Precio: ${detalle.precio}</p>
+                  <p>Descuento aplicado: {detalle.descuentos[0]?.porcentajeDesc || "ninguno"}%</p>
                 </div>
                 <div className={styles.containerButtonActions}>
-                  <button 
-                  className="button-black"
-                  onClick={() => setMostrarFormularioEditar(true)}>Editar</button>
                   <button
                     className="button-black"
                     onClick={() => {
                       setProductoSeleccionado(detalle);
-                      setMostrarEliminar(true);}}>
-                      Eliminar
+                      setMostrarFormularioEditar(true);
+                    }}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="button-black"
+                    onClick={() => {
+                      setProductoSeleccionado(detalle);
+                      setMostrarEliminar(true);
+                    }}
+                  >
+                    Eliminar
                   </button>
                 </div>
               </div>

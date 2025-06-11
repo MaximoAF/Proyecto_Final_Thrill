@@ -8,17 +8,18 @@ import { ITipo } from "./ITipo";
 
 export interface IProducto {
   id: number;
+  eliminado: boolean;
   nombre: string;
-  cantidad: number;
   precio: number;
   descripcion: string;
   color: string;
   marca: string;
   imagenes: IImagen[];
-  categoria: ICategoria[];
-  subcategoria: ISubCategoria[];
+  //categoria: ICategoria[];
+  subcategoria: ISubCategoria[] | null;
   tipo: ITipo;
-  detalles: IDetalleOrden[];
   productoTalles: IProductoTalle[];
   descuentos: IDescuento[];
 }
+
+export type ICrearProducto = Omit<IProducto, "id" | "eliminado" | "productoTalle">;

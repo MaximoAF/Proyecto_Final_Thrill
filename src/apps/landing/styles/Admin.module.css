@@ -4,6 +4,9 @@
   justify-content: center;
   color: var(--black-60);
   flex-direction: column;
+
+  overflow-y: auto;
+  height: 100vh;
 }
 .container{
   display: flex;

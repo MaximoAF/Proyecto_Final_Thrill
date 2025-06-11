@@ -3,7 +3,6 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { UsuarioStore } from "../../../../store/slices/UsuarioStore";
-import axios from "axios";
 import styles from "../../styles/ingreso/modals/Form.module.css";
 
 interface LoginProps {
@@ -12,7 +11,6 @@ interface LoginProps {
 
 export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
   const navigate = useNavigate();
-  const setActiveUsuario = UsuarioStore((state) => state.setActiveUsuario);
   const [showPass, setShowPass] = useState(false);
   const setToken = UsuarioStore((state) => state.setToken);
 
@@ -27,11 +25,11 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
     }),
     onSubmit: async (values, { setFieldError, setSubmitting }) => {
       try {
-        const response = await fetch("http://localhost:3001/auth/login", {
+        const response = await fetch("http://localhost:8080/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            username: values.username, // cambió a username
+            username: values.username,
             password: values.password,
           }),
         });
@@ -41,19 +39,17 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
         }
 
         const data = await response.json();
-        // Supongamos que el JSON tiene: { token: "...", usuario: { ... } }
-        const { token, usuario } = data;
+        const { token } = data;
 
-        if (!token || !usuario) {
-          throw new Error("Datos incompletos del servidor");
+        if (!token) {
+          throw new Error("Token no recibido del servidor");
         }
 
-        setToken(token); // guardo token en store
-        setActiveUsuario(usuario); // guardo usuario activo en store
-
-        // Opcional: guardo en localStorage para persistencia
+        setToken(token);
         localStorage.setItem("token", token);
-        localStorage.setItem("usuario", JSON.stringify(usuario));
+
+        setToken(token);
+        localStorage.setItem("token", token);
 
         navigate("/");
       } catch (error: any) {

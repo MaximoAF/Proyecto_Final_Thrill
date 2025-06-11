@@ -1,5 +1,7 @@
 import { useFormik } from "formik";
 import styles from "../../styles/ingreso/modals/Form.module.css";
+import { UsuarioStore } from "../../../../store/slices/UsuarioStore";
+import { IUsuario } from "../../../../types/IUsuario";
 import * as yup from "yup";
 import axios from "axios";
 
@@ -17,7 +19,10 @@ type TypeInitialValues = {
 const validationSchema = yup.object({
   nombre: yup.string().required("Campo requerido"),
   email: yup.string().email("Correo no válido").required("Campo requerido"),
-  password: yup.string().required("Campo requerido").min(6, "Mínimo 6 caracteres"),
+  password: yup
+    .string()
+    .required("Campo requerido")
+    .min(6, "Mínimo 6 caracteres"),
   repeatpassword: yup
     .string()
     .oneOf([yup.ref("password")], "Las contraseñas no coinciden")

@@ -3,9 +3,11 @@ import { FC, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { handleImageUpload } from "./UploadImage";
+import { IProducto } from "../../../../types/IProducto";
 
 interface IEditarProductoProps {
   onClose: () => void;
+  producto: IProducto;
 }
 
 export const EditarProductoForm: FC<IEditarProductoProps> = ({ onClose }) => {
