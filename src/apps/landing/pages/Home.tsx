@@ -52,7 +52,7 @@ export const Home = () => {
       {/* Gallery */}
       <ArticleGallery
         title="Nuevos Ingresos"
-        articles={useProductoStore((state) => state.productosAgrupados)}
+        productos={useProductoStore((state) => state.productos)}
       />
 
       {/* Separador */}
@@ -63,7 +63,7 @@ export const Home = () => {
       {/* Gallery */}
       <ArticleGallery
         title="Lo mas vendidos"
-        articles={useProductoStore((state) => state.productosAgrupados)}
+        productos={useProductoStore((state) => state.productos)}
       />
 
       {/* Categorias */}

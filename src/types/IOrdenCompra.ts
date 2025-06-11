@@ -1,10 +1,15 @@
+import { IDetalleOrden } from "./IDetalleOrden";
+import { IDireccion } from "./IDireccion";
+import { IUsuario } from "./IUsuario";
+
 export interface IOrdenCompra {
   id: number;
-  idDireccionUsuario: number;
-  idDetalle:  number;
   fecha: string;
   cantidad: number;
-  precioTotal: number;
-  metodoPago: 'DEBITO' | 'CREDITO' | 'TRANSFERENCIA';
-  estado: string;
+  total: number;
+  metodoPago: string;
+  estadoOrden: string;
+  usuario: IUsuario;
+  direccion: IDireccion;
+  detalles: IDetalleOrden[];
 }

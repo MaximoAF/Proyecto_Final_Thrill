@@ -13,8 +13,8 @@ export const Categoria = () => {
   const categoria = useCategoriaStore
     .getState()
     .getCategoriaByName(categoriaName);
-  const tiposUnicos = useCategoriaStore.getState().tiposUnicos;
-  const productos = useProductoStore((state) => state.productosAgrupados);
+  const categorias = useCategoriaStore.getState().categorias;
+  const productos = useProductoStore((state) => state.productos);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export const Categoria = () => {
                   <div className="separator"></div>
                   <div className={styles.tipos}>
                     <AnimatePresence>
-                      {tiposUnicos.map((tipo) => (
+                      {categorias.map((cat) => (
                         <motion.div
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -60,7 +60,7 @@ export const Categoria = () => {
                           className="flex-between"
                           style={{ cursor: "pointer" }}
                         >
-                          <p>{tipo}</p>
+                          <p>{cat.nombre}</p>
                           <i className="fa-solid fa-chevron-right"></i>
                         </motion.div>
                       ))}
@@ -128,7 +128,7 @@ export const Categoria = () => {
                 <div className={styles.productsGrid}>
                   {/* Productos */}
                   <AnimatePresence>
-                    {productos.map((art) => (
+                    {productos.map((prod) => (
                       <motion.div
                         className={styles.card}
                         initial={{ opacity: 0, y: 20 }}
@@ -137,19 +137,19 @@ export const Categoria = () => {
                         whileHover={{ scale: 1.03 }}
                         transition={{ type: "spring", stiffness: 300 }}
                         onClick={() => {
-                          navigate(`/p/${art.id}`);
+                          navigate(`/p/${prod.id}`);
                         }}
                       >
                         <div className={styles.imgContainer}>
-                          {art.imgs.length > 0 ? (
-                            <img src={art.imgs[0]?.url} alt="imagen" />
+                          {prod.imagenes.length > 0 ? (
+                            <img src={prod.imagenes[0]?.url} alt="imagen" />
                           ) : (
                             <i className="fa-solid fa-image"></i>
                           )}
                         </div>
-                        <p className={styles.articleTitle}>{art.nombre}</p>
+                        <p className={styles.articleTitle}>{prod.nombre}</p>
                         <p className={styles.articlePrice}>
-                          ${art.precio.toLocaleString("es-AR")}
+                          ${prod.precio.toLocaleString("es-AR")}
                         </p>
                       </motion.div>
                     ))}

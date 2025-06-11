@@ -1,50 +1,65 @@
 import { FC } from "react";
 import styles from "../../styles/cart/ProductCart.module.css";
-import { IDetalleCompra } from "../../../../types/IDetalleCompra";
 import { useCarritoStore } from "../../../../store/slices/CarritoStore";
+import { IDetalleOrden } from "../../../../types/IDetalleOrden";
 
 interface IProductCartProps {
-  detalleCompra: IDetalleCompra;
+  detalleOrden: IDetalleOrden;
 }
 
-export const ProductCart: FC<IProductCartProps> = ({ detalleCompra }) => {
+export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
   const handleMinus = () => {
-    if (detalleCompra.cantidad > 1) {
-      useCarritoStore.getState().discountCantidad(detalleCompra.id.toString(),1);
+    if (detalleOrden.cantidad > 1) {
+      useCarritoStore
+        .getState()
+        .discountCantidad(detalleOrden.id.toString(), 1);
     }
   };
   const handleAdd = () => {
-    if (detalleCompra.producto)
-      if (detalleCompra.cantidad < detalleCompra.producto.stock)
-        useCarritoStore.getState().addCantidad(detalleCompra.id.toString(),1);
+    if (detalleOrden.productotalle)
+      if (detalleOrden.cantidad < detalleOrden.productotalle.stock)
+        useCarritoStore.getState().addCantidad(detalleOrden.id.toString(), 1);
   };
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.imgContainer}>
-          <img src={detalleCompra.producto.imgs[0]?.url} alt="" />
+          <img src={detalleOrden.productotalle.producto.imagenes[0]?.url} alt="" />
         </div>
         <div className={styles.valorContainer}>
           <div>
-            <p className={styles.title}>{detalleCompra.producto.nombre}</p>
+            <p className={styles.title}>{detalleOrden.productotalle.producto.nombre}</p>
             <p>
-              Color: <span className={styles.gray}>{detalleCompra.producto.color}</span>
+              Color:{" "}
+              <span className={styles.gray}>
+                {detalleOrden.productotalle.producto.color}
+              </span>
             </p>
             <p>
-              Size: <span className={styles.gray}>{detalleCompra.producto.talleProducto}</span>
+              Size:{" "}
+              <span className={styles.gray}>
+                {detalleOrden.productotalle.talle.talle}
+              </span>
             </p>
           </div>
           <p className={styles.price}>
             $
             {(
-              detalleCompra.producto.precio * detalleCompra.cantidad
+              detalleOrden.productotalle.producto.precio * detalleOrden.cantidad
             ).toLocaleString("es-AR")}
           </p>
         </div>
       </div>
       <div className={styles.buttonsFlex}>
         <div className={styles.trashButton}>
-          <div className="i-btn" onClick={() => useCarritoStore.getState().removeProductoDetalle(detalleCompra.id.toString())}>
+          <div
+            className="i-btn"
+            onClick={() =>
+              useCarritoStore
+                .getState()
+                .removeProductoDetalle(detalleOrden.id.toString())
+            }
+          >
             <i className="fa-regular fa-trash-can"></i>
           </div>
         </div>
@@ -55,28 +70,28 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleCompra }) => {
             alignItems: "end",
           }}
         >
-          {detalleCompra.producto.stock - detalleCompra.cantidad < 6 && (
+          {detalleOrden.productotalle.stock - detalleOrden.cantidad < 6 && (
             <p style={{ color: "var(--red-color)", textAlign: "center" }}>
-              {detalleCompra.producto.stock - detalleCompra.cantidad === 0
+              {detalleOrden.productotalle.stock - detalleOrden.cantidad === 0
                 ? `No hay mas en stock!`
                 : `${
-                    detalleCompra.producto.stock - detalleCompra.cantidad
+                    detalleOrden.productotalle.stock - detalleOrden.cantidad
                   } mas en stock`}
             </p>
           )}
           <div className={styles.cuantity}>
             <div
-              className={detalleCompra.cantidad > 1 ? "i-btn" : "i-btn-disable"}
+              className={detalleOrden.cantidad > 1 ? "i-btn" : "i-btn-disable"}
               onClick={() => handleMinus()}
             >
               <i className="fa-solid fa-minus"></i>
             </div>
             <p>
-              <b>{detalleCompra.cantidad}</b>
+              <b>{detalleOrden.cantidad}</b>
             </p>
             <div
               className={
-                detalleCompra.cantidad < detalleCompra.producto.stock
+                detalleOrden.cantidad < detalleOrden.productotalle.stock
                   ? "i-btn"
                   : "i-btn-disable"
               }

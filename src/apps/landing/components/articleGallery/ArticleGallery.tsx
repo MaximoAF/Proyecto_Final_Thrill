@@ -2,26 +2,28 @@ import { FC, useState } from "react";
 import styles from "../../styles/articleGallery/ArticleGallery.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { IProductoAgrupado } from "../../../../types/IProductoAgrupado";
+import { IProducto } from "../../../../types/IProducto";
 
 interface IArticleGalleryProps {
   title: string;
-  articles: IProductoAgrupado[];
+  productos: IProducto[];
 }
 
 export const ArticleGallery: FC<IArticleGalleryProps> = ({
   title,
-  articles,
+  productos,
 }) => {
   const [showAll, setShowAll] = useState<boolean>(false);
-  const [filtered, setFiltered] = useState<IProductoAgrupado[]>(articles.slice(0, 4));
+  const [filtered, setFiltered] = useState<IProducto[]>(
+    productos.slice(0, 4)
+  );
   const navigate = useNavigate();
 
   const handleShow = () => {
     if (showAll) {
-      setFiltered(articles.slice(0, 4));
+      setFiltered(productos.slice(0, 4));
     } else {
-      setFiltered(articles);
+      setFiltered(productos);
     }
     setShowAll(!showAll);
   };
@@ -31,8 +33,8 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
       <h2 className={styles.title}>{title.toUpperCase()}</h2>
       <div className={styles.articleGrid}>
         <AnimatePresence>
-          {/* Articulos */}
-          {filtered.map((art) => (
+          {/* Productos */}
+          {filtered.map((prod) => (
             <motion.div
               className={styles.card}
               initial={{ opacity: 0, y: 20 }}
@@ -40,18 +42,20 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
               exit={{ opacity: 0, y: -20 }}
               whileHover={{ scale: 1.03 }}
               transition={{ type: "spring", stiffness: 300 }}
-              onClick={() => { navigate(`/p/${art.id}`); }}
+              onClick={() => {
+                navigate(`/p/${prod.id}`);
+              }}
             >
               <div className={styles.imgContainer}>
-                {art.imgs.length > 0 ? (
-                  <img src={art.imgs[0]?.url} alt="imagen" />
+                {prod.imagenes.length > 0 ? (
+                  <img src={prod.imagenes[0]?.url} alt="imagen" />
                 ) : (
                   <i className="fa-solid fa-image"></i>
                 )}
               </div>
-              <p className={styles.articleTitle}>{art.nombre}</p>
+              <p className={styles.articleTitle}>{prod.nombre}</p>
               <p className={styles.articlePrice}>
-                ${art.precio.toLocaleString("es-AR")}
+                ${prod.precio.toLocaleString("es-AR")}
               </p>
             </motion.div>
           ))}

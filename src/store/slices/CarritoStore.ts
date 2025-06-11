@@ -2,13 +2,14 @@ import { create } from "zustand";
 import { ICarritoState } from "../types/ICarritoState";
 
 export const useCarritoStore = create<ICarritoState>((set, get) => ({
+
+  
   detallesProducto: [],
   activeProductoDetalle: null,
 
   setActiveProductoDetalle: (detalle) =>
     set({ activeProductoDetalle: detalle }),
   clearActiveProductoDetalle: () => set({ activeProductoDetalle: null }),
-
   addProductoDetalle: (detalle) => {
     set((state) => ({
       detallesProducto: [...state.detallesProducto, detalle],
@@ -25,7 +26,7 @@ export const useCarritoStore = create<ICarritoState>((set, get) => ({
     set((state) => ({
       detallesProducto: state.detallesProducto.map((detalle) => {
         if (detalle.id.toString() === detalleId.toString()) {
-          if (detalle.cantidad + cantidad <= detalle.producto.stock) {
+          if (detalle.cantidad + cantidad <= detalle.productotalle.stock) {
             return { ...detalle, cantidad: detalle.cantidad + cantidad };
           } else {
             return detalle;

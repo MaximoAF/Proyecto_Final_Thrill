@@ -3,12 +3,7 @@ import { IProductoState } from "../types/IProductoState";
 import { IProducto } from "../../types/IProducto";
 
 export const useProductoStore = create<IProductoState>((set, get) => ({
-  productos: [
-    //... tus productos iniciales
-  ],
-
-  productosAgrupados: [],
-
+  productos: [],
   activeProducto: null,
 
   setActiveProducto: (producto: IProducto | null) => {

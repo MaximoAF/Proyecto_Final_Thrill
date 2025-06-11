@@ -78,8 +78,7 @@ export const CategoriasAdmin: FC = () => {
                 <div className={styles.productoCard}>
                   <div className={styles.info}>
                     <h5>{detalle.nombre}</h5>
-                    <p>ID Tipo: {detalle.tipo}</p>
-                    <p>Categoría padre: {detalle.idCategoriaPadre}</p>
+                    <p>Sub categoria: {detalle.subcategorias.length}</p>
                   </div>
                   <div className={styles.containerButtonActions}>
                     <button

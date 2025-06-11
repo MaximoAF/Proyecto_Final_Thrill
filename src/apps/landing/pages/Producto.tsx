@@ -6,21 +6,16 @@ import styles from "../styles/Producto.module.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useProductoStore } from "../../../store/slices/ProductoStore";
 import { useCarritoStore } from "../../../store/slices/CarritoStore";
-import { IDetalleCompra } from "../../../types/IDetalleCompra";
 import { ProductCartView } from "../components/cart/ProductCartView";
 import { AnimatePresence, motion } from "framer-motion";
-import { ITalleStockAgrupado } from "../../../types/ITalleStockAgrupado";
 import { IProducto } from "../../../types/IProducto";
+import { IProductoTalle } from "../../../types/IProductoTalle";
 
 export const Producto = () => {
   const activeDetalle = useCarritoStore((state) => state.activeProductoDetalle);
   const productId = useParams().productId || "";
   const navigate = useNavigate();
-  const productoAgrupado = useProductoStore
-    .getState()
-    .productosAgrupados.find((prod) => prod.id.toString() === productId);
-
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<IProductoTalle | null>(null);
   const [sizeError, setSizeError] = useState<boolean>(false);
   const [cantidad, setCantidad] = useState<number>(1);
   const [showAdedToCart, setShowAddToCart] = useState<boolean>(false);
@@ -31,29 +26,23 @@ export const Producto = () => {
     if (cantidad > 1) setCantidad(cantidad - 1);
   };
   const handleAdd = () => {
-    if (producto) if (cantidad < producto.stock) setCantidad(cantidad + 1);
+    if (selectedSize)
+      if (cantidad < selectedSize.stock) setCantidad(cantidad + 1);
   };
 
-  const handleSelectSize = (variante: ITalleStockAgrupado) => {
-    setSelectedSize(variante.talle);
-    if (productoAgrupado) {
-      setProductoStock(variante.stock);
-      setproducto(
-        useProductoStore
-          .getState()
-          .getProductoById(variante.idProducto.toString()) || null
-      );
-      setCantidad(1);
-    }
+  const handleSelectSize = (prodTalle: IProductoTalle) => {
+    setSelectedSize(prodTalle);
+    setProductoStock(prodTalle.stock);
+    setCantidad(1);
   };
 
   const addToCart = () => {
-    if (producto) {
+    if (selectedSize) {
       // Verificamos si el producto ya esta en el carrito
       const isInCart = useCarritoStore
         .getState()
         .detallesProducto.find(
-          (detalle) => detalle.producto.id === producto.id
+          (detalle) => detalle.productotalle.id === selectedSize.id
         );
       if (isInCart) {
         useCarritoStore
@@ -66,18 +55,18 @@ export const Producto = () => {
         setSizeError(false);
         setShowAddToCart(true);
       } else {
-        const newDetalle: IDetalleCompra = {
+        /*
+        const newDetalle: IDetalleOrden = {
           id: Date.now() + Math.random(),
-          producto: producto,
+          productotalle: selectedSize,
           cantidad: cantidad,
-          idOrdenDeCompra: 0,
         };
         if (producto && selectedSize) {
           useCarritoStore.getState().addProductoDetalle(newDetalle);
           useCarritoStore.getState().setActiveProductoDetalle(newDetalle);
           setSizeError(false);
           setShowAddToCart(true);
-        }
+        }*/
       }
     } else {
       setSizeError(true);
@@ -85,9 +74,10 @@ export const Producto = () => {
   };
 
   useEffect(() => {
-    setSelectedSize(""); // reiniciar selección
+    setSelectedSize(null); // reiniciar selección
     setCantidad(1); // reiniciar cantidad
-    document.title = `${productoAgrupado?.nombre || 'Error'} - Thrill`;
+    
+    document.title = `${producto?.nombre || "Error"} - Thrill`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [productId]);
   return (
@@ -95,7 +85,7 @@ export const Producto = () => {
       {/* Header */}
       <Header />
 
-      {productoAgrupado ? (
+      {producto ? (
         <div className={styles.container}>
           {/* Ruta */}
           <p style={{ color: "var(--black-60)" }}>
@@ -113,24 +103,22 @@ export const Producto = () => {
           <div className={styles.gridProducto}>
             <div className={styles.imgGrid}>
               <div className={styles.imgsGallery}>
-                <img src={productoAgrupado.imgs[0].url} alt="Remera" />
-                <img src={productoAgrupado.imgs[0].url} alt="Remera" />
-                <img src={productoAgrupado.imgs[0].url} alt="Remera" />
+                <img src={producto.imagenes[0].url} alt="Remera" />
+                <img src={producto.imagenes[0].url} alt="Remera" />
+                <img src={producto.imagenes[0].url} alt="Remera" />
               </div>
               <img
                 className={styles.imgContainer}
-                src={productoAgrupado.imgs[0].url}
+                src={producto.imagenes[0].url}
                 alt="Remera"
               />
             </div>
             <div className={styles.productInfo}>
               <div>
-                <h2>{productoAgrupado.nombre}</h2>
-                <p className={styles.descripcion}>
-                  {productoAgrupado.descripcion}
-                </p>
+                <h2>{producto.nombre}</h2>
+                <p className={styles.descripcion}>{producto.descripcion}</p>
 
-                <p className={styles.precio}>${productoAgrupado.precio}</p>
+                <p className={styles.precio}>${producto.precio}</p>
               </div>
               <div className={styles.buttonsContainer}>
                 <div>
@@ -143,15 +131,15 @@ export const Producto = () => {
                         sizeError && !selectedSize ? styles.errorSize : ""
                       }`}
                     >
-                      {productoAgrupado.talleStock.map((agrup) => (
+                      {producto.productoTalles.map((prodTalle) => (
                         <button
-                          key={agrup.talle}
-                          onClick={() => handleSelectSize(agrup)}
+                          key={prodTalle.talle.talle}
+                          onClick={() => handleSelectSize(prodTalle)}
                           className={
-                            selectedSize === agrup.talle ? styles.selected : ""
+                            selectedSize === prodTalle ? styles.selected : ""
                           }
                         >
-                          {agrup.talle}
+                          {prodTalle.talle.talle}
                         </button>
                       ))}
                     </div>
@@ -236,7 +224,7 @@ export const Producto = () => {
                     </div>
                     {/* Separador */}
                     <div className="separator"></div>
-                    <ProductCartView detalleCompra={activeDetalle} />
+                    <ProductCartView detalleOrden={activeDetalle} />
                     <div style={{ display: "flex", gap: "1rem" }}>
                       <button
                         style={{ marginTop: "3rem", flexGrow: "1" }}
@@ -254,7 +242,7 @@ export const Producto = () => {
       ) : (
         <div className={styles.errorContainer}>
           {/* Error Producto */}
-          <div style={{textAlign: "center"}}>
+          <div style={{ textAlign: "center" }}>
             <h2>Producto no encontrado</h2>
             <p>Lo sentimos, el producto que buscas no existe.</p>
           </div>
@@ -275,7 +263,7 @@ export const Producto = () => {
       {/* Podria interesarte */}
       <ArticleGallery
         title="Esto podría interesarte"
-        articles={useProductoStore((state) => state.productosAgrupados)}
+        productos={useProductoStore((state) => state.productos)}
       />
 
       {/* Footer */}

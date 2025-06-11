@@ -1,12 +1,9 @@
 import { create } from "zustand";
-import { categoriasEjemplo } from "../../types/ICategoria";
 import { ICategoriaState } from "../types/ICategoriaState";
 
 export const useCategoriaStore = create<ICategoriaState>((set, get) => ({
-  categorias: categoriasEjemplo,
+  categorias: [],
   activeCategoria: null,
-
-  tiposUnicos: Array.from(new Set(categoriasEjemplo.map((cat) => cat.tipo))),
 
   setActiveCategoria: (categoria) => set({ activeCategoria: categoria }),
   clearActiveCategoria: () => set({ activeCategoria: null }),
