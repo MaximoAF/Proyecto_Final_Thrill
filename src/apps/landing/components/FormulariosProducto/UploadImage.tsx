@@ -12,7 +12,7 @@ export const handleImageUpload = async (files: File[]) => {
     });
 
     const data = await res.json();
-    urls.push(data.secure_url); // URL que guarda en backend
+    urls.push(data.secure_url); 
   }
 
   return urls;

@@ -1,141 +1,161 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
+import * as yup from "yup";
 import axios from "axios";
 import styles from "../../styles/FormProducto/CrearProducto.module.css";
+import { handleImageUpload } from "./UploadImage";
 
 interface ICategoria {
   id: number;
   nombre: string;
 }
 
-interface Producto {
+interface ITipo {
   id: number;
   nombre: string;
-  precio: number;
-  descripcion: string;
-  color: string;
-  marca: string;
-  imagenes: File[];
-  categoria: ICategoria[];
 }
 
-interface EditarProductoFormProps {
-  producto: Producto;
-  onCancel: () => void;
-  onSave: () => void;
+interface ICrearProductoProps {
+  onClose: () => void;
+  categorias: ICategoria[];
+  tipos: ITipo[];
+  onSubmitForm?: (values: any) => void;
 }
 
-const validationSchema = Yup.object({
-  nombre: Yup.string().required("Requerido"),
-  precio: Yup.number().required("Requerido").positive("Debe ser positivo"),
-  descripcion: Yup.string().required("Requerido"),
-  color: Yup.string().required("Requerido"),
-  marca: Yup.string().required("Requerido"),
-  categoria: Yup.array()
-    .of(
-      Yup.object({
-        id: Yup.number().required(),
-        nombre: Yup.string().required(),
-      })
-    )
-    .min(1, "Selecciona al menos una categoría"),
-});
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB
 
-export const EditarProductoForm: React.FC<EditarProductoFormProps> = ({
-  producto,
-  onCancel,
-  onSave,
+export const CrearProducto: React.FC<ICrearProductoProps> = ({
+  onClose,
+  categorias,
+  tipos,
+  onSubmitForm,
 }) => {
-  const [vistaPreviaImagenes, setVistaPreviaImagenes] = useState<string[]>([]);
-  const [categoriasDisponibles, setCategoriasDisponibles] = useState<ICategoria[]>(
-    []
-  );
+  const [imagenesPreview, setImagenesPreview] = useState<string[]>([]);
 
-  // Opcional: Si tienes un tipo, lo traes igual
-  // const [tiposDisponibles, setTiposDisponibles] = useState<Tipo[]>([]);
-
-  // Imagen principal para previsualizar (la primera o una seleccionada)
-  const [imagenPrincipal, setImagenPrincipal] = useState<string | null>(null);
+  // Limpiar URLs cuando se desmonta o cambian imágenes
+  useEffect(() => {
+    return () => {
+      imagenesPreview.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [imagenesPreview]);
 
   const formik = useFormik({
     initialValues: {
-      nombre: producto.nombre,
-      precio: producto.precio,
-      descripcion: producto.descripcion,
-      color: producto.color,
-      marca: producto.marca,
-      imagenes: [] as File[], // para imágenes nuevas a subir
-      categoria: producto.categoria || [],
+      nombre: "",
+      precio: "",
+      descripcion: "",
+      color: "",
+      marca: "",
+      categoriaIds: [] as number[],
+      tipoId: "",
+      imagenes: [] as File[],
     },
-    validationSchema,
+    validationSchema: yup.object({
+      nombre: yup.string().required("Nombre es requerido"),
+      precio: yup
+        .number()
+        .typeError("Precio debe ser un número")
+        .required("Precio es requerido")
+        .positive("Precio debe ser positivo"),
+      descripcion: yup.string().required("Descripción es requerida"),
+      color: yup.string().required("Color es requerido"),
+      marca: yup.string().required("Marca es requerida"),
+      categoriaIds: yup
+        .array()
+        .of(yup.number())
+        .min(1, "Debes seleccionar al menos una categoría")
+        .required("Categoría es requerida"),
+      tipoId: yup.string().required("Tipo es requerido"),
+      imagenes: yup.array().min(1, "Debes subir al menos una imagen"),
+    }),
     onSubmit: async (values) => {
       try {
-        const formData = new FormData();
-        formData.append("nombre", values.nombre);
-        formData.append("precio", values.precio.toString());
-        formData.append("descripcion", values.descripcion);
-        formData.append("color", values.color);
-        formData.append("marca", values.marca);
-        values.categoria.forEach((cat) =>
-          formData.append("categoria", JSON.stringify(cat))
-        );
-        values.imagenes.forEach((img) => formData.append("imagenes", img));
+        // Subir imágenes y obtener URLs
+        const urls = await handleImageUpload(values.imagenes);
 
-        await axios.put(
-          `http://localhost:8080/api/productos/${producto.id}`,
-          formData,
-          { headers: { "Content-Type": "multipart/form-data" } }
+        const datosProducto = {
+          nombre: values.nombre,
+          precio: parseFloat(values.precio.toString()),
+          descripcion: values.descripcion,
+          color: values.color,
+          marca: values.marca,
+          tipoId: parseInt(values.tipoId),
+          categoriaIds: values.categoriaIds,
+          cantidad: 0,
+          imagenes: urls.map((url) => ({ url })),
+        };
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("No tienes token de autenticación. Debes iniciar sesión.");
+          return;
+        }
+
+        const response = await axios.post(
+          "http://localhost:8080/api/productos",
+          datosProducto,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         );
-        onSave();
+
+        console.log("Producto creado:", response.data);
+        if (onSubmitForm) onSubmitForm(values);
+        onClose();
       } catch (error) {
-        console.error("Error al actualizar el producto:", error);
+        console.error("Error al enviar el producto:", error);
+        alert("Error al enviar el producto. Revisa consola.");
       }
     },
   });
 
-  useEffect(() => {
-    axios
-      .get<ICategoria[]>("http://localhost:8080/api/categorias")
-      .then((res) => setCategoriasDisponibles(res.data));
-  }, []);
+  const handleImagenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-  const handleImagenesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.currentTarget.files;
-    if (files) {
-      const fileArray = Array.from(files);
-      formik.setFieldValue("imagenes", fileArray);
+    const archivosArray = Array.from(files);
+    const archivosValidos = archivosArray.filter(
+      (file) => file.size <= MAX_IMAGE_SIZE
+    );
 
-      // Generar preview URLs
-      const previews = fileArray.map((file) => URL.createObjectURL(file));
-      setVistaPreviaImagenes(previews);
-      // Por defecto, la primera imagen nueva es principal
-      if (previews.length > 0) setImagenPrincipal(previews[0]);
-    }
-  };
-
-  // Permitir seleccionar cuál imagen es la principal
-  const handleSetAsPrincipal = (url: string) => {
-    setImagenPrincipal(url);
-  };
-
-  const toggleCategoria = (categoria: ICategoria) => {
-    const actual = formik.values.categoria;
-    const existe = actual.find((c) => c.id === categoria.id);
-    if (existe) {
-      formik.setFieldValue(
-        "categoria",
-        actual.filter((c) => c.id !== categoria.id)
+    if (archivosValidos.length < archivosArray.length) {
+      alert(
+        "Algunas imágenes fueron descartadas por superar el tamaño máximo de 5MB."
       );
-    } else {
-      formik.setFieldValue("categoria", [...actual, categoria]);
     }
+
+    // Crear URLs para preview
+    const nuevasUrls = archivosValidos.map((file) => URL.createObjectURL(file));
+
+    // Actualizar previews y archivos en formik
+    setImagenesPreview((prev) => [...prev, ...nuevasUrls]);
+    formik.setFieldValue("imagenes", [...formik.values.imagenes, ...archivosValidos]);
+    formik.setFieldTouched("imagenes", true);
+  };
+
+  // Imagen principal es la última en el arreglo
+  const imagenPrincipal =
+    imagenesPreview.length > 0
+      ? imagenesPreview[imagenesPreview.length - 1]
+      : null;
+  const imagenesSecundarias = imagenesPreview.slice(0, -1);
+
+  // Reordenar imágenes para que la clickeada sea la principal
+  const handleSetAsPrincipal = (urlClickeada: string) => {
+    setImagenesPreview((prev) => {
+      const nuevoOrden = prev.filter((url) => url !== urlClickeada);
+      nuevoOrden.push(urlClickeada);
+      return nuevoOrden;
+    });
   };
 
   return (
     <form className={styles.form} onSubmit={formik.handleSubmit} noValidate>
       <div className={styles.content}>
-        <h2 className={styles.title}>Editar producto</h2>
+        <h2 className={styles.title}>Crear producto</h2>
 
         <div className={styles.uploadContainer}>
           <label htmlFor="imageUpload" className={styles.imageUpload}>
@@ -144,7 +164,7 @@ export const EditarProductoForm: React.FC<EditarProductoFormProps> = ({
               type="file"
               accept="image/*"
               multiple
-              onChange={handleImagenesChange}
+              onChange={handleImagenChange}
               style={{ display: "none" }}
             />
             {imagenPrincipal ? (
@@ -156,18 +176,18 @@ export const EditarProductoForm: React.FC<EditarProductoFormProps> = ({
             ) : (
               <i
                 className={`fa-solid fa-arrow-up-from-bracket ${styles.uploadIcon}`}
-              ></i>
+              />
             )}
           </label>
-
           <div className={styles.thumbnailsContainer}>
-            {vistaPreviaImagenes.map((url) => (
+            {imagenesSecundarias.map((url) => (
               <img
                 key={url}
                 src={url}
                 alt="Miniatura"
                 className={styles.thumbnailImage}
                 onClick={() => handleSetAsPrincipal(url)}
+                style={{ cursor: "pointer" }}
               />
             ))}
           </div>
@@ -221,32 +241,57 @@ export const EditarProductoForm: React.FC<EditarProductoFormProps> = ({
           <small className={styles.error}>{formik.errors.marca}</small>
         )}
 
-        {/* Categorías */}
+        <select {...formik.getFieldProps("tipoId")}>
+          <option value="" disabled>
+            Selecciona un tipo
+          </option>
+          {tipos.map((tipo) => (
+            <option key={tipo.id} value={tipo.id}>
+              {tipo.nombre}
+            </option>
+          ))}
+        </select>
+        {formik.touched.tipoId && formik.errors.tipoId && (
+          <small className={styles.error}>{formik.errors.tipoId}</small>
+        )}
+
         <div className={styles.categoriasScroll}>
-          <div className={styles.checkboxGroup} role="group" aria-labelledby="checkbox-group">
+          <div className={styles.checkboxGroup} role="group">
             <h4 className={styles.groupTitle}>Categorías</h4>
-            {categoriasDisponibles.map((cat) => (
+            {categorias.map((cat) => (
               <label key={cat.id} className={styles.checkboxLabel}>
                 <input
                   type="checkbox"
-                  checked={formik.values.categoria.some((c) => c.id === cat.id)}
-                  onChange={() => toggleCategoria(cat)}
+                  name="categoriaIds"
+                  value={cat.id}
+                  checked={formik.values.categoriaIds.includes(cat.id)}
+                  onChange={(e) => {
+                    const id = parseInt(e.target.value);
+                    if (e.target.checked) {
+                      formik.setFieldValue("categoriaIds", [
+                        ...formik.values.categoriaIds,
+                        id,
+                      ]);
+                    } else {
+                      formik.setFieldValue(
+                        "categoriaIds",
+                        formik.values.categoriaIds.filter((cid) => cid !== id)
+                      );
+                    }
+                  }}
                 />
                 {cat.nombre}
               </label>
             ))}
           </div>
         </div>
-        {formik.touched.categoria && typeof formik.errors.categoria === "string" && (
-          <small className={styles.error}>{formik.errors.categoria}</small>
-        )}
+        {formik.touched.categoriaIds &&
+          typeof formik.errors.categoriaIds === "string" && (
+            <small className={styles.error}>{formik.errors.categoriaIds}</small>
+          )}
 
         <div className={styles.buttonsContainer}>
-          <button
-            type="button"
-            className="button-black"
-            onClick={onCancel}
-          >
+          <button type="button" className="button-black" onClick={onClose}>
             Cancelar
           </button>
           <button
@@ -254,7 +299,7 @@ export const EditarProductoForm: React.FC<EditarProductoFormProps> = ({
             className="button-black"
             disabled={formik.isSubmitting || !formik.dirty}
           >
-            {formik.isSubmitting ? "Guardando..." : "Guardar cambios"}
+            {formik.isSubmitting ? "Enviando..." : "Aceptar"}
           </button>
         </div>
       </div>
