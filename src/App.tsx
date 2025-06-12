@@ -7,7 +7,7 @@ import { Producto } from "./apps/landing/pages/Producto";
 import { Admin } from "./apps/landing/pages/Admin";
 import { Categoria } from "./apps/landing/pages/Categoria";
 import { DashboardAdmin } from "./apps/landing/components/DashboardAdmin";
-import { EditarProducto } from "./apps/landing/components/EditarProducto";
+import { EditarProducto } from "./apps/landing/components/ProductosAdmin";
 import { CategoriasAdmin } from "./apps/landing/components/CategoriasAdmin";
 import { useEffect } from "react";
 import { UsuarioStore } from "./store/slices/SesionStore";

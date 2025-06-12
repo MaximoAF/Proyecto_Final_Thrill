@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { UsuarioStore } from "../../../../store/slices/UsuarioStore";
+import { UsuarioStore } from "../../../../store/slices/SesionStore";
 import styles from "../../styles/ingreso/modals/Form.module.css";
 
 interface LoginProps {
