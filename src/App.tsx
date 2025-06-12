@@ -6,25 +6,34 @@ import { Cart } from "./apps/landing/pages/Cart";
 import { Producto } from "./apps/landing/pages/Producto";
 import { Admin } from "./apps/landing/pages/Admin";
 import { Categoria } from "./apps/landing/pages/Categoria";
-import { DashboardAdmin } from './apps/landing/components/DashboardAdmin';
-import { EditarProducto } from "./apps/landing/components/EditarProducto";
+import { DashboardAdmin } from "./apps/landing/components/DashboardAdmin";
+import { EditarProducto } from "./apps/landing/components/ProductosAdmin";
 import { CategoriasAdmin } from "./apps/landing/components/CategoriasAdmin";
-import { UsuariosAdmin } from "./apps/landing/components/usuariosAdmin";
+import { useEffect } from "react";
+import { UsuarioStore } from "./store/slices/SesionStore";
 
 export const App = () => {
+  const setSesion = UsuarioStore((state) => state.setSesion);
+
+  useEffect(() => {
+    const usuarioGuardado = localStorage.getItem("usuarioActivo");
+    if (usuarioGuardado) {
+      const usuario = JSON.parse(usuarioGuardado);
+      setSesion(usuario);
+    }
+  }, [setSesion]);
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/ingreso" element={<Ingreso />} />
       <Route path="/carrito" element={<Cart />} />
       <Route path="*" element={<ErrorPage />} />
-      <Route path="/p/:productId" element={<Producto/>}/>
-      <Route path="/c/:categoriaName" element={<Categoria/>}/>
-      <Route path="/admin" element={<Admin/>}/>
+      <Route path="/p/:productId" element={<Producto />} />
+      <Route path="/c/:categoriaName" element={<Categoria />} />
+      <Route path="/admin" element={<Admin />} />
       <Route path="/dashboard-admin" element={<DashboardAdmin />} />
-      <Route path="/admin/producto" element={<EditarProducto />}/>
-      <Route path="/admin/categorias" element={<CategoriasAdmin />}/>
-      <Route path="/admin/usuarios" element={<UsuariosAdmin />}/>
+      <Route path="/admin/producto" element={<EditarProducto />} />
+      <Route path="/admin/categorias" element={<CategoriasAdmin />} />
     </Routes>
   );
 };

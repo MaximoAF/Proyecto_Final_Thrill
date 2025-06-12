@@ -1,8 +1,9 @@
 import { useFormik } from "formik";
 import styles from "../../styles/ingreso/modals/Form.module.css";
-import { UsuarioStore } from "../../../../store/slices/SesionStore";
+import { UsuarioStore } from "../../../../store/slices/UsuarioStore";
 import { IUsuario } from "../../../../types/IUsuario";
 import * as yup from "yup";
+import axios from "axios";
 
 interface RegisterProps {
   toggleForm: () => void;
@@ -29,8 +30,6 @@ const validationSchema = yup.object({
 });
 
 export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
-  const addUsuario = UsuarioStore((state) => state.addUsuario);
-
   const formik = useFormik<TypeInitialValues>({
     initialValues: {
       nombre: "",
@@ -39,18 +38,21 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
       repeatpassword: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      const nuevoUsuario: IUsuario = {
-        id: Date.now(),
-        nombre: values.nombre,
+    onSubmit: async (values) => {
+      const nuevoUsuario = {
+        username: values.nombre,
         email: values.email,
         password: values.password,
-        idUsuarioDireccion: "",
       };
 
-      addUsuario(nuevoUsuario);
-      alert("Usuario registrado con éxito");
-      toggleForm();
+      try {
+        await axios.post("http://localhost:8080/api/usuarios", nuevoUsuario);
+        alert("Usuario registrado con éxito");
+        toggleForm();
+      } catch (error) {
+        console.error("Error al registrar usuario:", error);
+        alert("Error al registrar el usuario");
+      }
     },
   });
 

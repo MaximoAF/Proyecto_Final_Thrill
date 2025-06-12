@@ -11,34 +11,52 @@ interface LoginProps {
 
 export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
   const navigate = useNavigate();
-  const usuarios = UsuarioStore((state) => state.usuarios);
-  const setActiveUsuario = UsuarioStore((state) => state.setActiveUsuario);
   const [showPass, setShowPass] = useState(false);
+  const setToken = UsuarioStore((state) => state.setToken);
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema: yup.object({
-      email: yup.string().email("Correo no válido").required("Campo requerido"),
+      username: yup.string().required("Campo requerido"),
       password: yup.string().required("Campo requerido"),
     }),
-    onSubmit: (values, { setFieldError, setSubmitting }) => {
-      const usuario = usuarios.find(
-        (u) =>
-          u.email.trim().toLowerCase() === values.email.trim().toLowerCase() &&
-          u.password === values.password
-      );
+    onSubmit: async (values, { setFieldError, setSubmitting }) => {
+      try {
+        const response = await fetch("http://localhost:8080/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: values.username,
+            password: values.password,
+          }),
+        });
 
-      if (usuario) {
-        setActiveUsuario(usuario);
+        if (!response.ok) {
+          throw new Error("Credenciales inválidas");
+        }
+
+        const data = await response.json();
+        const { token } = data;
+
+        if (!token) {
+          throw new Error("Token no recibido del servidor");
+        }
+
+        setToken(token);
+        localStorage.setItem("token", token);
+
+        setToken(token);
+        localStorage.setItem("token", token);
+
         navigate("/");
-      } else {
-        setFieldError("password", "Correo o contraseña incorrectos");
+      } catch (error: any) {
+        setFieldError("password", error.message || "Error en inicio de sesión");
+      } finally {
+        setSubmitting(false);
       }
-
-      setSubmitting(false);
     },
   });
 
@@ -49,16 +67,16 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
 
         <div className={styles.input}>
           <div className={styles.icon}>
-            <i className="fa-regular fa-envelope"></i>
+            <i className="fa-regular fa-circle-user"></i>
           </div>
           <input
             type="text"
-            placeholder="Ingrese su dirección de E-mail:"
-            {...formik.getFieldProps("email")}
+            placeholder="Ingrese su usuario:"
+            {...formik.getFieldProps("username")}
           />
         </div>
-        {formik.touched.email && formik.errors.email && (
-          <small className={styles.error}>{formik.errors.email}</small>
+        {formik.touched.username && formik.errors.username && (
+          <small className={styles.error}>{formik.errors.username}</small>
         )}
 
         <div className={styles.input}>
