@@ -11,17 +11,24 @@ import { EditarProducto } from "./apps/landing/components/ProductosAdmin";
 import { CategoriasAdmin } from "./apps/landing/components/CategoriasAdmin";
 import { useEffect } from "react";
 import { useSesionStore } from "./store/slices/SesionStore";
+import api from "./services/api";
 
 export const App = () => {
   const setSesion = useSesionStore((state) => state.setSesion);
+  const closeSesion = useSesionStore((state) => state.closeSesion);
 
   useEffect(() => {
-    const usuarioGuardado = localStorage.getItem("usuarioActivo");
-    if (usuarioGuardado) {
-      const usuario = JSON.parse(usuarioGuardado);
-      setSesion(usuario);
+
+  const validarToken = async () => {
+    try {
+      await api.get("/demo"); // o algún endpoint protegido
+    } catch (error) {
+      closeSesion(); // Cierra sesion si el token no es valido
     }
-  }, [setSesion]);
+  };
+
+  validarToken();
+}, [setSesion]);
   return (
     <Routes>
       <Route path="/" element={<Home />} />

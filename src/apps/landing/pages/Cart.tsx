@@ -3,20 +3,40 @@ import { Header } from "../components/Header";
 import styles from "../styles/Cart.module.css";
 import { ProductCart } from "../components/cart/ProductCart";
 import { useCarritoStore } from "../../../store/slices/CarritoStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useSesionStore } from "../../../store/slices/SesionStore";
 
 export const Cart = () => {
   const navigate = useNavigate();
   const detalles = useCarritoStore((state) => state.detallesProducto);
+  const [codigoPromocional, setCodigoPromocional] = useState<string>("");
+  const [discount, setDiscount] = useState<number>(0.0);
+  const sesion = useSesionStore((state)=>state.sesion)
+
   const total = detalles.reduce(
     (sum, detalle) => sum + detalle.productotalle.producto.precio * detalle.cantidad,
     0
   );
-  const discount = 0.1;
-  const envioPrice = 7500;
+  const [envioPrice, setEnvioPrecio] = useState<number>(7500);
   const sumTotal = total - Math.round(total * discount) + envioPrice;
+
+  const handleCodigoPromocional = (codigo: string) => {
+    if (codigo === "TryFreeMP") {
+      setDiscount(1);
+      setEnvioPrecio(0)
+    }
+  };
+
+  const handleComprar = ()=>{
+    if(sesion) {
+      if(sesion.direcciones.length>0){
+        
+      }else{navigate('/ingreso')}
+    }else{navigate('/ingreso')}
+
+  }
 
   useEffect(() => {
     document.title = "Tu carrito - Thrill";
@@ -123,7 +143,7 @@ export const Cart = () => {
               </div>
               {/* Button de compra */}
               <div>
-                <button style={{ width: "100%" }} className="button-black">
+                <button onClick={()=>handleComprar()} style={{ width: "100%" }} className="button-black">
                   Comprar
                 </button>
               </div>
