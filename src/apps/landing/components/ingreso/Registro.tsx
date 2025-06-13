@@ -1,9 +1,7 @@
 import { useFormik } from "formik";
 import styles from "../../styles/ingreso/modals/Form.module.css";
-import { useSesionStore } from "../../../../store/slices/SesionStore";
-import { IUsuario } from "../../../../types/IUsuario";
 import * as yup from "yup";
-import axios from "axios";
+import { register } from "../../../../services/usuarioService";
 
 interface RegisterProps {
   toggleForm: () => void;
@@ -47,7 +45,7 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
       };
 
       try {
-        await axios.post("http://localhost:8080/api/usuarios", nuevoUsuario);
+        await register(nuevoUsuario);
         alert("Usuario registrado con éxito");
         toggleForm();
       } catch (error) {

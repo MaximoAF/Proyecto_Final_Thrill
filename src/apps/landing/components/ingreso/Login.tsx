@@ -3,7 +3,8 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "../../styles/ingreso/modals/Form.module.css";
-import { useSesionStore } from "../../../../store/slices/SesionStore";
+import { login } from "../../../../services/usuarioService";
+
 
 interface LoginProps {
   toggleForm: () => void;
@@ -25,32 +26,13 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
     }),
     onSubmit: async (values, { setFieldError, setSubmitting }) => {
       try {
-        const response = await fetch("http://localhost:8080/api/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: values.username,
-            password: values.password,
-          }),
+        const { token } = await login({
+          username: values.username,
+          password: values.password,
         });
 
-        if (!response.ok) {
-          throw new Error("Credenciales inválidas");
-        }
-
-        const data = await response.json();
-        const { token } = data;
-
-        if (!token) {
-          throw new Error("Token no recibido del servidor");
-        }
-
         setToken(token);
         localStorage.setItem("token", token);
-
-        setToken(token);
-        localStorage.setItem("token", token);
-
         navigate("/");
       } catch (error: any) {
         setFieldError("password", error.message || "Error en inicio de sesión");

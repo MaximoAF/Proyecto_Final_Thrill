@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
 import styles from "../../styles/FormProducto/CrearProducto.module.css";
 import { handleImageUpload } from "./UploadImage";
 import { IProducto } from "../../../../types/IProducto";
+import { actualizarProducto } from "../../../../services/productoService";
 
 interface ICategoria {
   id: number;
@@ -73,6 +73,12 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
     }),
     onSubmit: async (values) => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("No tienes token de autenticación. Debes iniciar sesión.");
+          return;
+        }
+
         const urls = await handleImageUpload(values.imagenes);
 
         const datosProducto = {
@@ -88,24 +94,13 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
           imagenes: urls.map((url) => ({ url })),
         };
 
-        const token = localStorage.getItem("token");
-        if (!token) {
-          alert("No tienes token de autenticación. Debes iniciar sesión.");
-          return;
-        }
-
-        const response = await axios.put(
-          `http://localhost:8080/api/productos/${producto.id}`,
+        const actualizado = await actualizarProducto(
+          producto.id,
           datosProducto,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
+          token
         );
 
-        console.log("Producto creado:", response.data);
+        console.log("Producto actualizado:", actualizado);
         if (onSubmitForm) onSubmitForm(values);
         onClose();
       } catch (error) {
