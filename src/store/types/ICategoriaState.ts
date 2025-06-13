@@ -4,6 +4,8 @@ export interface ICategoriaState {
   categorias: ICategoria[];
   activeCategoria: ICategoria | null;
 
+  setCategorias: (categorias: ICategoria[]) => void;
+
   setActiveCategoria: (categoria: ICategoria) => void;
   clearActiveCategoria: () => void;
 
@@ -12,5 +14,5 @@ export interface ICategoriaState {
   updateCategoria: (categoria: ICategoria) => void;
 
   getCategoriaById: (categoriaId: number) => ICategoria | undefined;
-  getCategoriaByName: (categoriaName: string) => ICategoria | undefined
+  getCategoriaByName: (categoriaName: string) => ICategoria | undefined;
 }
