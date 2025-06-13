@@ -16,6 +16,10 @@ export const useSesionStore = create<ISesionState>()(
       setToken: (token: string) => {
         set({ token });
       },
+      closeSesion: () =>{
+        set({ sesion : null}),
+        set({ token : null})
+      }
     }),
     {
       name: "sesion_thrill",
