@@ -8,8 +8,8 @@ import { CrearProducto } from "./FormulariosProducto/CrearProducto";
 import { EditarProductoForm } from "./FormulariosProducto/EditarProducto";
 import { EliminarProducto } from "./FormulariosProducto/EliminarProducto";
 import { IProducto } from "../../../types/IProducto";
+import { AgregarStock } from "./FormulariosProducto/AgregarStock";
 
-// Interfaces para los datos que vamos a recibir de la API
 interface ICategoria {
   id: number;
   nombre: string;
@@ -23,8 +23,12 @@ interface ITipo {
 export const EditarProducto = () => {
   const productos = useProductoStore((state) => state.productos);
   const loadProducts = useProductoStore((state) => state.loadProducts);
+  const [mostrarAgregarStock, setMostrarAgregarStock] = useState(false);
 
-  // Estados para los datos de la API
+  const [stockPorProducto, setStockPorProducto] = useState<{
+    [productoId: number]: { [talle: string]: number };
+  }>({});
+
   const [categorias, setCategorias] = useState<ICategoria[]>([]);
   const [tipos, setTipos] = useState<ITipo[]>([]);
 
@@ -57,7 +61,9 @@ export const EditarProducto = () => {
         );
         setCategorias(resCategorias.data);
 
-        const resTipos = await axios.get("https://api-thrill-production.up.railway.app/api/tipos");
+        const resTipos = await axios.get(
+          "https://api-thrill-production.up.railway.app/api/tipos"
+        );
         setTipos(resTipos.data);
       } catch (error) {
         console.error("Error al cargar datos para el formulario:", error);
@@ -66,6 +72,30 @@ export const EditarProducto = () => {
 
     fetchDatosParaFormulario();
   }, [loadProducts]);
+
+  const cargarStockPorProducto = async (productoId: number) => {
+    try {
+      const response = await axios.get(
+        `https://api-thrill-production.up.railway.app/api/producto-talle/producto/${productoId}`
+      );
+      const stockPorTalle = response.data.reduce((acc: any, item: any) => {
+        acc[item.talle.nombre] = item.stock;
+        return acc;
+      }, {});
+      setStockPorProducto((prev) => ({ ...prev, [productoId]: stockPorTalle }));
+    } catch (error) {
+      console.error("Error al cargar stock:", error);
+    }
+  };
+
+  // Aquí está el useEffect que faltaba para cargar el stock cuando se cargan los productos
+  useEffect(() => {
+    productos.forEach((producto) => {
+      if (producto.id) {
+        cargarStockPorProducto(producto.id);
+      }
+    });
+  }, [productos]);
 
   useEffect(() => {
     setProductosPagina(productos.slice(indiceInicio, indiceFin));
@@ -91,7 +121,25 @@ export const EditarProducto = () => {
           />
         </div>
       )}
-
+      {productoSeleccionado && mostrarAgregarStock && (
+        <div className="overlay">
+          <AgregarStock
+            productoId={productoSeleccionado.id}
+            onClose={() => {
+              setMostrarAgregarStock(false);
+              setProductoSeleccionado(null);
+            }}
+            onStockAgregado={() => {
+              loadProducts();
+              if (productoSeleccionado?.id) {
+                cargarStockPorProducto(productoSeleccionado.id);
+              }
+              setMostrarAgregarStock(false);
+              setProductoSeleccionado(null);
+            }}
+          />
+        </div>
+      )}
       {mostrarFormularioEditar && productoParaEditar && (
         <div className="overlay">
           <EditarProductoForm
@@ -141,6 +189,17 @@ export const EditarProducto = () => {
                     Descuento aplicado:{" "}
                     {detalle.descuentos?.[0]?.porcentajeDesc || "ninguno"}
                   </p>
+                  {stockPorProducto[detalle.id] && (
+                    <div className={styles.stockPorTalle}>
+                      {Object.entries(stockPorProducto[detalle.id]).map(
+                        ([talle, stock]) => (
+                          <p key={talle}>
+                            Stock de talle {talle}: {stock}
+                          </p>
+                        )
+                      )}
+                    </div>
+                  )}
                 </div>
                 <div className={styles.containerButtonActions}>
                   <button
@@ -152,8 +211,13 @@ export const EditarProducto = () => {
                   >
                     Editar
                   </button>
-                  <button 
-                  className="button-black">
+                  <button
+                    className="button-black"
+                    onClick={() => {
+                      setProductoSeleccionado(detalle);
+                      setMostrarAgregarStock(true);
+                    }}
+                  >
                     Agregar Stock
                   </button>
                   <button

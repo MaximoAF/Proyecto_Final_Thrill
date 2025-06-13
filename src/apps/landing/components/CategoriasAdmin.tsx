@@ -1,33 +1,48 @@
-import { Aside } from './AsideAdmin'
-import { HeaderAdmin } from './HeaderAdmin'
-import styles from './../styles/CategoriasAdmin.module.css'
-import { FC, useState } from 'react'
-import { ICategoria } from '../../../types/ICategoria'
-import { useCategoriaStore } from '../../../store/slices/CategoriaStore'
-import { EliminarCategoria } from './FormulariosCategorias/EliminarCategoria'
-import { CrearCategoria } from './FormulariosCategorias/CrearCategoria'
-import { EditarCategoria } from './FormulariosCategorias/EditarCategoria'
+import { Aside } from "./AsideAdmin";
+import { HeaderAdmin } from "./HeaderAdmin";
+import styles from "./../styles/CategoriasAdmin.module.css";
+import { FC, useState, useEffect } from "react";
+import { ICategoria } from "../../../types/ICategoria";
+import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
+import { EliminarCategoria } from "./FormulariosCategorias/EliminarCategoria";
+import { CrearCategoria } from "./FormulariosCategorias/CrearCategoria";
+import { EditarCategoria } from "./FormulariosCategorias/EditarCategoria";
+import { getCategorias } from "../../../services/categoriaService";
 
 export const CategoriasAdmin: FC = () => {
-  const categorias = useCategoriaStore((state) => state.categorias)
-  const [paginaActual, setPaginaActual] = useState(1)
-  const [mostrarFormulario, setMostrarFormulario] = useState(false)
-  const [mostrarFormularioEditar, setMostrarFormularioEditar] = useState(false)
-  const [mostrarEliminar, setMostrarEliminar] = useState(false)
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<ICategoria | null>(null)
+  const categorias = useCategoriaStore((state) => state.categorias);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [mostrarFormularioEditar, setMostrarFormularioEditar] = useState(false);
+  const [mostrarEliminar, setMostrarEliminar] = useState(false);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] =
+    useState<ICategoria | null>(null);
 
-  const categoriasPorPagina = 10
-  const totalPaginas = Math.ceil(categorias.length / categoriasPorPagina)
+  const categoriasPorPagina = 10;
+  const totalPaginas = Math.ceil(categorias.length / categoriasPorPagina);
 
   const cambiarPagina = (pagina: number) => {
     if (pagina >= 1 && pagina <= totalPaginas) {
-      setPaginaActual(pagina)
+      setPaginaActual(pagina);
     }
-  }
+  };
 
-  const indiceInicio = (paginaActual - 1) * categoriasPorPagina
-  const indiceFin = indiceInicio + categoriasPorPagina
-  const categoriasPaginadas = categorias.slice(indiceInicio, indiceFin)
+  const indiceInicio = (paginaActual - 1) * categoriasPorPagina;
+  const indiceFin = indiceInicio + categoriasPorPagina;
+  const categoriasPaginadas = categorias.slice(indiceInicio, indiceFin);
+
+  useEffect(() => {
+    const cargarCategorias = async () => {
+      try {
+        const categoriasDesdeAPI = await getCategorias();
+        useCategoriaStore.getState().setCategorias(categoriasDesdeAPI);
+      } catch (error) {
+        console.error("Error al obtener categorías:", error);
+      }
+    };
+
+    cargarCategorias();
+  }, []);
 
   return (
     <div className="aside-mainContainer">
@@ -41,9 +56,10 @@ export const CategoriasAdmin: FC = () => {
           <EditarCategoria
             categoria={categoriaSeleccionada}
             onClose={() => {
-              setMostrarFormularioEditar(false)
-              setCategoriaSeleccionada(null)
+              setMostrarFormularioEditar(false);
+              setCategoriaSeleccionada(null);
             }}
+            onCategoriaEditada={() => {}}
           />
         </div>
       )}
@@ -52,8 +68,8 @@ export const CategoriasAdmin: FC = () => {
           <EliminarCategoria
             categoria={categoriaSeleccionada}
             onClose={() => {
-              setMostrarEliminar(false)
-              setCategoriaSeleccionada(null)
+              setMostrarEliminar(false);
+              setCategoriaSeleccionada(null);
             }}
           />
         </div>
@@ -65,13 +81,13 @@ export const CategoriasAdmin: FC = () => {
         <div className={styles.container}>
           <h4>Categorías</h4>
           <div className={styles.addContainer}>
-          <button
-            className="button-black"
-            onClick={() => setMostrarFormulario(true)}
-          >
-            Agregar categoria <i className="fa-solid fa-add"></i>
-          </button>
-        </div>
+            <button
+              className="button-black"
+              onClick={() => setMostrarFormulario(true)}
+            >
+              Agregar categoria <i className="fa-solid fa-add"></i>
+            </button>
+          </div>
           <div className={styles.products}>
             {categoriasPaginadas.map((detalle) => (
               <div key={detalle.id} className={styles.separatorGap}>
@@ -84,8 +100,8 @@ export const CategoriasAdmin: FC = () => {
                     <button
                       className="button-black"
                       onClick={() => {
-                        setCategoriaSeleccionada(detalle)
-                        setMostrarFormularioEditar(true)
+                        setCategoriaSeleccionada(detalle);
+                        setMostrarFormularioEditar(true);
                       }}
                     >
                       Editar
@@ -93,8 +109,8 @@ export const CategoriasAdmin: FC = () => {
                     <button
                       className="button-black"
                       onClick={() => {
-                        setCategoriaSeleccionada(detalle)
-                        setMostrarEliminar(true)
+                        setCategoriaSeleccionada(detalle);
+                        setMostrarEliminar(true);
                       }}
                     >
                       Eliminar
@@ -113,17 +129,19 @@ export const CategoriasAdmin: FC = () => {
               <i className="fa-solid fa-arrow-left"></i> Anterior
             </button>
             <div className={styles.buttonsPage}>
-              {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((pagina) => (
-                <button
-                  key={pagina}
-                  onClick={() => setPaginaActual(pagina)}
-                  className={`${styles.pageButton} ${
-                    paginaActual === pagina ? styles.selected : ''
-                  }`}
-                >
-                  {pagina}
-                </button>
-              ))}
+              {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(
+                (pagina) => (
+                  <button
+                    key={pagina}
+                    onClick={() => setPaginaActual(pagina)}
+                    className={`${styles.pageButton} ${
+                      paginaActual === pagina ? styles.selected : ""
+                    }`}
+                  >
+                    {pagina}
+                  </button>
+                )
+              )}
             </div>
             <button
               className={styles.pasarPagina}
@@ -136,5 +154,5 @@ export const CategoriasAdmin: FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

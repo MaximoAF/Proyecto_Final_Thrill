@@ -6,7 +6,7 @@ export const handleImageUpload = async (files: File[]) => {
     formData.append("file", file);
     formData.append("upload_preset", "Thrill_Proyecto_Final");
 
-    const res = await fetch("https://api.cloudinary.com/v1_1/dmlaojrbb/image/upload", {
+    const res = await fetch("https://api.cloudinary.com/v1_1/dmbbd1qlj/image/upload", {
       method: "POST",
       body: formData,
     });

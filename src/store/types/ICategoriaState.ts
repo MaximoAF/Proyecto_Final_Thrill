@@ -14,5 +14,5 @@ export interface ICategoriaState {
   updateCategoria: (categoria: ICategoria) => void;
 
   getCategoriaById: (categoriaId: number) => ICategoria | undefined;
-  getCategoriaByName: (categoriaName: string) => ICategoria | undefined
+  getCategoriaByName: (categoriaName: string) => ICategoria | undefined;
 }

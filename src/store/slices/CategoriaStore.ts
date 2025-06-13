@@ -18,6 +18,7 @@ export const useCategoriaStore = create<ICategoriaState>((set, get) => ({
     }
   },
 
+
   setActiveCategoria: (categoria) => set({ activeCategoria: categoria }),
   clearActiveCategoria: () => set({ activeCategoria: null }),
 
@@ -26,11 +27,13 @@ export const useCategoriaStore = create<ICategoriaState>((set, get) => ({
       if (state.categorias.some((cat) => cat.id === categoria.id)) return state;
       return { categorias: [...state.categorias, categoria] };
     }),
+
   removeCategoria: (categoriaId) => {
     set((state) => ({
       categorias: state.categorias.filter((cat) => cat.id !== categoriaId),
     }));
   },
+
   updateCategoria: (categoria) => {
     set((state) => ({
       categorias: state.categorias.map((cat) =>
@@ -38,8 +41,10 @@ export const useCategoriaStore = create<ICategoriaState>((set, get) => ({
       ),
     }));
   },
+
   getCategoriaById: (categoriaId) =>
     get().categorias.find((cat) => cat.id === categoriaId),
+
   getCategoriaByName: (categoriaName) =>
     get().categorias.find(
       (cat) => cat.nombre.toLowerCase() === categoriaName.toLowerCase()

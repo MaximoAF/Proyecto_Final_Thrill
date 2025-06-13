@@ -16,8 +16,7 @@ export const Cart = () => {
   const sesion = useSesionStore((state)=>state.sesion)
 
   const total = detalles.reduce(
-    (sum, detalle) =>
-      sum + detalle.productotalle.producto.precio * detalle.cantidad,
+    (sum, detalle) => sum + detalle.productotalle.producto.precio * detalle.cantidad,
     0
   );
   const [envioPrice, setEnvioPrecio] = useState<number>(7500);
@@ -138,19 +137,9 @@ export const Cart = () => {
                   <div className={styles.tagContainer}>
                     <i className="fa-solid fa-tag"></i>
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Codigo promocional"
-                    value={codigoPromocional}
-                    onChange={(e) => setCodigoPromocional(e.target.value)}
-                  />
+                  <input type="text" placeholder="Codigo promocional" />
                 </div>
-                <button
-                  className="button-black"
-                  onClick={() => handleCodigoPromocional(codigoPromocional)}
-                >
-                  Aplicar
-                </button>
+                <button className="button-black">Aplicar</button>
               </div>
               {/* Button de compra */}
               <div>
