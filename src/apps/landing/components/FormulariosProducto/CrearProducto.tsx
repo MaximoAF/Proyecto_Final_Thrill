@@ -181,47 +181,53 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
             <small className={styles.error}>{formik.errors.imagenes}</small>
           )}
 
-        <input
-          type="text"
-          placeholder="Nombre"
-          {...formik.getFieldProps("nombre")}
-        />
+        <div className={styles.input}>
+          <input
+            type="text"
+            placeholder="Nombre"
+            {...formik.getFieldProps("nombre")}
+          />
+        </div>
         {formik.touched.nombre && formik.errors.nombre && (
           <small className={styles.error}>{formik.errors.nombre}</small>
         )}
-
-        <input
-          type="number"
-          placeholder="Precio"
-          {...formik.getFieldProps("precio")}
-        />
+        <div className={styles.input}>
+          <input
+            type="number"
+            placeholder="Precio"
+            {...formik.getFieldProps("precio")}
+          />
+        </div>
         {formik.touched.precio && formik.errors.precio && (
           <small className={styles.error}>{formik.errors.precio}</small>
         )}
-
-        <input
-          type="text"
-          placeholder="Descripción"
-          {...formik.getFieldProps("descripcion")}
-        />
+        <div className={styles.input}>
+          <input
+            type="text"
+            placeholder="Descripción"
+            {...formik.getFieldProps("descripcion")}
+          />
+        </div>
         {formik.touched.descripcion && formik.errors.descripcion && (
           <small className={styles.error}>{formik.errors.descripcion}</small>
         )}
-
-        <input
-          type="text"
-          placeholder="Color"
-          {...formik.getFieldProps("color")}
-        />
+        <div className={styles.input}>
+          <input
+            type="text"
+            placeholder="Color"
+            {...formik.getFieldProps("color")}
+          />
+        </div>
         {formik.touched.color && formik.errors.color && (
           <small className={styles.error}>{formik.errors.color}</small>
         )}
-
-        <input
-          type="text"
-          placeholder="Marca"
-          {...formik.getFieldProps("marca")}
-        />
+        <div className={styles.input}>
+          <input
+            type="text"
+            placeholder="Marca"
+            {...formik.getFieldProps("marca")}
+          />
+        </div>
         {formik.touched.marca && formik.errors.marca && (
           <small className={styles.error}>{formik.errors.marca}</small>
         )}
