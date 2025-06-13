@@ -10,6 +10,7 @@ import { useSesionStore } from "../../../store/slices/SesionStore";
 export const Ingreso = () => {
   const [showRegister, setShowRegister] = useState(false);
   const sesion = useSesionStore((state) => state.sesion);
+  const cerrarSesion = useSesionStore((state)=> state.closeSesion)
 
   useEffect(() => {
     document.title = `Ingreso - Thrill`;
@@ -20,8 +21,18 @@ export const Ingreso = () => {
       <Header />
       {sesion ? (
         <div className={styles.content}>
-          <h2>{sesion.username}</h2>
-          <p>{sesion.email}</p>
+          <div style={{display: "flex", justifyContent: 'space-between', alignItems: "center"}}>
+            <div>
+              <h2>{sesion.username}</h2>
+              <p>{sesion.email}</p>
+            </div>
+            <button className="button-black" onClick={()=>cerrarSesion()}>Cerrar sesion</button>
+          </div>
+          <div className={styles.gridForms}>
+            <form>
+              <p>Direccion:</p>
+            </form>
+          </div>
         </div>
       ) : (
         <div className={styles.content}>

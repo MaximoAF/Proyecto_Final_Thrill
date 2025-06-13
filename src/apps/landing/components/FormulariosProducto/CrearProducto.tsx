@@ -79,7 +79,11 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           tipoId: parseInt(values.tipoId),
           categoriaIds: values.categoriaIds,
           cantidad: 0,
-          imagenes: urls.map((url) => ({ url })),
+          imagenes: urls.map((url) => ({
+            id: 0,
+            eliminado: false,
+            url,
+          })),
         };
 
         const token = localStorage.getItem("token");
