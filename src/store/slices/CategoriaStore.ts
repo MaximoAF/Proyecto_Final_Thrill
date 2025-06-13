@@ -1,9 +1,22 @@
 import { create } from "zustand";
 import { ICategoriaState } from "../types/ICategoriaState";
+import { categoriaService } from "../../services/categoriaService";
 
 export const useCategoriaStore = create<ICategoriaState>((set, get) => ({
   categorias: [],
   activeCategoria: null,
+
+  loadCategoria: async () => {
+    const current = get().categorias;
+    if (current.length > 0) return;
+
+    try {
+      const data = await categoriaService.getAll();
+      set({ categorias: data });
+    } catch (err) {
+      console.error("Error al cargar categorias:", err);
+    }
+  },
 
   setActiveCategoria: (categoria) => set({ activeCategoria: categoria }),
   clearActiveCategoria: () => set({ activeCategoria: null }),

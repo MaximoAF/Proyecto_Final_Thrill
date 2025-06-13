@@ -4,6 +4,8 @@ export interface ICategoriaState {
   categorias: ICategoria[];
   activeCategoria: ICategoria | null;
 
+  loadCategoria: () => Promise<void>;
+
   setActiveCategoria: (categoria: ICategoria) => void;
   clearActiveCategoria: () => void;
 

@@ -1,21 +1,41 @@
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
 import { ErrorPage } from "./ErrorPage";
 import styles from "../styles/Categoria.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { useProductoStore } from "../../../store/slices/ProductoStore";
+import { useTalleStore } from "../../../store/slices/TalleStore";
+import { ICategoria } from "../../../types/ICategoria";
 
 export const Categoria = () => {
   const categoriaName = useParams().categoriaName || "";
   const categoria = useCategoriaStore
     .getState()
     .getCategoriaByName(categoriaName);
-  const categorias = useCategoriaStore.getState().categorias;
+  const categorias = useCategoriaStore((state) => state.categorias);
   const productos = useProductoStore((state) => state.productos);
+  const talles = useTalleStore((state) => state.talles);
+
   const navigate = useNavigate();
+
+  const [categoriasFiltered, setCategoriasFiltered] = useState<ICategoria[]>(
+    categorias.slice(0, 5)
+  );
+
+  // Filtros
+  const [minPrice, setMinPrice] = useState<number>(0);
+  const [maxPrice, setMaxPrice] = useState<number>(0);
+
+  const handleShowCategorias = () => {
+    if (categorias === categoriasFiltered) {
+      setCategoriasFiltered(categorias.slice(0, 5));
+    } else {
+      setCategoriasFiltered(categorias);
+    }
+  };
 
   useEffect(() => {
     document.title = `${categoria?.nombre || "Error"} - Thrill`;
@@ -51,7 +71,7 @@ export const Categoria = () => {
                   <div className="separator"></div>
                   <div className={styles.tipos}>
                     <AnimatePresence>
-                      {categorias.map((cat) => (
+                      {categoriasFiltered.map((cat) => (
                         <motion.div
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -59,12 +79,22 @@ export const Categoria = () => {
                           transition={{ type: "spring" }}
                           className="flex-between"
                           style={{ cursor: "pointer" }}
+                          onClick={()=>navigate(`/c/${cat.nombre}`)}
                         >
                           <p>{cat.nombre}</p>
                           <i className="fa-solid fa-chevron-right"></i>
                         </motion.div>
                       ))}
                     </AnimatePresence>
+                    <button
+                      onClick={() => handleShowCategorias()}
+                      className="button-white"
+                      style={{ margin: "0 auto" }}
+                    >
+                      {categorias === categoriasFiltered
+                        ? "Mostrar menos"
+                        : "Mostrar mas"}
+                    </button>
                   </div>
                   <div className="separator"></div>
                   <div className={styles.price}>
@@ -76,9 +106,9 @@ export const Categoria = () => {
                       ></i>
                     </div>
                     <div className={styles.range}>
-                      <input type="number" placeholder="min - $$$"/>
+                      <input type="number" placeholder="min - $$$" />
                       <i className="fa-solid fa-minus"></i>
-                      <input type="number" placeholder="max - $$$"/>
+                      <input type="number" placeholder="max - $$$" />
                     </div>
                   </div>
                   <div className="separator"></div>
@@ -91,21 +121,36 @@ export const Categoria = () => {
                       ></i>
                     </div>
                     <div className={styles.tallesContainer}>
-                      <button style={{width: 'auto', padding: '0 1.5rem'}} className="button-white">Extra Small / XS</button>
-                      <button style={{width: 'auto', padding: '0 1.5rem'}} className="button-black">Small / S</button>
-                      <button style={{width: 'auto', padding: '0 1.5rem'}} className="button-white">Medium / M</button>
-                      <button style={{width: 'auto', padding: '0 1.5rem'}} className="button-white">Large / L</button>
-                      <button style={{width: 'auto', padding: '0 1.5rem'}} className="button-white">Extra Large / XL</button>
-                    </div>
-                  </div>
-                  <div className="separator"></div>
-                  <div>
-                    <div className="flex-between">
-                      <p className="bold-24px">Categorias</p>
-                      <i
-                        style={{ fontSize: "1.5rem" }}
-                        className="fa-solid fa-chevron-up"
-                      ></i>
+                      <button
+                        style={{ width: "auto", padding: "0 1.5rem" }}
+                        className="button-white"
+                      >
+                        Extra Small / XS
+                      </button>
+                      <button
+                        style={{ width: "auto", padding: "0 1.5rem" }}
+                        className="button-black"
+                      >
+                        Small / S
+                      </button>
+                      <button
+                        style={{ width: "auto", padding: "0 1.5rem" }}
+                        className="button-white"
+                      >
+                        Medium / M
+                      </button>
+                      <button
+                        style={{ width: "auto", padding: "0 1.5rem" }}
+                        className="button-white"
+                      >
+                        Large / L
+                      </button>
+                      <button
+                        style={{ width: "auto", padding: "0 1.5rem" }}
+                        className="button-white"
+                      >
+                        Extra Large / XL
+                      </button>
                     </div>
                   </div>
                 </div>

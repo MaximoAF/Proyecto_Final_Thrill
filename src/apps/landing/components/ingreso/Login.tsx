@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "../../styles/ingreso/modals/Form.module.css";
 import { login } from "../../../../services/usuarioService";
+import { useSesionStore } from "../../../../store/slices/SesionStore";
 
 
 interface LoginProps {
@@ -14,6 +15,7 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const setToken = useSesionStore((state) => state.setToken);
+  const setSesion = useSesionStore((state)=> state.setSesion)
 
   const formik = useFormik({
     initialValues: {
@@ -26,13 +28,14 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
     }),
     onSubmit: async (values, { setFieldError, setSubmitting }) => {
       try {
-        const { token } = await login({
+        const { token, usuario} = await login({
           username: values.username,
           password: values.password,
         });
 
         setToken(token);
-        localStorage.setItem("token", token);
+        setSesion(usuario)
+        
         navigate("/");
       } catch (error: any) {
         setFieldError("password", error.message || "Error en inicio de sesión");

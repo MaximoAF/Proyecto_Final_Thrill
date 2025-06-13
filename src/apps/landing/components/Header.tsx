@@ -1,15 +1,21 @@
 import styles from "../styles/Header.module.css"
 import thrillLogoBlack from "../../../assets/svg/thrill_logo-dark.svg";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
 
 export const Header = () => {
   const navigate = useNavigate();
   const [oferClosed, setOferClosed] = useState<boolean>(false);
+  
   const categorias = useCategoriaStore((state) => state.categorias);
+  const loadCategorias = useCategoriaStore((state) => state.loadCategoria);
 
+
+  useEffect(() => {
+      loadCategorias();
+    }, []);
   return (
     <div>
       <AnimatePresence>

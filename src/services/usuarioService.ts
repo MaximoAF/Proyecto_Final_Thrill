@@ -1,5 +1,6 @@
 // src/services/authService.ts
 import axios from "axios";
+import { IUsuario } from "../types/IUsuario";
 
 const API_URL = "https://api-thrill-production.up.railway.app/api";
 
@@ -11,6 +12,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
+  usuario: IUsuario;
 }
 
 export interface RegisterRequest {
