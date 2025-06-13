@@ -8,9 +8,11 @@ import { EliminarCategoria } from "./FormulariosCategorias/EliminarCategoria";
 import { CrearCategoria } from "./FormulariosCategorias/CrearCategoria";
 import { EditarCategoria } from "./FormulariosCategorias/EditarCategoria";
 import { getCategorias } from "../../../services/categoriaService";
+import { useCarritoStore } from "../../../store/slices/CarritoStore";
 
 export const CategoriasAdmin: FC = () => {
   const categorias = useCategoriaStore((state) => state.categorias);
+  const cargarCategorias = useCategoriaStore((state)=>state.loadCategoria)
   const [paginaActual, setPaginaActual] = useState(1);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [mostrarFormularioEditar, setMostrarFormularioEditar] = useState(false);
@@ -32,16 +34,8 @@ export const CategoriasAdmin: FC = () => {
   const categoriasPaginadas = categorias.slice(indiceInicio, indiceFin);
 
   useEffect(() => {
-    const cargarCategorias = async () => {
-      try {
-        const categoriasDesdeAPI = await getCategorias();
-        useCategoriaStore.getState().setCategorias(categoriasDesdeAPI);
-      } catch (error) {
-        console.error("Error al obtener categorías:", error);
-      }
-    };
+    cargarCategorias()
 
-    cargarCategorias();
   }, []);
 
   return (

@@ -9,26 +9,7 @@ import { Categoria } from "./apps/landing/pages/Categoria";
 import { DashboardAdmin } from "./apps/landing/components/DashboardAdmin";
 import { EditarProducto } from "./apps/landing/components/ProductosAdmin";
 import { CategoriasAdmin } from "./apps/landing/components/CategoriasAdmin";
-import { useEffect } from "react";
-import { useSesionStore } from "./store/slices/SesionStore";
-import api from "./services/api";
-
 export const App = () => {
-  const setSesion = useSesionStore((state) => state.setSesion);
-  const closeSesion = useSesionStore((state) => state.closeSesion);
-
-  useEffect(() => {
-
-  const validarToken = async () => {
-    try {
-      await api.get("/demo"); // o algún endpoint protegido
-    } catch (error) {
-      closeSesion(); // Cierra sesion si el token no es valido
-    }
-  };
-
-  validarToken();
-}, [setSesion]);
   return (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -41,7 +22,6 @@ export const App = () => {
       <Route path="/admin/dashboard" element={<DashboardAdmin />} />
       <Route path="/admin/producto" element={<EditarProducto />} />
       <Route path="/admin/categorias" element={<CategoriasAdmin />} />
-
     </Routes>
   );
 };
