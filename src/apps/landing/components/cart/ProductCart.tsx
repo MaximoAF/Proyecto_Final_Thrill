@@ -24,7 +24,16 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.imgContainer}>
-          <img src={detalleOrden.productotalle.producto.imagenes[0]?.url} alt="" />
+          {detalleOrden.productotalle.producto.imagenes.length > 0 ? (
+            <img
+              src={detalleOrden.productotalle.producto.imagenes[0]?.url}
+              alt="imagen"
+            />
+          ) : (
+            <div className={styles.noImgContainer}>
+              <i className="fa-solid fa-image"></i>
+            </div>
+          )}
         </div>
         <div className={styles.valorContainer}>
           <div>
