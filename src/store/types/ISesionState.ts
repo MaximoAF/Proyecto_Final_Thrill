@@ -5,5 +5,4 @@ export interface ISesionState {
   token: string | null;
   setSesion: (sesion: IUsuario) => void;
   setToken: (token: string) => void;
-  closeSesion: () => void;
 }

@@ -1,24 +1,28 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { ISesionState } from "../types/ISesionState";
 import { IUsuario } from "../../types/IUsuario";
 
-export const useSesionStore = create<ISesionState>((set) => ({
-  sesion: null,
-  token: localStorage.getItem("token"),
+export const useSesionStore = create<ISesionState>()(
+  persist(
+    (set) => ({
+      sesion: null,
+      token: null,
 
-  setSesion: (sesion: IUsuario) => {
-    set({ sesion });
-    localStorage.setItem("usuarioActivo", JSON.stringify(sesion));
-  },
+      setSesion: (sesion: IUsuario) => {
+        set({ sesion });
+      },
 
-  setToken: (token: string) => {
-    set({ token });
-    localStorage.setItem("token", token);
-  },
-
-  closeSesion: () => {
-    localStorage.removeItem("usuarioActivo");
-    localStorage.removeItem("token");
-    set({ sesion: null, token: null });
-  },
-}));
+      setToken: (token: string) => {
+        set({ token });
+      },
+    }),
+    {
+      name: "sesion_thrill",
+      partialize: (state) => ({
+        sesion: state.sesion,
+        token: state.token
+      }),
+    }
+  )
+);
