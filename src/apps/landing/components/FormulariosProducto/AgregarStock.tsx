@@ -1,8 +1,17 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import styles from "../../styles/FormProducto/AgregarStock.module.css";
+import { agregarStock } from "../../../../services/productotalleService";
 
-export const AgregarStock = () => {
+interface AgregarStockProps {
+  productoId: number;
+  onStockAgregado?: () => void;
+}
+
+export const AgregarStock: React.FC<AgregarStockProps> = ({
+  productoId,
+  onStockAgregado,
+}) => {
   const formik = useFormik({
     initialValues: {
       talle: "Promocion",
@@ -20,8 +29,16 @@ export const AgregarStock = () => {
         .positive("Debe ser mayor que cero")
         .required("Stock requerido"),
     }),
-    onSubmit: (values) => {
-      console.log("Valores enviados:", values);
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await agregarStock(productoId, values.talle, parseInt(values.stock.toString()));
+        alert("Stock agregado correctamente");
+        resetForm();
+        if (onStockAgregado) onStockAgregado();
+      } catch (error) {
+        console.error("Error al agregar stock:", error);
+        alert("Error al agregar stock");
+      }
     },
   });
 
