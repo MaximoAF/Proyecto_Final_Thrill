@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { ISesionState } from "../types/ISesionState";
 import { IUsuario } from "../../types/IUsuario";
 
-export const UsuarioStore = create<ISesionState>((set) => ({
+export const useSesionStore = create<ISesionState>((set) => ({
   sesion: null,
   token: localStorage.getItem("token"),
 

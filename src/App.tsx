@@ -10,10 +10,10 @@ import { DashboardAdmin } from "./apps/landing/components/DashboardAdmin";
 import { EditarProducto } from "./apps/landing/components/ProductosAdmin";
 import { CategoriasAdmin } from "./apps/landing/components/CategoriasAdmin";
 import { useEffect } from "react";
-import { UsuarioStore } from "./store/slices/SesionStore";
+import { useSesionStore } from "./store/slices/SesionStore";
 
 export const App = () => {
-  const setSesion = UsuarioStore((state) => state.setSesion);
+  const setSesion = useSesionStore((state) => state.setSesion);
 
   useEffect(() => {
     const usuarioGuardado = localStorage.getItem("usuarioActivo");
@@ -28,12 +28,12 @@ export const App = () => {
       <Route path="/ingreso" element={<Ingreso />} />
       <Route path="/carrito" element={<Cart />} />
       <Route path="*" element={<ErrorPage />} />
-      <Route path="/p/:productId" element={<Producto />} />
-      <Route path="/c/:categoriaName" element={<Categoria />} />
-      <Route path="/admin" element={<Admin />} />
-      <Route path="/dashboard-admin" element={<DashboardAdmin />} />
-      <Route path="/admin/producto" element={<EditarProducto />} />
-      <Route path="/admin/categorias" element={<CategoriasAdmin />} />
+      <Route path="/p/:productId" element={<Producto/>}/>
+      <Route path="/c/:categoriaName" element={<Categoria/>}/>
+      <Route path="/admin" element={<Admin/>}/>
+      <Route path="/admin/dashboard" element={<DashboardAdmin />} />
+      <Route path="/admin/producto" element={<EditarProducto />}/>
+      <Route path="/admin/categorias" element={<CategoriasAdmin />}/>
     </Routes>
   );
 };

@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import styles from "../../styles/ingreso/modals/Form.module.css";
-import { UsuarioStore } from "../../../../store/slices/UsuarioStore";
+import { useSesionStore } from "../../../../store/slices/SesionStore";
 import { IUsuario } from "../../../../types/IUsuario";
 import * as yup from "yup";
 import axios from "axios";
@@ -30,6 +30,7 @@ const validationSchema = yup.object({
 });
 
 export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
+
   const formik = useFormik<TypeInitialValues>({
     initialValues: {
       nombre: "",
