@@ -1,9 +1,7 @@
 import { ICategoria } from "./ICategoria";
 import { IDescuento } from "./IDescuento";
-import { IDetalleOrden } from "./IDetalleOrden";
 import { IImagen } from "./IImagen";
 import { IProductoTalle } from "./IProductoTalle";
-import { ISubCategoria } from "./ISubCategoria";
 import { ITipo } from "./ITipo";
 
 export interface IProducto {
@@ -15,8 +13,7 @@ export interface IProducto {
   color: string;
   marca: string;
   imagenes: IImagen[];
-  //categoria: ICategoria[];
-  subcategoria: ISubCategoria[] | null;
+  categoria: ICategoria[];
   tipo: ITipo;
   productoTalles: IProductoTalle[];
   descuentos: IDescuento[];

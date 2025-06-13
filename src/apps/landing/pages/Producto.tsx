@@ -60,7 +60,6 @@ export const Producto = () => {
         setSizeError(false);
         setShowAddToCart(true);
       } else {
-        /*
         const newDetalle: IDetalleOrden = {
           id: Date.now() + Math.random(),
           productotalle: selectedSize,
@@ -71,7 +70,7 @@ export const Producto = () => {
           useCarritoStore.getState().setActiveProductoDetalle(newDetalle);
           setSizeError(false);
           setShowAddToCart(true);
-        }*/
+        }
       }
     } else {
       setSizeError(true);
@@ -95,216 +94,239 @@ export const Producto = () => {
       }
 
       setIsLoading(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     };
     fetchProducto();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [productId]);
   return (
     <div>
       {/* Header */}
       <Header />
-
-      {producto ? (
-        <div className={styles.container}>
-          {/* Ruta */}
-          <p style={{ color: "var(--black-60)" }}>
-            <Link to="/" style={{ color: "var(--black-60)" }}>
-              Home{" "}
-            </Link>
-            <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
-            <Link to="/" style={{ color: "var(--black-60)" }}>
-              {producto.tipo.nombre}{" "}
-            </Link>
-            <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
-            <span style={{ color: "var(--black-color)" }}>
-              {producto.nombre}
-            </span>
-          </p>
-          {/* Contenido principal */}
-          <div className={styles.gridProducto}>
-            {producto.imagenes.length > 0 ? (
-              <div className={styles.imgGrid}>
-                <div className={styles.imgsGallery}>
-                  <img src={producto.imagenes[0].url} alt="Imagen" />
-                  <img src={producto.imagenes[0].url} alt="Imagen" />
-                  <img src={producto.imagenes[0].url} alt="Imagen" />
-                </div>
-                <img
-                  className={styles.imgContainer}
-                  src={producto.imagenes[0].url}
-                  alt="Imagen"
-                />
-              </div>
-            ) : (
-              <div className={styles.imgGrid}>
-                <div className={styles.imgsGallery}>
-                  <div className={styles.noImgContainerSide}>
-                    <i className="fa-solid fa-image"></i>
-                  </div>
-                  <div className={styles.noImgContainerSide}>
-                    <i className="fa-solid fa-image"></i>
-                  </div>
-                  <div className={styles.noImgContainerSide}>
-                    <i className="fa-solid fa-image"></i>
-                  </div>
-                </div>
-                <div className={styles.noImgContainer}>
-                  <i className="fa-solid fa-image"></i>
-                </div>
-              </div>
-            )}
-            <div className={styles.productInfo}>
-              <div>
-                <h2>{producto.nombre}</h2>
-                <p className={styles.descripcion}>{producto.descripcion}</p>
-
-                <p className={styles.precio}>${producto.precio}</p>
-              </div>
-              <div className={styles.buttonsContainer}>
-                <div>
-                  <p style={{ color: "var(--black-60)" }}>
-                    Seleccionar el talle
-                  </p>
-                  <div className={styles.containerButton}>
-                    <div
-                      className={`${styles.buttonsSize} ${
-                        sizeError && !selectedSize ? styles.errorSize : ""
-                      }`}
-                    >
-                      {producto.productoTalles.map((prodTalle) => (
-                        <button
-                          key={prodTalle.talle.talle}
-                          onClick={() => handleSelectSize(prodTalle)}
-                          className={
-                            selectedSize === prodTalle ? styles.selected : ""
-                          }
-                        >
-                          {prodTalle.talle.talle}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                {/* Separador */}
-                <div style={{ margin: "0 0" }}>
-                  <div className="separator"></div>
-                </div>
-
-                <div className={styles.buttonsAction}>
-                  <div className={styles.cuantity}>
-                    <div
-                      className={cantidad > 1 ? "i-btn" : "i-btn-disable"}
-                      onClick={() => handleMinus()}
-                    >
-                      <i className="fa-solid fa-minus"></i>
-                    </div>
-                    <p>
-                      <b>{cantidad}</b>
-                    </p>
-                    <div
-                      className={
-                        cantidad < productoStock ? "i-btn" : "i-btn-disable"
-                      }
-                      onClick={() => handleAdd()}
-                    >
-                      <i className="fa-solid fa-plus"></i>
-                    </div>
-                  </div>
-                  <button
-                    style={{ flexGrow: "1" }}
-                    className="button-black"
-                    onClick={() => addToCart()}
-                  >
-                    Agregar al carrito
-                  </button>
-                </div>
-              </div>
+      <div>
+        {isLoading ? (
+          <div className={styles.errorContainer}>
+            {/* Loading */}
+            <div>
+              <img src={loadingIcon} alt="loading..." />
             </div>
           </div>
-          {/* Mensaje de agregado al carrito */}
-          <AnimatePresence>
-            {showAdedToCart &&
-              activeDetalle &&
-              useCarritoStore.getState().activeProductoDetalle && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ type: "keyframes", stiffness: 300 }}
-                  className="overlay"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ type: "keyframes", stiffness: 300 }}
-                    className={styles.addedToCart}
-                  >
-                    <div
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <p style={{ fontSize: "1.5rem" }}>
-                        <b>Carrito</b>
-                      </p>
+        ) : producto ? (
+          <>
+            <div className={styles.container}>
+              {/* Ruta */}
+              <p style={{ color: "var(--black-60)" }}>
+                <Link to="/" style={{ color: "var(--black-60)" }}>
+                  Home{" "}
+                </Link>
+                {producto.tipo && (
+                  <>
+                    <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
+                    <Link to="/" style={{ color: "var(--black-60)" }}>
+                      {producto.tipo.nombre}{" "}
+                    </Link>
+                  </>
+                )}
+                <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
+                <span style={{ color: "var(--black-color)" }}>
+                  {producto.nombre}
+                </span>
+              </p>
+              {/* Contenido principal */}
+              <div className={styles.gridProducto}>
+                {/* Imagenes */}
+                <div className={styles.imgGrid}>
+                  <div className={styles.imgsGallery}>
+                    {producto.imagenes.length > 0 ? (
+                      <img src={producto.imagenes[0].url} alt="Imagen" />
+                    ) : (
+                      <div className={styles.noImgContainerSide}>
+                        <i className="fa-solid fa-image"></i>
+                      </div>
+                    )}
+                    {producto.imagenes.length > 1 ? (
+                      <img src={producto.imagenes[1].url} alt="Imagen" />
+                    ) : (
+                      <div className={styles.noImgContainerSide}>
+                        <i className="fa-solid fa-image"></i>
+                      </div>
+                    )}
+                    {producto.imagenes.length > 2 ? (
+                      <img src={producto.imagenes[2].url} alt="Imagen" />
+                    ) : (
+                      <div className={styles.noImgContainerSide}>
+                        <i className="fa-solid fa-image"></i>
+                      </div>
+                    )}
+                  </div>
+                  {producto.imagenes.length > 0 ? (
+                    <img
+                      className={styles.imgContainer}
+                      src={producto.imagenes[0].url}
+                      alt="Imagen"
+                    />
+                  ) : (
+                    <div className={styles.noImgContainer}>
+                      <i className="fa-solid fa-image"></i>
+                    </div>
+                  )}
+                </div>
 
-                      <button
-                        className="i-btn"
-                        onClick={() => {
-                          setShowAddToCart(false);
-                          window.scrollTo({ top: 0, behavior: "smooth" });
-                        }}
-                      >
-                        <i className="fa-solid fa-x fa-lg"></i>
-                      </button>
+                {/* Info */}
+                <div className={styles.productInfo}>
+                  <div>
+                    <h2>{producto.nombre}</h2>
+                    <p className={styles.descripcion}>{producto.descripcion}</p>
+
+                    <p className={styles.precio}>${producto.precio}</p>
+                  </div>
+                  <div className={styles.buttonsContainer}>
+                    <div>
+                      <p style={{ color: "var(--black-60)" }}>
+                        Seleccionar el talle
+                      </p>
+                      <div className={styles.containerButton}>
+                        <div
+                          className={`${styles.buttonsSize} ${
+                            sizeError && !selectedSize ? styles.errorSize : ""
+                          }`}
+                        >
+                          {producto.productoTalles
+                            .sort((a, b) =>
+                              a.talle.talle.localeCompare(
+                                b.talle.talle,
+                                undefined,
+                                { numeric: true }
+                              )
+                            )
+                            .map((prodTalle) => (
+                              <button
+                                key={prodTalle.talle.talle}
+                                onClick={() => handleSelectSize(prodTalle)}
+                                className={
+                                  selectedSize === prodTalle
+                                    ? styles.selected
+                                    : ""
+                                }
+                              >
+                                {prodTalle.talle.talle}
+                              </button>
+                            ))}
+                        </div>
+                      </div>
                     </div>
                     {/* Separador */}
-                    <div className="separator"></div>
-                    <ProductCartView detalleOrden={activeDetalle} />
-                    <div style={{ display: "flex", gap: "1rem" }}>
+                    <div style={{ margin: "0 0" }}>
+                      <div className="separator"></div>
+                    </div>
+
+                    <div className={styles.buttonsAction}>
+                      <div className={styles.cuantity}>
+                        <div
+                          className={cantidad > 1 ? "i-btn" : "i-btn-disable"}
+                          onClick={() => handleMinus()}
+                        >
+                          <i className="fa-solid fa-minus"></i>
+                        </div>
+                        <p>
+                          <b>{cantidad}</b>
+                        </p>
+                        <div
+                          className={
+                            cantidad < productoStock ? "i-btn" : "i-btn-disable"
+                          }
+                          onClick={() => handleAdd()}
+                        >
+                          <i className="fa-solid fa-plus"></i>
+                        </div>
+                      </div>
                       <button
-                        style={{ marginTop: "3rem", flexGrow: "1" }}
+                        style={{ flexGrow: "1" }}
                         className="button-black"
-                        onClick={() => navigate("/carrito")}
+                        onClick={() => addToCart()}
                       >
-                        Ir al carrito
+                        Agregar al carrito
                       </button>
                     </div>
-                  </motion.div>
-                </motion.div>
-              )}
-          </AnimatePresence>
-        </div>
-      ) : (
-        <div>
-          {isLoading ? (
-            <div className={styles.errorContainer}>
-              <div>
-                <img src={loadingIcon} alt="loading..." />  
+                  </div>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className={styles.errorContainer}>
-              <div style={{ textAlign: "center" }}>
-                <h2>Producto no encontrado</h2>
-                <p>Lo sentimos, el producto que buscas no existe.</p>
-              </div>
+              {/* Mensaje de agregado al carrito */}
+              <AnimatePresence>
+                {showAdedToCart &&
+                  activeDetalle &&
+                  useCarritoStore.getState().activeProductoDetalle && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ type: "keyframes", stiffness: 300 }}
+                      className="overlay"
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ type: "keyframes", stiffness: 300 }}
+                        className={styles.addedToCart}
+                      >
+                        <div
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <p style={{ fontSize: "1.5rem" }}>
+                            <b>Carrito</b>
+                          </p>
 
-              <button
-                className="button-black"
-                onClick={() => window.history.back()}
-              >
-                Volver a la tienda
-              </button>
+                          <button
+                            className="i-btn"
+                            onClick={() => {
+                              setShowAddToCart(false);
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            }}
+                          >
+                            <i className="fa-solid fa-x fa-lg"></i>
+                          </button>
+                        </div>
+                        {/* Separador */}
+                        <div className="separator"></div>
+                        <ProductCartView detalleOrden={activeDetalle} />
+                        <div style={{ display: "flex", gap: "1rem" }}>
+                          <button
+                            style={{ marginTop: "3rem", flexGrow: "1" }}
+                            className="button-black"
+                            onClick={() => navigate("/carrito")}
+                          >
+                            Ir al carrito
+                          </button>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  )}
+              </AnimatePresence>
             </div>
-          )}
-          {/* Error Producto */}
-        </div>
-      )}
+          </>
+        ) : (
+          <div className={styles.errorContainer}>
+            {/* Error producto */}
+            <div style={{ textAlign: "center" }}>
+              <h2>Producto no encontrado</h2>
+              <p>Lo sentimos, el producto que buscas no existe.</p>
+            </div>
+
+            <button
+              className="button-black"
+              onClick={() => window.history.back()}
+            >
+              Volver a la tienda
+            </button>
+          </div>
+        )}
+      </div>
+
       {/* Separador */}
       <div style={{ margin: "5rem 0" }}>
         <div className="separator"></div>

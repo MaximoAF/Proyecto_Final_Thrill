@@ -43,7 +43,9 @@
 }
 .input {
   display: flex;
+  align-items: center;
   gap: 1rem;
+  height: 3rem;
 
   background-color: var(--palet-color-1);
   border-radius: 1.5rem;
@@ -72,7 +74,7 @@
   background-color: var(--palet-color-1);
   color: var(--black-color);
 }
-input {
+.input input {
   flex-grow: 1;
   height: 2rem;
   background: none;

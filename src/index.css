@@ -61,10 +61,12 @@ button {
   transition: all 0.2s;
   border: none;
   background: none;
-  cursor: pointer;
 }
 button:hover {
   transform: scale(1.05);
+  transition: all 0.2s;
+  background: none;
+  cursor: pointer;
 }
 select {
   border: none;
@@ -164,6 +166,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .i-btn:hover {
   transform: scale(1.2);
+  background-color: transparent;
 }
 .i-btn-disable {
   color: var(--black-40);

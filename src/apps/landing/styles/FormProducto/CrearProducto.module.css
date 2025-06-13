@@ -30,7 +30,7 @@
   margin-bottom: 1rem;
 }
 
-input {
+.input input {
   flex-grow: 1;
   background-color: var(--palet-color-1);
   border: 1px solid black;
@@ -82,7 +82,7 @@ input {
   opacity: 0.85;
 }
 
-select{  
+.container select{  
   display: flex;
   background-color: var(--palet-color-1);
   height: 3rem;
