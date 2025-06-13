@@ -53,11 +53,11 @@ export const EditarProducto = () => {
     const fetchDatosParaFormulario = async () => {
       try {
         const resCategorias = await axios.get(
-          "http://localhost:8080/api/categorias"
+          "https://api-thrill-production.up.railway.app/api/categorias"
         );
         setCategorias(resCategorias.data);
 
-        const resTipos = await axios.get("http://localhost:8080/api/tipos");
+        const resTipos = await axios.get("https://api-thrill-production.up.railway.app/api/tipos");
         setTipos(resTipos.data);
       } catch (error) {
         console.error("Error al cargar datos para el formulario:", error);

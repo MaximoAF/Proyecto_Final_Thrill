@@ -28,12 +28,13 @@ export const App = () => {
       <Route path="/ingreso" element={<Ingreso />} />
       <Route path="/carrito" element={<Cart />} />
       <Route path="*" element={<ErrorPage />} />
-      <Route path="/p/:productId" element={<Producto/>}/>
-      <Route path="/c/:categoriaName" element={<Categoria/>}/>
-      <Route path="/admin" element={<Admin/>}/>
+      <Route path="/p/:productId" element={<Producto />} />
+      <Route path="/c/:categoriaName" element={<Categoria />} />
+      <Route path="/admin" element={<Admin />} />
       <Route path="/admin/dashboard" element={<DashboardAdmin />} />
-      <Route path="/admin/producto" element={<EditarProducto />}/>
-      <Route path="/admin/categorias" element={<CategoriasAdmin />}/>
+      <Route path="/admin/producto" element={<EditarProducto />} />
+      <Route path="/admin/categorias" element={<CategoriasAdmin />} />
+
     </Routes>
   );
 };
