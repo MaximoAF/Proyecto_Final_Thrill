@@ -8,7 +8,9 @@ export const Aside = () => {
   return (
     <div className={styles.container}>
       <div className={styles.imgContainer}>
+        <button onClick={()=>navigate('/')}>
           <img className={styles.imgLogo} src={ThrillLogoWhite} alt="Thrill" />
+        </button>
         </div>
         <div className={styles.buttonContainers}>
             <button onClick={()=>navigate('/admin/dashboard')}><i className="fa-solid fa-chart-simple"></i> Dashboard</button>

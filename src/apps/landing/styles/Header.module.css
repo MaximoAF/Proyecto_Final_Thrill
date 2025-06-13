@@ -49,6 +49,9 @@
   background: none;
   border: none;
 }
+.button:hover{
+  background: none;
+}
 .buscador{
   display: flex;
   align-items: center;
@@ -71,4 +74,7 @@
 .icons{
   display: flex;
   gap: 1rem;
+}
+button:hover{
+  background-color: transparent;
 }

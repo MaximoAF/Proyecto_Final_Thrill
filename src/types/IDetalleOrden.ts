@@ -7,3 +7,5 @@ export interface IDetalleOrden {
   precio: number;
   productotalle: IProductoTalle;
 }
+
+export type ICrearDetalleOrden = Omit<IDetalleOrden, "id" | "eliminado">;

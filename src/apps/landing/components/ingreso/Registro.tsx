@@ -28,6 +28,7 @@ const validationSchema = yup.object({
 });
 
 export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
+
   const formik = useFormik<TypeInitialValues>({
     initialValues: {
       nombre: "",

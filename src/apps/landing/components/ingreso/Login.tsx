@@ -2,9 +2,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { UsuarioStore } from "../../../../store/slices/SesionStore";
 import styles from "../../styles/ingreso/modals/Form.module.css";
 import { login } from "../../../../services/usuarioService";
+
 
 interface LoginProps {
   toggleForm: () => void;
@@ -13,7 +13,7 @@ interface LoginProps {
 export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
-  const setToken = UsuarioStore((state) => state.setToken);
+  const setToken = useSesionStore((state) => state.setToken);
 
   const formik = useFormik({
     initialValues: {

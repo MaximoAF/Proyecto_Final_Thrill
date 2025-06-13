@@ -67,7 +67,7 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
             >
               <div className={styles.imgContainer}>
                 {prod.imagenes.length > 0 ? (
-                  <img src={prod.imagenes[0]?.url} alt="imagen" />
+                  <img src={prod.imagenes[0].url} alt="imagen" />
                 ) : (
                   <i className="fa-solid fa-image"></i>
                 )}

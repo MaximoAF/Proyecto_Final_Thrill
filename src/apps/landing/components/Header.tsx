@@ -1,4 +1,4 @@
-import styles from "../styles/Header.module.css";
+import styles from "../styles/Header.module.css"
 import thrillLogoBlack from "../../../assets/svg/thrill_logo-dark.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";

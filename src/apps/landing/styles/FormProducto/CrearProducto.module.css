@@ -22,7 +22,7 @@
   margin-bottom: 0.5rem;
 }
 
-input {
+.input input {
   flex-grow: 1;
   background-color: var(--palet-color-1);
   border: 1px solid black;
@@ -96,7 +96,11 @@ input {
   object-fit: cover;
 }
 
-select {
+.imageUpload:hover .previewImage {
+  opacity: 0.85;
+}
+
+.container select{  
   display: flex;
   background-color: var(--palet-color-1);
   height: 3rem;

@@ -34,6 +34,8 @@ input[type="password"]::-ms-clear {
 
 .input {
   display: flex;
+  align-items: center;
+  height: 3rem;
   gap: 1.5rem;
   background-color: var(--palet-color-1);
   border-radius: 1.5rem;
@@ -46,7 +48,7 @@ input[type="password"]::-ms-clear {
   align-items: center;
   color: var(--black-40);
 }
-input {
+ input {
   flex-grow: 1;
   background: none;
   border: none;

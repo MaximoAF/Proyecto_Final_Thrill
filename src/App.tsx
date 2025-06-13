@@ -10,10 +10,10 @@ import { DashboardAdmin } from "./apps/landing/components/DashboardAdmin";
 import { EditarProducto } from "./apps/landing/components/ProductosAdmin";
 import { CategoriasAdmin } from "./apps/landing/components/CategoriasAdmin";
 import { useEffect } from "react";
-import { UsuarioStore } from "./store/slices/SesionStore";
+import { useSesionStore } from "./store/slices/SesionStore";
 
 export const App = () => {
-  const setSesion = UsuarioStore((state) => state.setSesion);
+  const setSesion = useSesionStore((state) => state.setSesion);
 
   useEffect(() => {
     const usuarioGuardado = localStorage.getItem("usuarioActivo");
@@ -34,6 +34,7 @@ export const App = () => {
       <Route path="/admin/dashboard" element={<DashboardAdmin />} />
       <Route path="/admin/producto" element={<EditarProducto />} />
       <Route path="/admin/categorias" element={<CategoriasAdmin />} />
+
     </Routes>
   );
 };
