@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import styles from "../../styles/FormProducto/CrearProducto.module.css";
+import { handleImageUpload } from "./UploadImage";
 
 interface ICategoria {
   id: number;
@@ -66,35 +67,45 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
       imagenes: yup.array().min(1, "Debes subir al menos una imagen"),
     }),
     onSubmit: async (values) => {
-      const formData = new FormData();
-      formData.append("nombre", values.nombre);
-      formData.append("precio", values.precio.toString());
-      formData.append("descripcion", values.descripcion);
-      formData.append("color", values.color);
-      formData.append("marca", values.marca);
-      formData.append("tipoId", values.tipoId);
-      values.categoriaIds.forEach((id) =>
-        formData.append("categoriaIds", id.toString())
-      );
-      values.imagenes.forEach((imagen) =>
-        formData.append("imagenes", imagen)
-      );
-
-      console.log("Formulario a enviar:", [...formData.entries()]);
-
       try {
+        
+        const urls = await handleImageUpload(values.imagenes);
+
+        const datosProducto = {
+          nombre: values.nombre,
+          precio: parseFloat(values.precio.toString()),
+          descripcion: values.descripcion,
+          color: values.color,
+          marca: values.marca,
+          tipoId: parseInt(values.tipoId),
+          categoriaIds: values.categoriaIds,
+          cantidad: 0,
+          imagenes: urls.map((url) => ({ url }))
+        };
+
         const token = localStorage.getItem("token");
-        console.log("Token usado:", token);
-        await axios.post("http://localhost:8080/api/productos", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        if (!token) {
+          alert("No tienes token de autenticación. Debes iniciar sesión.");
+          return;
+        }
+
+        const response = await axios.post(
+          "http://localhost:8080/api/productos",
+          datosProducto,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Producto creado:", response.data);
         if (onSubmitForm) onSubmitForm(values);
         onClose();
       } catch (error) {
         console.error("Error al enviar el producto:", error);
+        alert("Error al enviar el producto. Revisa consola.");
       }
     },
   });
@@ -109,7 +120,9 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
     );
 
     if (archivosValidos.length < archivosArray.length) {
-      alert("Algunas imágenes fueron descartadas por superar el tamaño máximo de 5MB.");
+      alert(
+        "Algunas imágenes fueron descartadas por superar el tamaño máximo de 5MB."
+      );
     }
 
     formik.setFieldTouched("imagenes", true, true);
@@ -117,9 +130,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
       ...formik.values.imagenes,
       ...archivosValidos,
     ]);
-    const nuevasUrls = archivosValidos.map((file) =>
-      URL.createObjectURL(file)
-    );
+    const nuevasUrls = archivosValidos.map((file) => URL.createObjectURL(file));
     setImagenesPreview((prev) => [...prev, ...nuevasUrls]);
   };
 
@@ -272,9 +283,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
         </div>
         {formik.touched.categoriaIds &&
           typeof formik.errors.categoriaIds === "string" && (
-            <small className={styles.error}>
-              {formik.errors.categoriaIds}
-            </small>
+            <small className={styles.error}>{formik.errors.categoriaIds}</small>
           )}
 
         <div className={styles.buttonsContainer}>

@@ -32,7 +32,8 @@ export const EditarProducto = () => {
   const [showForm, setShowForm] = useState(false);
   const [mostrarFormularioEditar, setMostrarFormularioEditar] = useState(false);
   const [mostrarEliminar, setMostrarEliminar] = useState(false);
-  const [productoSeleccionado, setProductoSeleccionado] = useState<IProducto | null>(null);
+  const [productoSeleccionado, setProductoSeleccionado] =
+    useState<IProducto | null>(null);
   const [productosPagina, setProductosPagina] = useState<IProducto[]>([]);
 
   const productosPorPagina = 10;
@@ -51,7 +52,9 @@ export const EditarProducto = () => {
 
     const fetchDatosParaFormulario = async () => {
       try {
-        const resCategorias = await axios.get("http://localhost:8080/api/categorias");
+        const resCategorias = await axios.get(
+          "http://localhost:8080/api/categorias"
+        );
         setCategorias(resCategorias.data);
 
         const resTipos = await axios.get("http://localhost:8080/api/tipos");
@@ -68,10 +71,10 @@ export const EditarProducto = () => {
     setProductosPagina(productos.slice(indiceInicio, indiceFin));
   }, [productos, indiceInicio, indiceFin]);
 
-  // Función para asegurar que productoSeleccionado tenga id definido
-  const productoParaEditar = productoSeleccionado && productoSeleccionado.id !== undefined
-    ? productoSeleccionado
-    : null;
+  const productoParaEditar =
+    productoSeleccionado && productoSeleccionado.id !== undefined
+      ? productoSeleccionado
+      : null;
 
   return (
     <div className="aside-mainContainer">
@@ -92,10 +95,15 @@ export const EditarProducto = () => {
       {mostrarFormularioEditar && productoParaEditar && (
         <div className="overlay">
           <EditarProductoForm
-            producto={productoParaEditar}
-            onCancel={() => setMostrarFormularioEditar(false)}
-            todasLasCategorias={categorias}
-            todosLosTipos={tipos}
+            onClose={() => setMostrarFormularioEditar(false)}
+            producto={productoParaEditar!}
+            categorias={categorias}
+            tipos={tipos}
+            onSubmitForm={(data) => {
+              console.log("Producto editado:", data);
+              setProductoSeleccionado(null);
+              loadProducts();
+            }}
           />
         </div>
       )}
@@ -144,6 +152,10 @@ export const EditarProducto = () => {
                   >
                     Editar
                   </button>
+                  <button 
+                  className="button-black">
+                    Agregar Stock
+                  </button>
                   <button
                     className="button-black"
                     onClick={() => {
@@ -169,17 +181,19 @@ export const EditarProducto = () => {
               <i className="fa-solid fa-arrow-left"></i> Anterior
             </button>
             <div className={styles.buttonsPage}>
-              {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((pagina) => (
-                <button
-                  key={pagina}
-                  onClick={() => setPaginaActual(pagina)}
-                  className={`${styles.pageButton} ${
-                    paginaActual === pagina ? styles.selected : ""
-                  }`}
-                >
-                  {pagina}
-                </button>
-              ))}
+              {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(
+                (pagina) => (
+                  <button
+                    key={pagina}
+                    onClick={() => setPaginaActual(pagina)}
+                    className={`${styles.pageButton} ${
+                      paginaActual === pagina ? styles.selected : ""
+                    }`}
+                  >
+                    {pagina}
+                  </button>
+                )
+              )}
             </div>
             <button
               className={styles.pasarPagina}
