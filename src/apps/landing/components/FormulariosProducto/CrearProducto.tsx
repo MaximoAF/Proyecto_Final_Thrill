@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
 import styles from "../../styles/FormProducto/CrearProducto.module.css";
 import { handleImageUpload } from "./UploadImage";
+import { crearProducto } from "../../../../services/productoService";
 
 interface ICategoria {
   id: number;
@@ -68,7 +68,6 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
     }),
     onSubmit: async (values) => {
       try {
-        
         const urls = await handleImageUpload(values.imagenes);
 
         const datosProducto = {
@@ -80,7 +79,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           tipoId: parseInt(values.tipoId),
           categoriaIds: values.categoriaIds,
           cantidad: 0,
-          imagenes: urls.map((url) => ({ url }))
+          imagenes: urls.map((url) => ({ url })),
         };
 
         const token = localStorage.getItem("token");
@@ -89,17 +88,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           return;
         }
 
-        const response = await axios.post(
-          "http://localhost:8080/api/productos",
-          datosProducto,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
+        const response = await crearProducto(datosProducto, token);
         console.log("Producto creado:", response.data);
         if (onSubmitForm) onSubmitForm(values);
         onClose();

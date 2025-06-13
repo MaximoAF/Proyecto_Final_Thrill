@@ -1,8 +1,7 @@
-import { useProductoStore } from "../../../../store/slices/ProductoStore";
 import styles from "../../styles/FormProducto/EliminarProducto.module.css";
 import { IProducto } from "../../../../types/IProducto";
 import { FC, useState } from "react";
-import axios from "axios";
+import { useEliminarProducto } from "../../../../services/productoService";
 
 interface IDashboardproductProps {
   producto: IProducto;
@@ -13,28 +12,18 @@ export const EliminarProducto: FC<IDashboardproductProps> = ({ producto, onClose
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { eliminarProducto } = useEliminarProducto();
+
   const handleEliminar = async () => {
     setLoading(true);
     setError(null);
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("No autenticado");
-
-      await axios.delete(`http://localhost:8080/api/productos/${producto.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      useProductoStore.getState().removeProducto(producto.id.toString());
-
+    const result = await eliminarProducto(producto.id);
+    if (result.success) {
       onClose();
-    } catch (err: any) {
-      console.error("Error al eliminar producto:", err);
+    } else {
       setError("Error al eliminar el producto. Intenta nuevamente.");
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
