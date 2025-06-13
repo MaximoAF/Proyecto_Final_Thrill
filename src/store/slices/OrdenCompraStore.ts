@@ -20,11 +20,7 @@ export const useOrdenCompraStore = create<IOrdenCompraState>((set) => ({
   },
   updateOrden: (orden) => {
     set((state) => ({
-      ordenes: state.ordenes.map((ord) =>
-        ord.id === orden.id ? orden : ord
-      ),
+      ordenes: state.ordenes.map((ord) => (ord.id === orden.id ? orden : ord)),
     }));
   },
-
- 
 }));

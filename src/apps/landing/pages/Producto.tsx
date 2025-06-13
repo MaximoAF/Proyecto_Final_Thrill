@@ -12,6 +12,7 @@ import { IProducto } from "../../../types/IProducto";
 import { IProductoTalle } from "../../../types/IProductoTalle";
 import { productoService } from "../../../services/productoService";
 import loadingIcon from "../../../assets/Loading_icon.gif";
+import { IDetalleOrden } from "../../../types/IDetalleOrden";
 
 export const Producto = () => {
   const activeDetalle = useCarritoStore((state) => state.activeProductoDetalle);
@@ -64,6 +65,8 @@ export const Producto = () => {
           id: Date.now() + Math.random(),
           productotalle: selectedSize,
           cantidad: cantidad,
+          precio: cantidad * selectedSize.producto.precio,
+          eliminado: false
         };
         if (producto && selectedSize) {
           useCarritoStore.getState().addProductoDetalle(newDetalle);

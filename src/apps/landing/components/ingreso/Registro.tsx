@@ -3,6 +3,7 @@ import styles from "../../styles/ingreso/modals/Form.module.css";
 import { useSesionStore } from "../../../../store/slices/SesionStore";
 import { IUsuario } from "../../../../types/IUsuario";
 import * as yup from "yup";
+import axios from "axios";
 
 interface RegisterProps {
   toggleForm: () => void;
@@ -38,10 +39,21 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
       repeatpassword: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      
-      alert("Usuario registrado con éxito");
-      toggleForm();
+    onSubmit: async (values) => {
+      const nuevoUsuario = {
+        username: values.nombre,
+        email: values.email,
+        password: values.password,
+      };
+
+      try {
+        await axios.post("http://localhost:8080/api/usuarios", nuevoUsuario);
+        alert("Usuario registrado con éxito");
+        toggleForm();
+      } catch (error) {
+        console.error("Error al registrar usuario:", error);
+        alert("Error al registrar el usuario");
+      }
     },
   });
 

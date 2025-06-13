@@ -16,7 +16,6 @@ export const Aside = () => {
             <button onClick={()=>navigate('/admin/dashboard')}><i className="fa-solid fa-chart-simple"></i> Dashboard</button>
             <button onClick={()=>navigate('/admin/producto')}><i className="fa-solid fa-list"></i> Productos</button>
             <button onClick={()=>navigate('/admin/categorias')}><i className="fa-solid fa-layer-group"></i> Categorias</button>
-            <button onClick={()=>navigate('/admin/usuarios')}><i className="fa-solid fa-users"></i> Usuarios</button>
         </div>
         <div>
         <p className={styles.copyrigth} style={{ whiteSpace: "pre-line" }}>

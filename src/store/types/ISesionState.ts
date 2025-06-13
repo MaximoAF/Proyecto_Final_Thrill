@@ -2,7 +2,8 @@ import { IUsuario } from "../../types/IUsuario";
 
 export interface ISesionState {
   sesion: IUsuario | null;
-
-  setSesion: (sesion: IUsuario) => void
-  closeSesion: () => void
+  token: string | null;
+  setSesion: (sesion: IUsuario) => void;
+  setToken: (token: string) => void;
+  closeSesion: () => void;
 }

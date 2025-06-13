@@ -1,7 +1,7 @@
-import { ICategoria } from "./ICategoria";
 import { IDescuento } from "./IDescuento";
 import { IImagen } from "./IImagen";
 import { IProductoTalle } from "./IProductoTalle";
+import { ICategoria } from "./ICategoria";
 import { ITipo } from "./ITipo";
 
 export interface IProducto {
@@ -19,4 +19,4 @@ export interface IProducto {
   descuentos: IDescuento[];
 }
 
-export type ICrearProducto = Omit<IProducto, "id" | "eliminado" | "productoTalle">;
+export type ICrearProducto = Omit<IProducto, "id" | "eliminado" | "productoTalles">;

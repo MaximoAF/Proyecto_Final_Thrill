@@ -15,3 +15,4 @@ export interface IUsuario {
   direcciones: IDireccion[];
   carrito: IDetalleOrden[];
 }
+export type ICrearUsuario = Omit<IUsuario, "id" | "creadoEn" >;

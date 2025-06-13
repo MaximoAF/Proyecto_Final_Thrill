@@ -4,6 +4,7 @@ import * as yup from "yup";
 import axios from "axios";
 import styles from "../../styles/FormProducto/CrearProducto.module.css";
 import { handleImageUpload } from "./UploadImage";
+import { IProducto } from "../../../../types/IProducto";
 
 interface ICategoria {
   id: number;
@@ -15,19 +16,21 @@ interface ITipo {
   nombre: string;
 }
 
-interface ICrearProductoProps {
+interface IEditarProductoProps {
   onClose: () => void;
   categorias: ICategoria[];
+  producto: IProducto;
   tipos: ITipo[];
   onSubmitForm?: (values: any) => void;
 }
 
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
-export const CrearProducto: React.FC<ICrearProductoProps> = ({
+export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
   onClose,
-  categorias,
-  tipos,
+  producto,
+  categorias = [],
+  tipos = [],
   onSubmitForm,
 }) => {
   const [imagenesPreview, setImagenesPreview] = useState<string[]>([]);
@@ -39,15 +42,16 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
   }, [imagenesPreview]);
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      nombre: "",
-      precio: "",
-      descripcion: "",
-      color: "",
-      marca: "",
-      categoriaIds: [] as number[],
-      tipoId: "",
-      imagenes: [] as File[],
+      nombre: producto.nombre || "",
+      precio: producto.precio || "",
+      descripcion: producto.descripcion || "",
+      color: producto.color || "",
+      marca: producto.marca || "",
+      categoriaIds: producto.categoria?.map((cat) => cat.id) || [],
+      tipoId: producto.tipo?.id?.toString() || "",
+      imagenes: [],
     },
     validationSchema: yup.object({
       nombre: yup.string().required("Nombre es requerido"),
@@ -61,6 +65,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
       marca: yup.string().required("Marca es requerida"),
       categoriaIds: yup
         .array()
+        .of(yup.number())
         .min(1, "Debes seleccionar al menos una categoría")
         .required("Categoría es requerida"),
       tipoId: yup.string().required("Tipo es requerido"),
@@ -68,10 +73,10 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
     }),
     onSubmit: async (values) => {
       try {
-        
         const urls = await handleImageUpload(values.imagenes);
 
         const datosProducto = {
+          id: producto.id,
           nombre: values.nombre,
           precio: parseFloat(values.precio.toString()),
           descripcion: values.descripcion,
@@ -80,7 +85,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           tipoId: parseInt(values.tipoId),
           categoriaIds: values.categoriaIds,
           cantidad: 0,
-          imagenes: urls.map((url) => ({ url }))
+          imagenes: urls.map((url) => ({ url })),
         };
 
         const token = localStorage.getItem("token");
@@ -89,8 +94,8 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           return;
         }
 
-        const response = await axios.post(
-          "http://localhost:8080/api/productos",
+        const response = await axios.put(
+          `http://localhost:8080/api/productos/${producto.id}`,
           datosProducto,
           {
             headers: {
@@ -125,13 +130,13 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
       );
     }
 
-    formik.setFieldTouched("imagenes", true, true);
+    const nuevasUrls = archivosValidos.map((file) => URL.createObjectURL(file));
+    setImagenesPreview((prev) => [...prev, ...nuevasUrls]);
     formik.setFieldValue("imagenes", [
       ...formik.values.imagenes,
       ...archivosValidos,
     ]);
-    const nuevasUrls = archivosValidos.map((file) => URL.createObjectURL(file));
-    setImagenesPreview((prev) => [...prev, ...nuevasUrls]);
+    formik.setFieldTouched("imagenes", true);
   };
 
   const imagenPrincipal =
@@ -140,6 +145,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
       : null;
   const imagenesSecundarias = imagenesPreview.slice(0, -1);
 
+  // Reordenar imágenes para que la clickeada sea la principal
   const handleSetAsPrincipal = (urlClickeada: string) => {
     setImagenesPreview((prev) => {
       const nuevoOrden = prev.filter((url) => url !== urlClickeada);
@@ -172,7 +178,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
             ) : (
               <i
                 className={`fa-solid fa-arrow-up-from-bracket ${styles.uploadIcon}`}
-              ></i>
+              />
             )}
           </label>
           <div className={styles.thumbnailsContainer}>
@@ -183,6 +189,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
                 alt="Miniatura"
                 className={styles.thumbnailImage}
                 onClick={() => handleSetAsPrincipal(url)}
+                style={{ cursor: "pointer" }}
               />
             ))}
           </div>
@@ -241,11 +248,12 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           <option value="" disabled>
             Selecciona un tipo
           </option>
-          {tipos.map((tipo) => (
-            <option key={tipo.id} value={tipo.id}>
-              {tipo.nombre}
-            </option>
-          ))}
+          {Array.isArray(tipos) &&
+            tipos.map((tipo) => (
+              <option key={tipo.id} value={tipo.id}>
+                {tipo.nombre}
+              </option>
+            ))}
         </select>
         {formik.touched.tipoId && formik.errors.tipoId && (
           <small className={styles.error}>{formik.errors.tipoId}</small>
