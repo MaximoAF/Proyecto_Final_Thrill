@@ -3,29 +3,20 @@ import { Header } from "../components/Header";
 import styles from "../styles/Cart.module.css";
 import { ProductCart } from "../components/cart/ProductCart";
 import { useCarritoStore } from "../../../store/slices/CarritoStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
   const navigate = useNavigate();
   const detalles = useCarritoStore((state) => state.detallesProducto);
-  const [codigoPromocional, setCodigoPromocional] = useState<string>("");
-  const [discount, setDiscount] = useState<number>(0.0);
   const total = detalles.reduce(
-    (sum, detalle) =>
-      sum + detalle.productotalle.producto.precio * detalle.cantidad,
+    (sum, detalle) => sum + detalle.productotalle.producto.precio * detalle.cantidad,
     0
   );
-  const [envioPrice, setEnvioPrecio] = useState<number>(7500);
+  const discount = 0.1;
+  const envioPrice = 7500;
   const sumTotal = total - Math.round(total * discount) + envioPrice;
-
-  const handleCodigoPromocional = (codigo: string) => {
-    if (codigo === "TryFreeMP") {
-      setDiscount(1);
-      setEnvioPrecio(0)
-    }
-  };
 
   useEffect(() => {
     document.title = "Tu carrito - Thrill";
@@ -126,19 +117,9 @@ export const Cart = () => {
                   <div className={styles.tagContainer}>
                     <i className="fa-solid fa-tag"></i>
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Codigo promocional"
-                    value={codigoPromocional}
-                    onChange={(e) => setCodigoPromocional(e.target.value)}
-                  />
+                  <input type="text" placeholder="Codigo promocional" />
                 </div>
-                <button
-                  className="button-black"
-                  onClick={() => handleCodigoPromocional(codigoPromocional)}
-                >
-                  Aplicar
-                </button>
+                <button className="button-black">Aplicar</button>
               </div>
               {/* Button de compra */}
               <div>

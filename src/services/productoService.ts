@@ -62,26 +62,4 @@ export const actualizarProducto = async (
     throw error;
   }
 };
-// Agregar Stock
-export const agregarStock = async (
-  productoId: number | string,
-  talle: string,
-  stock: number
-) => {
-  const token = localStorage.getItem("token");
-  if (!token) throw new Error("No autenticado");
 
-  return axios.put(
-    `https://api-thrill-production.up.railway.app/api/productos/${productoId}/stock`,
-    {
-      talle,
-      stock,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-};

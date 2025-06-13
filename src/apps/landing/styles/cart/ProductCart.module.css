@@ -55,18 +55,3 @@
   border-radius: 1.5rem;
   background-color: var(--palet-color-1);
 }
-.noImgContainer{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1.2rem;
-  background-color: var(--palet-color-1);
-  aspect-ratio: 1 / 1; /* cuadrado adaptable */
-  font-size: 3rem;
-}
-.noStock{
-  position: absolute;
-  color: var(--red-color);
-  right: 10%;
-  top: 53%;
-}

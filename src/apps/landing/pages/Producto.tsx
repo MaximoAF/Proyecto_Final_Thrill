@@ -17,9 +17,6 @@ import { IDetalleOrden } from "../../../types/IDetalleOrden";
 export const Producto = () => {
   const activeDetalle = useCarritoStore((state) => state.activeProductoDetalle);
   const productos = useProductoStore((state) => state.productos);
-  const setActiveProductoDetalle = useCarritoStore(state => state.setActiveProductoDetalle);
-  const addCantidad = useCarritoStore(state => state.addCantidad);
-
   const productId = useParams().productId || "";
   const navigate = useNavigate();
 
@@ -27,7 +24,7 @@ export const Producto = () => {
   const [selectedSize, setSelectedSize] = useState<IProductoTalle | null>(null);
   const [sizeError, setSizeError] = useState<boolean>(false);
   const [cantidad, setCantidad] = useState<number>(1);
-  const [showAddToCart, setShowAddToCart] = useState<boolean>(false);
+  const [showAdedToCart, setShowAddToCart] = useState<boolean>(false);
   const [productoStock, setProductoStock] = useState<number>(0);
   const [producto, setProducto] = useState<IProducto | null>(null);
 
@@ -46,7 +43,7 @@ export const Producto = () => {
   };
 
   const addToCart = () => {
-    if (selectedSize && producto) {
+    if (selectedSize) {
       // Verificamos si el producto ya esta en el carrito
       const isInCart = useCarritoStore
         .getState()
@@ -54,24 +51,26 @@ export const Producto = () => {
           (detalle) => detalle.productotalle.id === selectedSize.id
         );
       if (isInCart) {
-        addCantidad(isInCart.id.toString(), cantidad);
+        useCarritoStore
+          .getState()
+          .addCantidad(isInCart.id.toString(), cantidad);
         const result = useCarritoStore
-        .getState()
-        .getDetalleById(isInCart.id.toString());
-        result && setActiveProductoDetalle(result);
+          .getState()
+          .getDetalleById(isInCart.id.toString());
+        result && useCarritoStore.getState().setActiveProductoDetalle(result);
         setSizeError(false);
         setShowAddToCart(true);
       } else {
         const newDetalle: IDetalleOrden = {
           id: Date.now() + Math.random(),
-          productotalle: {...selectedSize, producto},
+          productotalle: selectedSize,
           cantidad: cantidad,
-          precio: cantidad * producto.precio,
+          precio: cantidad * selectedSize.producto.precio,
           eliminado: false
         };
         if (producto && selectedSize) {
           useCarritoStore.getState().addProductoDetalle(newDetalle);
-          setActiveProductoDetalle(newDetalle);
+          useCarritoStore.getState().setActiveProductoDetalle(newDetalle);
           setSizeError(false);
           setShowAddToCart(true);
         }
@@ -256,7 +255,7 @@ export const Producto = () => {
               </div>
               {/* Mensaje de agregado al carrito */}
               <AnimatePresence>
-                {showAddToCart &&
+                {showAdedToCart &&
                   activeDetalle &&
                   useCarritoStore.getState().activeProductoDetalle && (
                     <motion.div
