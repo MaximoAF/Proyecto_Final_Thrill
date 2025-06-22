@@ -30,10 +30,12 @@ export const Categoria = () => {
   const [maxPrice, setMaxPrice] = useState<number>(0);
 
   const handleShowCategorias = () => {
-    if (categorias === categoriasFiltered) {
-      setCategoriasFiltered(categorias.slice(0, 5));
-    } else {
-      setCategoriasFiltered(categorias);
+    if (categoria){
+      if (categorias === categoriasFiltered) {
+        setCategoriasFiltered(categorias.slice(0, 5));
+      } else {
+        setCategoriasFiltered(categorias);
+      }
     }
   };
 
@@ -41,6 +43,9 @@ export const Categoria = () => {
     document.title = `${categoria?.nombre || "Error"} - Thrill`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+  useEffect(() => {
+    setCategoriasFiltered(categorias.slice(0, 5))
+  }, [categorias]);
   return (
     <>
       {categoria ? (

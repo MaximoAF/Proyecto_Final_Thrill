@@ -65,7 +65,7 @@ export const Producto = () => {
           id: Date.now() + Math.random(),
           productotalle: selectedSize,
           cantidad: cantidad,
-          precio: cantidad * selectedSize.producto.precio,
+          precio: 0,
           eliminado: false
         };
         if (producto && selectedSize) {

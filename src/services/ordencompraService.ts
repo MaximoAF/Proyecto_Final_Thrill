@@ -8,14 +8,17 @@ interface OrdenPayload {
   usuario: { id: number };
   direccion: { id: number };
   detalles: {
-    id: number;
     productoTalle: { id: number };
     cantidad: number;
     precio: number;
   }[];
 }
+interface RespuestaPago {
+  orden: IOrdenCompra;             // podés tipar mejor si tenés la interface de Orden
+  init_point: string;
+}
 
-export const crearPago = async (orden: OrdenPayload) => {
+export const crearPago = async (orden: OrdenPayload): Promise<RespuestaPago> => {
   try {
     const res = await api.post("/pagos/crear", orden);
     return res.data; // contiene { orden, init_point }
