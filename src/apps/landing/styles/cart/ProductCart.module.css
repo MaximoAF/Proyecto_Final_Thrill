@@ -13,12 +13,14 @@
   padding: .5rem 0;
 }
 .imgContainer{
-  width: 8rem;
+  width: 10rem;
+  height: 10rem;
   border-radius: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--palet-color-1);
+  font-size: 3rem;
 }
 
 /* Values */

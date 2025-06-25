@@ -1,10 +1,11 @@
 import axios from 'axios';
+import { useSesionStore } from '../store/slices/SesionStore';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-// Middleware para agregar el token a cada request
+// Interceptor para agregar token
 api.interceptors.request.use(config => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -12,5 +13,18 @@ api.interceptors.request.use(config => {
   }
   return config;
 });
+
+// Interceptor para manejar token vencido
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response) {
+      localStorage.removeItem("token");
+      useSesionStore((state)=> state.closeSesion)
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
 import { ErrorPage } from "./ErrorPage";
 import styles from "../styles/Categoria.module.css";
+import loadingIcon from "../../../assets/Loading_icon.gif";
 import { AnimatePresence, motion } from "framer-motion";
 import { useProductoStore } from "../../../store/slices/ProductoStore";
 import { useTalleStore } from "../../../store/slices/TalleStore";
@@ -12,15 +13,14 @@ import { ICategoria } from "../../../types/ICategoria";
 
 export const Categoria = () => {
   const categoriaName = useParams().categoriaName || "";
-  const categoria = useCategoriaStore
-    .getState()
-    .getCategoriaByName(categoriaName);
   const categorias = useCategoriaStore((state) => state.categorias);
   const productos = useProductoStore((state) => state.productos);
   const talles = useTalleStore((state) => state.talles);
 
   const navigate = useNavigate();
 
+  const [categoria, setCategoria] = useState<ICategoria | null>(null);
+  const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [categoriasFiltered, setCategoriasFiltered] = useState<ICategoria[]>(
     categorias.slice(0, 5)
   );
@@ -30,7 +30,7 @@ export const Categoria = () => {
   const [maxPrice, setMaxPrice] = useState<number>(0);
 
   const handleShowCategorias = () => {
-    if (categoria){
+    if (categoria) {
       if (categorias === categoriasFiltered) {
         setCategoriasFiltered(categorias.slice(0, 5));
       } else {
@@ -40,15 +40,30 @@ export const Categoria = () => {
   };
 
   useEffect(() => {
-    document.title = `${categoria?.nombre || "Error"} - Thrill`;
+    const fetchCategoria = async () => {
+      await useCategoriaStore.getState().loadCategoria();
+      await useProductoStore.getState().loadProducts();
+      const res = useCategoriaStore
+        .getState()
+        .getCategoriaByName(categoriaName);
+      if (res) {
+        setCategoria(res);
+        document.title = `${res.nombre} - Thrill`;
+      } else {
+        setCategoria(null);
+        document.title = `Categoria no encontrada - Thrill`;
+      }
+      setIsLoadingPage(false);
+    };
+    fetchCategoria();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   useEffect(() => {
-    setCategoriasFiltered(categorias.slice(0, 5))
+    setCategoriasFiltered(categorias.slice(0, 5));
   }, [categorias]);
   return (
     <>
-      {categoria ? (
+      {isLoadingPage || categoria ? (
         <div>
           <Header />
           <div className={styles.container}>
@@ -75,22 +90,47 @@ export const Categoria = () => {
                   </div>
                   <div className="separator"></div>
                   <div className={styles.tipos}>
-                    <AnimatePresence>
-                      {categoriasFiltered.map((cat) => (
-                        <motion.div
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          whileHover={{ scale: 1.03 }}
-                          transition={{ type: "spring" }}
-                          className="flex-between"
-                          style={{ cursor: "pointer" }}
-                          onClick={()=>navigate(`/c/${cat.nombre}`)}
-                        >
-                          <p>{cat.nombre}</p>
-                          <i className="fa-solid fa-chevron-right"></i>
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
+                    <div>
+                      <AnimatePresence>
+                        {isLoadingPage ? (
+                          <motion.div>
+                            <img src={loadingIcon} alt="loading..." />
+                          </motion.div>
+                        ) : (
+                          categoriasFiltered.map((cat) => (
+                            <motion.div
+                              key={cat.id}
+                              initial={{
+                                marginBottom: 0,
+                                height: 0,
+                                opacity: 0,
+                                x: -20,
+                              }}
+                              exit={{
+                                marginBottom: 0,
+                                height: 0,
+                                opacity: 0,
+                                x: 20,
+                              }}
+                              animate={{
+                                marginBottom: "1.5rem",
+                                height: "auto",
+                                opacity: 1,
+                                x: 0,
+                              }}
+                              whileHover={{ scale: 1.05 }}
+                              transition={{ type: "spring" }}
+                              className="flex-between"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => navigate(`/c/${cat.nombre}`)}
+                            >
+                              <p>{cat.nombre}</p>
+                              <i className="fa-solid fa-chevron-right"></i>
+                            </motion.div>
+                          ))
+                        )}
+                      </AnimatePresence>
+                    </div>
                     <button
                       onClick={() => handleShowCategorias()}
                       className="button-white"
@@ -163,7 +203,7 @@ export const Categoria = () => {
               {/* Main */}
               <div className={styles.main}>
                 <div className="flex-between">
-                  <p className="bold-32px">{categoria.nombre}</p>
+                  <p className="bold-32px">{categoria?.nombre}</p>
                   <div className={styles.ordenarSelect}>
                     <p>Ordenar por:</p>
                     <select className={styles.button} name="header_buttons">
@@ -175,36 +215,52 @@ export const Categoria = () => {
                     </select>
                   </div>
                 </div>
-                <div className={styles.productsGrid}>
+                
                   {/* Productos */}
-                  <AnimatePresence>
-                    {productos.map((prod) => (
+                  <AnimatePresence mode="wait">
+                    {isLoadingPage ? (
                       <motion.div
-                        className={styles.card}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        whileHover={{ scale: 1.03 }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                        onClick={() => {
-                          navigate(`/p/${prod.id}`);
-                        }}
+                        key="loader"
+                        initial={{marginTop: "0rem", opacity: 0 }}
+                        animate={{marginTop: "10rem", opacity: 1 }}
+                        exit={{marginTop: "0rem", opacity: 0 }}
+                        style={{width: "100%", display: 'flex', justifyContent: 'center'}}
                       >
-                        <div className={styles.imgContainer}>
-                          {prod.imagenes.length > 0 ? (
-                            <img src={prod.imagenes[0]?.url} alt="imagen" />
-                          ) : (
-                            <i className="fa-solid fa-image"></i>
-                          )}
-                        </div>
-                        <p className={styles.articleTitle}>{prod.nombre}</p>
-                        <p className={styles.articlePrice}>
-                          ${prod.precio.toLocaleString("es-AR")}
-                        </p>
+                        <img src={loadingIcon} alt="loading..." />
                       </motion.div>
-                    ))}
+                    ) : (
+                      <div className={styles.productsGrid}>
+
+                        {productos.map((prod) => (
+                          <motion.div
+                            key={prod.id}
+                            className={styles.card}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            whileHover={{ scale: 1.03 }}
+                            transition={{ type: "spring", stiffness: 300 }}
+                            onClick={() => {
+                              navigate(`/p/${prod.id}`);
+                            }}
+                          >
+                            <div className={styles.imgContainer}>
+                              {prod.imagenes.length > 0 ? (
+                                <img src={prod.imagenes[0]?.url} alt="imagen" />
+                              ) : (
+                                <i className="fa-solid fa-image"></i>
+                              )}
+                            </div>
+                            <p className={styles.articleTitle}>{prod.nombre}</p>
+                            <p className={styles.articlePrice}>
+                              ${prod.precio.toLocaleString("es-AR")}
+                            </p>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
                   </AnimatePresence>
-                </div>
+
               </div>
             </div>
           </div>
