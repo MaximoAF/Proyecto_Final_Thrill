@@ -13,11 +13,20 @@ export const ProductCartView: FC<IProductCartViewProps> = ({
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.imgContainer}>
-          <img src={detalleOrden.productotalle.producto.imagenes[0]?.url} alt="" />
+          {detalleOrden.productotalle.producto.imagenes.length > 0 ? (
+            <img
+              src={detalleOrden.productotalle.producto.imagenes[0]?.url}
+              alt="image"
+            />
+          ) : (
+            <i className="fa-solid fa-image"></i>
+          )}
         </div>
         <div className={styles.valorContainer}>
           <div>
-            <p className={styles.title}>{detalleOrden.productotalle.producto.nombre}</p>
+            <p className={styles.title}>
+              {detalleOrden.productotalle.producto.nombre}
+            </p>
             <p>
               Color:{" "}
               <span className={styles.gray}>

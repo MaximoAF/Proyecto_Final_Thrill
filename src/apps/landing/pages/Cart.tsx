@@ -7,16 +7,41 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useSesionStore } from "../../../store/slices/SesionStore";
+import {
+  crearPago,
+  ordencompraService,
+} from "../../../services/ordencompraService";
+import { useOrdenCompraStore } from "../../../store/slices/OrdenCompraStore";
+import { login, usuarioService } from "../../../services/usuarioService";
+
+export interface IOrdenNueva {
+  usuario: {
+    id: number;
+  };
+  direccion: {
+    id: number;
+  };
+  detalles: {
+    productoTalle: {
+      id: number;
+    };
+    cantidad: number;
+    precio: number;
+  }[];
+}
 
 export const Cart = () => {
   const navigate = useNavigate();
   const detalles = useCarritoStore((state) => state.detallesProducto);
   const [codigoPromocional, setCodigoPromocional] = useState<string>("");
   const [discount, setDiscount] = useState<number>(0.0);
-  const sesion = useSesionStore((state)=>state.sesion)
+  const sesion = useSesionStore((state) => state.sesion);
+  const setToken = useSesionStore((state) => state.setToken);
+  const setSesion = useSesionStore((state) => state.setSesion);
 
   const total = detalles.reduce(
-    (sum, detalle) => sum + detalle.productotalle.producto.precio * detalle.cantidad,
+    (sum, detalle) =>
+      sum + detalle.productotalle.producto.precio * detalle.cantidad,
     0
   );
   const [envioPrice, setEnvioPrecio] = useState<number>(7500);
@@ -25,18 +50,52 @@ export const Cart = () => {
   const handleCodigoPromocional = (codigo: string) => {
     if (codigo === "TryFreeMP") {
       setDiscount(1);
-      setEnvioPrecio(0)
+      setEnvioPrecio(0);
     }
   };
 
-  const handleComprar = ()=>{
-    if(sesion) {
-      if(sesion.direcciones.length>0){
-        
-      }else{navigate('/ingreso')}
-    }else{navigate('/ingreso')}
+  const handleComprar = async () => {
+    if (sesion && detalles) {
+      if (sesion.direcciones.length > 0) {
+        const jsonNewOrden: IOrdenNueva = {
+          usuario: { id: sesion.id },
+          direccion: { id: sesion.direcciones[0].id },
+          detalles: [],
+        };
 
-  }
+        detalles.map((detalle) =>
+          jsonNewOrden.detalles.push({
+            productoTalle: { id: detalle.productotalle.id },
+            cantidad: detalle.cantidad,
+            precio: detalle.productotalle.producto.precio,
+          })
+        );
+
+        try {
+          const { orden: ordenCreada, init_point } = await crearPago(
+            jsonNewOrden
+          );
+          console.log("Orden creada:", ordenCreada);
+          try {
+            const  usuarioRes  = await usuarioService.getById(sesion.id);
+            setSesion(usuarioRes);
+          } catch (error: any) {
+            console.log(
+              "password",
+              error.message || "Error en inicio de sesión"
+            );
+          }
+          window.location.href = init_point;
+        } catch (error) {
+          console.error("Error al crear el pago:", error);
+        }
+      } else {
+        navigate("/ingreso");
+      }
+    } else {
+      navigate("/ingreso");
+    }
+  };
 
   useEffect(() => {
     document.title = "Tu carrito - Thrill";
@@ -137,13 +196,27 @@ export const Cart = () => {
                   <div className={styles.tagContainer}>
                     <i className="fa-solid fa-tag"></i>
                   </div>
-                  <input type="text" placeholder="Codigo promocional" />
+                  <input
+                    type="text"
+                    placeholder="Codigo promocional"
+                    value={codigoPromocional}
+                    onChange={(e) => setCodigoPromocional(e.target.value)}
+                  />
                 </div>
-                <button className="button-black">Aplicar</button>
+                <button
+                  className="button-black"
+                  onClick={() => handleCodigoPromocional(codigoPromocional)}
+                >
+                  Aplicar
+                </button>
               </div>
               {/* Button de compra */}
               <div>
-                <button onClick={()=>handleComprar()} style={{ width: "100%" }} className="button-black">
+                <button
+                  onClick={() => handleComprar()}
+                  style={{ width: "100%" }}
+                  className="button-black"
+                >
                   Comprar
                 </button>
               </div>

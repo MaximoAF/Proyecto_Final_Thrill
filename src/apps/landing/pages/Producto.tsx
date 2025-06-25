@@ -37,9 +37,11 @@ export const Producto = () => {
   };
 
   const handleSelectSize = (prodTalle: IProductoTalle) => {
-    setSelectedSize(prodTalle);
-    setProductoStock(prodTalle.stock);
-    setCantidad(1);
+    if(producto){
+      setSelectedSize({...prodTalle, producto: producto});
+      setProductoStock(prodTalle.stock);
+      setCantidad(1);
+    }
   };
 
   const addToCart = () => {
@@ -65,7 +67,7 @@ export const Producto = () => {
           id: Date.now() + Math.random(),
           productotalle: selectedSize,
           cantidad: cantidad,
-          precio: cantidad * selectedSize.producto.precio,
+          precio: 0,
           eliminado: false
         };
         if (producto && selectedSize) {
@@ -206,7 +208,7 @@ export const Producto = () => {
                                 key={prodTalle.talle.talle}
                                 onClick={() => handleSelectSize(prodTalle)}
                                 className={
-                                  selectedSize === prodTalle
+                                  selectedSize?.talle === prodTalle.talle
                                     ? styles.selected
                                     : ""
                                 }

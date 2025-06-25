@@ -7,7 +7,7 @@ import { useProductoStore } from "../store/slices/ProductoStore";
 export const productoService = new BaseService<IProducto>("/productos");
 
 // URL base de tu backend
-const API_URL_crear = "https://api-thrill-production.up.railway.app/api/productos/crear";
+const API_URL_crear = "https://api-thrill-production.up.railway.app/api/productos";
 const API_URL= "https://api-thrill-production.up.railway.app/api/productos"
 
 // Crear producto

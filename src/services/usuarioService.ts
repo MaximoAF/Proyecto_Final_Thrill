@@ -1,8 +1,11 @@
 // src/services/authService.ts
 import axios from "axios";
 import { IUsuario } from "../types/IUsuario";
+import { BaseService } from "./BaseService";
 
 const API_URL = "https://api-thrill-production.up.railway.app/api";
+
+export const usuarioService = new BaseService<IUsuario>('/usuarios');
 
 // --- Interfaces ---
 export interface LoginRequest {
