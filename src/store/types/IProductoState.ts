@@ -6,11 +6,11 @@ export interface IProductoState {
 
   loadProducts: () => Promise<void>;
 
-  setActiveProducto: (producto: IProducto) => void;
+  setActiveProducto: (producto: IProducto | null) => void;
   clearActiveProducto: () => void;
 
   addProducto: (producto: IProducto) => void;
-  removeProducto: (productoId: string) => void;
-  getProductoById: (productoId: string) => IProducto | undefined;
+  removeProducto: (productoId: string | number) => void;
+  getProductoById: (productoId: string | number) => IProducto | undefined;
   updateProducto: (producto: IProducto) => void;
 }

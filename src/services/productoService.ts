@@ -3,13 +3,11 @@ import { BaseService } from "./BaseService";
 import axios from "axios";
 import { useProductoStore } from "../store/slices/ProductoStore";
 
-// BaseService con endpoint general para productos
 export const productoService = new BaseService<IProducto>("/productos");
 
-// URL base de tu backend
 const API_URL= "https://api-thrill-production-85ac.up.railway.app/api/productos"
 
-// Crear producto
+
 export const crearProducto = async (datosProducto: any, token: string) => {
   return axios.post(API_URL, datosProducto, {
     headers: {
@@ -19,7 +17,6 @@ export const crearProducto = async (datosProducto: any, token: string) => {
   });
 };
 
-// Hook para eliminar producto con estado global
 export const useEliminarProducto = () => {
   const removeProducto = useProductoStore((state) => state.removeProducto);
 
@@ -43,7 +40,6 @@ export const useEliminarProducto = () => {
   return { eliminarProducto };
 };
 
-// Actualizar producto
 export const actualizarProducto = async (
   productoId: number,
   datosProducto: any,

@@ -77,11 +77,13 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           tipoId: parseInt(values.tipoId),
           categoriaIds: values.categoriaIds,
           cantidad: 0,
-          imagenes: values.imagenes.map((url) => ({
-            id: 0,
-            eliminado: false,
-            url,
-          })),
+          imagenes: values.imagenes
+            .filter((url) => typeof url === "string" && url.startsWith("http"))
+            .map((url) => ({
+              id: 0,
+              eliminado: false,
+              url,
+            })),
         };
 
         const token = localStorage.getItem("token");
@@ -139,6 +141,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
     setImagenesPreview((prev) => {
       const nuevoOrden = prev.filter((url) => url !== urlClickeada);
       nuevoOrden.push(urlClickeada);
+      formik.setFieldValue("imagenes", nuevoOrden);
       return nuevoOrden;
     });
   };
