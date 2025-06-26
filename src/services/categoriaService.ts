@@ -7,7 +7,6 @@ export const categoriaService = new BaseService<ICategoria>('/categorias');
 
 const BASE_URL = "https://api-thrill-production-85ac.up.railway.app/api/categorias";
 
-console.log(localStorage.getItem("token"));
 
 
 export const getCategorias = async () => {
