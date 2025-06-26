@@ -1,4 +1,4 @@
-import styles from "../styles/Header.module.css"
+import styles from "../styles/Header.module.css";
 import thrillLogoBlack from "../../../assets/svg/thrill_logo-dark.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -8,14 +8,13 @@ import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
 export const Header = () => {
   const navigate = useNavigate();
   const [oferClosed, setOferClosed] = useState<boolean>(false);
-  
+
   const categorias = useCategoriaStore((state) => state.categorias);
   const loadCategorias = useCategoriaStore((state) => state.loadCategoria);
 
-
   useEffect(() => {
-      loadCategorias();
-    }, []);
+    loadCategorias();
+  }, []);
   return (
     <div>
       <AnimatePresence>
@@ -46,17 +45,19 @@ export const Header = () => {
           <select
             className={styles.button}
             name="header_buttons"
+            value="Categorias"
             onChange={(e) => {
               const value = e.target.value;
               if (value !== "Categorias") navigate(`/c/${value.toLowerCase()}`);
             }}
           >
-            <option value="Categorias" selected>
-              Categorias
-            </option>
-            {categorias.map((cat) => (
-              <option value={cat.nombre}>{cat.nombre}</option>
-            ))}
+            <option value="Categorias">Categorias</option>
+            {Array.isArray(categorias) &&
+              categorias.map((cat) => (
+                <option key={cat.id} value={cat.nombre}>
+                  {cat.nombre}
+                </option>
+              ))}
           </select>
           <button className={styles.button}>Promociones</button>
           <button className={styles.button}>Outfits</button>

@@ -12,10 +12,10 @@ export const Ingreso = () => {
   const [showRegister, setShowRegister] = useState(false);
   const sesion = useSesionStore((state) => state.sesion);
   const cerrarSesion = useSesionStore((state) => state.closeSesion);
-  const setSesion = useSesionStore((state)=>state.setSesion)
+  const setSesion = useSesionStore((state) => state.setSesion);
 
   const getSesionNew = async () => {
-    if(sesion){
+    if (sesion) {
       try {
         const usuarioRes = await usuarioService.getById(sesion.id);
         setSesion(usuarioRes);
@@ -29,7 +29,7 @@ export const Ingreso = () => {
     document.title = `Ingreso - Thrill`;
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    getSesionNew()
+    getSesionNew();
   }, []);
   return (
     <div>
@@ -60,8 +60,12 @@ export const Ingreso = () => {
             </div>
             <div>
               <p className="bold-24px">Ordenes de compra:</p>
-              {sesion.ordenes && <p>orden id: {sesion.ordenes[0].id}</p>}
-              {sesion.ordenes && <p>estado: {sesion.ordenes[0].estadoOrden.toLowerCase()}</p>}
+              {Array.isArray(sesion.ordenes) && sesion.ordenes.length > 0 && (
+                <>
+                  <p>orden id: {sesion.ordenes[0].id}</p>
+                  <p>estado: {sesion.ordenes[0].estadoOrden.toLowerCase()}</p>
+                </>
+              )}
             </div>
           </div>
         </div>
