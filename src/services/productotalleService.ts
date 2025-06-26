@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://api-thrill-production.up.railway.app/api/producto-talle";
+const BASE_URL = "https://api-thrill-production-85ac.up.railway.app/api/producto-talle";
 
 export const agregarOActualizarStock = async (
   productoId: number,

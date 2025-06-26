@@ -57,12 +57,12 @@ export const EditarProducto = () => {
     const fetchDatosParaFormulario = async () => {
       try {
         const resCategorias = await axios.get(
-          "https://api-thrill-production.up.railway.app/api/categorias"
+          "https://api-thrill-production-85ac.up.railway.app/api/categorias"
         );
         setCategorias(resCategorias.data);
 
         const resTipos = await axios.get(
-          "https://api-thrill-production.up.railway.app/api/tipos"
+          "https://api-thrill-production-85ac.up.railway.app/api/tipos"
         );
         setTipos(resTipos.data);
       } catch (error) {
@@ -76,7 +76,7 @@ export const EditarProducto = () => {
   const cargarStockPorProducto = async (productoId: number) => {
     try {
       const response = await axios.get(
-        `https://api-thrill-production.up.railway.app/api/producto-talle/producto/${productoId}`
+        `https://api-thrill-production-85ac.up.railway.app/api/producto-talle/producto/${productoId}`
       );
       const stockPorTalle = response.data.reduce((acc: any, item: any) => {
         acc[item.talle.nombre] = item.stock;

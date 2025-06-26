@@ -91,7 +91,9 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           alert("No tienes token de autenticación. Debes iniciar sesión.");
           return;
         }
-
+        console.log("Datos a enviar:", datosProducto);
+        console.log("URLs cargadas desde Cloudinary:", urls);
+        
         const response = await crearProducto(datosProducto, token);
         console.log("Producto creado:", response.data);
         if (onSubmitForm) onSubmitForm(values);
