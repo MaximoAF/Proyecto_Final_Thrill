@@ -91,8 +91,6 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           alert("No tienes token de autenticación. Debes iniciar sesión.");
           return;
         }
-        console.log("Datos a enviar:", datosProducto);
-
         const response = await crearProducto(datosProducto, token);
         console.log("Producto creado:", response.data);
         if (onSubmitForm) onSubmitForm(values);
