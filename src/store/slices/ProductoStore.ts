@@ -33,17 +33,17 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
     }));
   },
 
-  removeProducto: (productoId) => {
+  removeProducto: (productoId: string | number) => {
     set((state) => ({
       productos: state.productos.filter(
-        (producto) => producto.id.toString() !== productoId
+        (producto) => producto.id.toString() !== productoId.toString()
       ),
     }));
   },
 
-  getProductoById: (productoId) => {
+  getProductoById: (productoId: string | number) => {
     return get().productos.find(
-      (producto) => producto.id.toString() === productoId
+      (producto) => producto.id.toString() === productoId.toString()
     );
   },
 
