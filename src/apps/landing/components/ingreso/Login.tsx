@@ -6,7 +6,6 @@ import styles from "../../styles/ingreso/modals/Form.module.css";
 import { login } from "../../../../services/usuarioService";
 import { useSesionStore } from "../../../../store/slices/SesionStore";
 
-
 interface LoginProps {
   toggleForm: () => void;
 }
@@ -15,7 +14,7 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const setToken = useSesionStore((state) => state.setToken);
-  const setSesion = useSesionStore((state)=> state.setSesion)
+  const setSesion = useSesionStore((state) => state.setSesion);
 
   const formik = useFormik({
     initialValues: {
@@ -28,14 +27,16 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
     }),
     onSubmit: async (values, { setFieldError, setSubmitting }) => {
       try {
-        const { token, usuario} = await login({
+        const { token, usuario } = await login({
           username: values.username,
           password: values.password,
         });
 
         setToken(token);
-        setSesion(usuario)
-        
+        setSesion(usuario);
+
+        localStorage.setItem("token", token);
+
         navigate("/");
       } catch (error: any) {
         setFieldError("password", error.message || "Error en inicio de sesión");
