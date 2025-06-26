@@ -69,7 +69,6 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
         .min(1, "Debes seleccionar al menos una categoría")
         .required("Categoría es requerida"),
       tipoId: yup.string().required("Tipo es requerido"),
-      imagenes: yup.array().min(1, "Debes subir al menos una imagen"),
     }),
     onSubmit: async (values) => {
       try {
@@ -173,7 +172,7 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
             ) : (
               <i
                 className={`fa-solid fa-arrow-up-from-bracket ${styles.uploadIcon}`}
-              />
+              ></i>
             )}
           </label>
           <div className={styles.thumbnailsContainer}>
@@ -184,7 +183,6 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
                 alt="Miniatura"
                 className={styles.thumbnailImage}
                 onClick={() => handleSetAsPrincipal(url)}
-                style={{ cursor: "pointer" }}
               />
             ))}
           </div>
@@ -194,47 +192,53 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
             <small className={styles.error}>{formik.errors.imagenes}</small>
           )}
 
-        <input
-          type="text"
-          placeholder="Nombre"
-          {...formik.getFieldProps("nombre")}
-        />
+        <div className={styles.input}>
+          <input
+            type="text"
+            placeholder="Nombre"
+            {...formik.getFieldProps("nombre")}
+          />
+        </div>
         {formik.touched.nombre && formik.errors.nombre && (
           <small className={styles.error}>{formik.errors.nombre}</small>
         )}
-
-        <input
-          type="number"
-          placeholder="Precio"
-          {...formik.getFieldProps("precio")}
-        />
+        <div className={styles.input}>
+          <input
+            type="number"
+            placeholder="Precio"
+            {...formik.getFieldProps("precio")}
+          />
+        </div>
         {formik.touched.precio && formik.errors.precio && (
           <small className={styles.error}>{formik.errors.precio}</small>
         )}
-
-        <input
-          type="text"
-          placeholder="Descripción"
-          {...formik.getFieldProps("descripcion")}
-        />
+        <div className={styles.input}>
+          <input
+            type="text"
+            placeholder="Descripción"
+            {...formik.getFieldProps("descripcion")}
+          />
+        </div>
         {formik.touched.descripcion && formik.errors.descripcion && (
           <small className={styles.error}>{formik.errors.descripcion}</small>
         )}
-
-        <input
-          type="text"
-          placeholder="Color"
-          {...formik.getFieldProps("color")}
-        />
+        <div className={styles.input}>
+          <input
+            type="text"
+            placeholder="Color"
+            {...formik.getFieldProps("color")}
+          />
+        </div>
         {formik.touched.color && formik.errors.color && (
           <small className={styles.error}>{formik.errors.color}</small>
         )}
-
-        <input
-          type="text"
-          placeholder="Marca"
-          {...formik.getFieldProps("marca")}
-        />
+        <div className={styles.input}>
+          <input
+            type="text"
+            placeholder="Marca"
+            {...formik.getFieldProps("marca")}
+          />
+        </div>
         {formik.touched.marca && formik.errors.marca && (
           <small className={styles.error}>{formik.errors.marca}</small>
         )}
@@ -243,12 +247,11 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
           <option value="" disabled>
             Selecciona un tipo
           </option>
-          {Array.isArray(tipos) &&
-            tipos.map((tipo) => (
-              <option key={tipo.id} value={tipo.id}>
-                {tipo.nombre}
-              </option>
-            ))}
+          {tipos.map((tipo) => (
+            <option key={tipo.id} value={tipo.id}>
+              {tipo.nombre}
+            </option>
+          ))}
         </select>
         {formik.touched.tipoId && formik.errors.tipoId && (
           <small className={styles.error}>{formik.errors.tipoId}</small>

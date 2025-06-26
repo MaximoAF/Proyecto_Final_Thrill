@@ -21,7 +21,11 @@
   text-align: center;
   margin-bottom: 0.5rem;
 }
-
+.input{
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
 .input input {
   flex-grow: 1;
   background-color: var(--palet-color-1);
@@ -32,6 +36,9 @@
   outline: none;
   border-radius: 1.5rem;
   padding-left: 1rem;
+}
+.input small{
+  padding-top: 1rem;
 }
 
 .buttonsContainer {

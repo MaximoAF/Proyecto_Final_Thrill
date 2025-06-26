@@ -7,12 +7,11 @@ import { useProductoStore } from "../store/slices/ProductoStore";
 export const productoService = new BaseService<IProducto>("/productos");
 
 // URL base de tu backend
-const API_URL_crear = "https://api-thrill-production.up.railway.app/api/productos";
-const API_URL= "https://api-thrill-production.up.railway.app/api/productos"
+const API_URL= "https://api-thrill-production-85ac.up.railway.app/api/productos"
 
 // Crear producto
 export const crearProducto = async (datosProducto: any, token: string) => {
-  return axios.post(API_URL_crear, datosProducto, {
+  return axios.post(API_URL, datosProducto, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
