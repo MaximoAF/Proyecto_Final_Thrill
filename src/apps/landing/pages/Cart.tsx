@@ -1,18 +1,16 @@
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import styles from "../styles/Cart.module.css";
+import loadingIcon from "../../../assets/Loading_icon.gif";
 import { ProductCart } from "../components/cart/ProductCart";
 import { useCarritoStore } from "../../../store/slices/CarritoStore";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSesionStore } from "../../../store/slices/SesionStore";
-import {
-  crearPago,
-  ordencompraService,
-} from "../../../services/ordencompraService";
-import { useOrdenCompraStore } from "../../../store/slices/OrdenCompraStore";
-import { login, usuarioService } from "../../../services/usuarioService";
+import { crearPago } from "../../../services/ordencompraService";
+import { usuarioService } from "../../../services/usuarioService";
+import { MessageCompra } from "../components/cart/MessageCompra";
 
 export interface IOrdenNueva {
   usuario: {
@@ -32,12 +30,16 @@ export interface IOrdenNueva {
 
 export const Cart = () => {
   const navigate = useNavigate();
+
   const detalles = useCarritoStore((state) => state.detallesProducto);
-  const [codigoPromocional, setCodigoPromocional] = useState<string>("");
-  const [discount, setDiscount] = useState<number>(0.0);
   const sesion = useSesionStore((state) => state.sesion);
-  const setToken = useSesionStore((state) => state.setToken);
   const setSesion = useSesionStore((state) => state.setSesion);
+
+  const [codigoPromocional, setCodigoPromocional] = useState<string>("");
+  const [comprandoLoading, setComprandoLoading] = useState<boolean>(false);
+  const [showMessageCompra, setShowMessageCompra] = useState<boolean>(false);
+  const [messageCompra, setMessageCompra] = useState<string>("");
+  const [discount, setDiscount] = useState<number>(0.0);
 
   const total = detalles.reduce(
     (sum, detalle) =>
@@ -54,7 +56,14 @@ export const Cart = () => {
     }
   };
 
+  // Mensaje de accion de compra
+  const handleMessgeComprar = (message: string) => {
+    setShowMessageCompra(true);
+    setMessageCompra(message);
+  };
+
   const handleComprar = async () => {
+    setComprandoLoading(true);
     if (sesion && detalles) {
       if (sesion.direcciones.length > 0) {
         const jsonNewOrden: IOrdenNueva = {
@@ -77,37 +86,50 @@ export const Cart = () => {
           );
           console.log("Orden creada:", ordenCreada);
           try {
-            const  usuarioRes  = await usuarioService.getById(sesion.id);
+            const usuarioRes = await usuarioService.getById(sesion.id);
             setSesion(usuarioRes);
           } catch (error: any) {
-            console.log(
-              "password",
-              error.message || "Error en inicio de sesión"
-            );
+            console.log("Error en inicio de sesión");
           }
           window.location.href = init_point;
         } catch (error) {
           console.error("Error al crear el pago:", error);
         }
       } else {
-        navigate("/ingreso");
+        // Se necesita una direccion
+        handleMessgeComprar("Se necesita una direccion");
       }
     } else {
-      navigate("/ingreso");
+      // Se necesita iniciar sesion
+      handleMessgeComprar("Se necesita iniciar sesion");
     }
+    setComprandoLoading(false);
   };
 
   useEffect(() => {
     document.title = "Tu carrito - Thrill";
+    setComprandoLoading(false);
   }, []);
+  useEffect(() => {
+    if (detalles.length < 1 || total >= 155000) {
+      setEnvioPrecio(0);
+    } else {
+      setEnvioPrecio(7500);
+    }
+  }, [total]);
 
   return (
     <div className="flex-page">
       <Header />
 
+      {/* Main content */}
       <div className={styles.content}>
+        {/* Link ruta */}
         <p style={{ color: "var(--black-60)" }}>
-          Home <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
+          <Link to="/" style={{ color: "var(--black-60)" }}>
+            Home{" "}
+          </Link>{" "}
+          <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
           <span style={{ color: "var(--black-color)" }}>Tu carrito</span>
         </p>
         <h2 className={styles.title}>Tu carrito</h2>
@@ -179,7 +201,9 @@ export const Cart = () => {
                 <div className={styles.itemValue}>
                   <p>Envio</p>
                   <span className="bold">
-                    ${envioPrice.toLocaleString("es-AR")}
+                    {detalles.length > 0 && envioPrice === 0
+                      ? "Envio Gratis"
+                      : `$${envioPrice.toLocaleString("es-AR")}`}
                   </span>
                 </div>
                 <div className="separator"></div>
@@ -217,13 +241,36 @@ export const Cart = () => {
                   style={{ width: "100%" }}
                   className="button-black"
                 >
-                  Comprar
+                  {comprandoLoading ? (
+                    <img src={loadingIcon} alt="loading..." />
+                  ) : (
+                    "Comprar"
+                  )}
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Mensaje de compra */}
+      <AnimatePresence>
+        {showMessageCompra && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ type: "tween", stiffness: 300 }}
+            className="overlay"
+          >
+            {/* Componente de mensaje compra */}
+            <MessageCompra
+              onClose={() => setShowMessageCompra(false)}
+              message={messageCompra}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
     </div>

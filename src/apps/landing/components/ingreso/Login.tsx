@@ -3,9 +3,9 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import styles from "../../styles/ingreso/modals/Form.module.css";
+import loadingIcon from "../../../../assets/Loading_icon.gif";
 import { login } from "../../../../services/usuarioService";
 import { useSesionStore } from "../../../../store/slices/SesionStore";
-
 
 interface LoginProps {
   toggleForm: () => void;
@@ -14,8 +14,9 @@ interface LoginProps {
 export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const setToken = useSesionStore((state) => state.setToken);
-  const setSesion = useSesionStore((state)=> state.setSesion)
+  const setSesion = useSesionStore((state) => state.setSesion);
 
   const formik = useFormik({
     initialValues: {
@@ -27,21 +28,23 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
       password: yup.string().required("Campo requerido"),
     }),
     onSubmit: async (values, { setFieldError, setSubmitting }) => {
+      setButtonLoading(true)
       try {
-        const { token, usuario} = await login({
+        const { token, usuario } = await login({
           username: values.username,
           password: values.password,
         });
 
         setToken(token);
-        setSesion(usuario)
-        
+        setSesion(usuario);
+
         navigate("/");
       } catch (error: any) {
         setFieldError("password", error.message || "Error en inicio de sesión");
       } finally {
         setSubmitting(false);
       }
+      setButtonLoading(false)
     },
   });
 
@@ -93,7 +96,11 @@ export const Login: React.FC<LoginProps> = ({ toggleForm }) => {
           type="submit"
           disabled={formik.isSubmitting}
         >
-          Iniciar sesión
+          {buttonLoading ? (
+            <img style={{position: 'absolute', top: "-1.6rem",right: '0' }} src={loadingIcon} alt="loading..." />
+          ) : (
+            "Iniciar sesión"
+          )}
         </button>
       </div>
 

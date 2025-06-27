@@ -46,16 +46,17 @@ export const Header = () => {
           <select
             className={styles.button}
             name="header_buttons"
+            defaultValue="Categorias"
             onChange={(e) => {
               const value = e.target.value;
               if (value !== "Categorias") navigate(`/c/${value.toLowerCase()}`);
             }}
           >
-            <option value="Categorias" selected>
+            <option key={'selected'} value="Categorias">
               Categorias
             </option>
             {categorias.map((cat) => (
-              <option value={cat.nombre}>{cat.nombre}</option>
+              <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>
             ))}
           </select>
           <button className={styles.button}>Promociones</button>
