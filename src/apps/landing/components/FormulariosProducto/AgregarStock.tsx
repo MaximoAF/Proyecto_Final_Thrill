@@ -3,10 +3,9 @@ import * as yup from "yup";
 import styles from "../../styles/FormProducto/AgregarStock.module.css";
 import { agregarOActualizarStock } from "../../../../services/productotalleService";
 import { useEffect, useState } from "react";
-import { tipoService } from "../../../../services/tipoService";
 import { IProducto } from "../../../../types/IProducto";
-import { ITipo } from "../../../../types/ITipo";
 import { ITalle } from "../../../../types/ITalle";
+import axios from "axios";
 
 interface AgregarStockProps {
   producto: IProducto;
@@ -22,9 +21,16 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
   const [talles, setTalles] = useState<ITalle[]>([]);
   const [loading, setLoading] = useState(false);
 
+  if (!producto) {
+    console.warn("El producto es undefined. No se puede cargar talles.");
+    return;
+  }
+
   useEffect(() => {
+    console.log("useEffect ejecutado con producto:", producto);
     const fetchTallesPorTipo = async () => {
       const token = localStorage.getItem("token");
+
       if (!token) {
         alert("Debes iniciar sesión para cargar talles");
         return;
@@ -38,11 +44,40 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
       setLoading(true);
 
       try {
-        const tipoEncontrado: ITipo = await tipoService.getById(producto.tipo.id);
+        console.log("Obteniendo tipo con ID:", producto.tipo.id);
+
+        const res = await axios.get(
+          `https://api-thrill-production-85ac.up.railway.app/api/tipos/${producto.tipo.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Tipo recibido:", res.data);
+
+        const tipoEncontrado = res.data;
+
+        if (!tipoEncontrado || !tipoEncontrado.talles) {
+          alert("Tipo no contiene talles");
+          console.log("Talles seteados:", tipoEncontrado.talles);
+          return;
+        }
+
         setTalles(tipoEncontrado.talles);
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error cargando talles:", error);
-        alert("No se pudieron cargar los talles");
+        if (error.response) {
+          console.error("Respuesta del servidor:", error.response.data);
+          alert(
+            `Error ${error.response.status}: ${
+              error.response.data?.mensaje || "No autorizado"
+            }`
+          );
+        } else {
+          alert("Error desconocido al obtener talles.");
+        }
       } finally {
         setLoading(false);
       }
