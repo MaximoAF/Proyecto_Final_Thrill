@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useSesionStore } from "../store/slices/SesionStore";
 
 const BASE_URL = "https://api-thrill-production-85ac.up.railway.app/api/producto-talle";
 
@@ -7,7 +8,7 @@ export const agregarOActualizarStock = async (
   talleId: number,
   stock: number
 ) => {
-  const token = localStorage.getItem("token");
+  const token = useSesionStore.getState().token;
   if (!token) throw new Error("No autenticado");
 
   try {
@@ -54,7 +55,7 @@ export const agregarOActualizarStock = async (
 };
 
 export const obtenerTallesPorProducto = async (productoId: number) => {
-  const token = localStorage.getItem("token");
+  const token = useSesionStore.getState().token;
   if (!token) throw new Error("No autenticado");
 
   const response = await axios.get(`${BASE_URL}/producto/${productoId}/talle`, {

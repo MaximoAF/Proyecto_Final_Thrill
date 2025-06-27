@@ -60,7 +60,7 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
               animate={{ opacity: 1, height: 'auto', y: 0 }}
               exit={{ opacity: 0, height: 0, y: -20 }}
               whileHover={{ scale: 1.03 }}
-              transition={{ type: 'tween', stiffness: 300 }}
+              transition={{ type:'tween',stiffness: 300 }}
               key={prod.id}
               onClick={() => {
                 navigate(`/p/${prod.id}`);

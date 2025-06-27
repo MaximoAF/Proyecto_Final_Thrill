@@ -4,6 +4,7 @@ import * as yup from "yup";
 import styles from "../../styles/FormProducto/CrearProducto.module.css";
 import { handleImageUpload } from "./UploadImage";
 import { crearProducto } from "../../../../services/productoService";
+import { useSesionStore } from "../../../../store/slices/SesionStore";
 
 interface ICategoria {
   id: number;
@@ -80,7 +81,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           imagenes: values.imagenes,
         };
 
-        const token = localStorage.getItem("token");
+        const token = useSesionStore.getState().token;;
         if (!token) {
           alert("No tienes token de autenticación. Debes iniciar sesión.");
           return;

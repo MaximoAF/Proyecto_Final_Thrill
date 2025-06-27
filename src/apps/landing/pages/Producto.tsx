@@ -37,8 +37,8 @@ export const Producto = () => {
   };
 
   const handleSelectSize = (prodTalle: IProductoTalle) => {
-    if(producto){
-      setSelectedSize({...prodTalle, producto: producto});
+    if (producto) {
+      setSelectedSize({ ...prodTalle, producto: producto });
       setProductoStock(prodTalle.stock);
       setCantidad(1);
     }
@@ -68,7 +68,7 @@ export const Producto = () => {
           productotalle: selectedSize,
           cantidad: cantidad,
           precio: 0,
-          eliminado: false
+          eliminado: false,
         };
         if (producto && selectedSize) {
           useCarritoStore.getState().addProductoDetalle(newDetalle);
@@ -142,21 +142,33 @@ export const Producto = () => {
                 <div className={styles.imgGrid}>
                   <div className={styles.imgsGallery}>
                     {producto.imagenes.length > 0 ? (
-                      <img src={producto.imagenes[0].url} alt="Imagen" />
+                      <img
+                        style={{ borderRadius: "1.2rem" }}
+                        src={producto.imagenes[0].url}
+                        alt="Imagen"
+                      />
                     ) : (
                       <div className={styles.noImgContainerSide}>
                         <i className="fa-solid fa-image"></i>
                       </div>
                     )}
                     {producto.imagenes.length > 1 ? (
-                      <img src={producto.imagenes[1].url} alt="Imagen" />
+                      <img
+                        style={{ borderRadius: "1.2rem" }}
+                        src={producto.imagenes[1].url}
+                        alt="Imagen"
+                      />
                     ) : (
                       <div className={styles.noImgContainerSide}>
                         <i className="fa-solid fa-image"></i>
                       </div>
                     )}
                     {producto.imagenes.length > 2 ? (
-                      <img src={producto.imagenes[2].url} alt="Imagen" />
+                      <img
+                        style={{ borderRadius: "1.2rem" }}
+                        src={producto.imagenes[2].url}
+                        alt="Imagen"
+                      />
                     ) : (
                       <div className={styles.noImgContainerSide}>
                         <i className="fa-solid fa-image"></i>

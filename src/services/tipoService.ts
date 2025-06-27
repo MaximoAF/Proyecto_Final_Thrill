@@ -1,3 +1,4 @@
+import { useSesionStore } from '../store/slices/SesionStore';
 import { ITipo } from '../types/ITipo';
 import { BaseService } from './BaseService';
 import axios from 'axios';
@@ -8,7 +9,7 @@ export const tipoService = {
   ...new BaseService<ITipo>('/tipos'),
 
   getById: async (id: number): Promise<ITipo> => {
-    const token = localStorage.getItem('token');
+    const token = useSesionStore.getState().token;
     if (!token) throw new Error('No autenticado');
 
     const res = await axios.get(`${BASE_URL}/${id}`, {

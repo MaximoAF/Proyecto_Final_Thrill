@@ -72,6 +72,8 @@ export const Cart = () => {
           detalles: [],
         };
 
+        // Agregar envio
+
         detalles.map((detalle) =>
           jsonNewOrden.detalles.push({
             productoTalle: { id: detalle.productotalle.id },

@@ -2,12 +2,15 @@ import { FC } from "react";
 import styles from "../../styles/cart/ProductCart.module.css";
 import { useCarritoStore } from "../../../../store/slices/CarritoStore";
 import { IDetalleOrden } from "../../../../types/IDetalleOrden";
+import { useNavigate } from "react-router-dom";
 
 interface IProductCartProps {
   detalleOrden: IDetalleOrden;
 }
 
 export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
+  const navigate = useNavigate();
+
   const handleMinus = () => {
     if (detalleOrden.cantidad > 1) {
       useCarritoStore
@@ -21,7 +24,7 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
         useCarritoStore.getState().addCantidad(detalleOrden.id.toString(), 1);
   };
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={()=>navigate(`/p/${detalleOrden.productotalle.producto.id}`)}>
       <div className={styles.infoContainer}>
         <div className={styles.imgContainer}>
           {detalleOrden.productotalle.producto.imagenes.length > 0 ? (
