@@ -56,11 +56,12 @@ export const ArticleGallery: FC<IArticleGalleryProps> = ({
           {filtered.map((prod) => (
             <motion.div
               className={styles.card}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, height: 0, y: 20 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -20 }}
               whileHover={{ scale: 1.03 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              transition={{ type: 'tween', stiffness: 300 }}
+              key={prod.id}
               onClick={() => {
                 navigate(`/p/${prod.id}`);
               }}

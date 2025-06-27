@@ -1,7 +1,12 @@
 import { useFormik } from "formik";
 import styles from "../../styles/ingreso/modals/Form.module.css";
+import loadingIcon from "../../../../assets/Loading_icon.gif";
 import * as yup from "yup";
 import { register } from "../../../../services/usuarioService";
+import { IRegister } from "../../../../types/IUsuario";
+import { useSesionStore } from "../../../../store/slices/SesionStore";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 interface RegisterProps {
   toggleForm: () => void;
@@ -28,6 +33,11 @@ const validationSchema = yup.object({
 });
 
 export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
+  const setToken = useSesionStore((state) => state.setToken);
+  const setSesion = useSesionStore((state) => state.setSesion);
+  const navigate = useNavigate();
+
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const formik = useFormik<TypeInitialValues>({
     initialValues: {
@@ -38,20 +48,25 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      const nuevoUsuario = {
+      setButtonLoading(true)
+      const nuevoUsuario: IRegister = {
         username: values.nombre,
         email: values.email,
         password: values.password,
       };
 
       try {
-        await register(nuevoUsuario);
-        alert("Usuario registrado con éxito");
-        toggleForm();
+        const { token, usuario } = await register(nuevoUsuario);
+
+        setToken(token);
+        setSesion(usuario);
+
+        navigate("/");
       } catch (error) {
         console.error("Error al registrar usuario:", error);
         alert("Error al registrar el usuario");
       }
+      setButtonLoading(false)
     },
   });
 
@@ -119,7 +134,11 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
 
       <div className="button-container">
         <button className="button-black" type="submit">
-          Crear cuenta
+          {buttonLoading ? (
+            <img style={{position: 'absolute', top: "-1.6rem",right: '0' }} src={loadingIcon} alt="loading..." />
+          ) : (
+            "Crear cuenta"
+          )}
         </button>
       </div>
 

@@ -1,0 +1,17 @@
+.container {
+  position: fixed;
+  top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--white-color);
+  width: 30rem;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+}
+.infoContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
