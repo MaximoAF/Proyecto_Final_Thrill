@@ -1,12 +1,11 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import styles from "../../styles/FormProducto/AgregarStock.module.css";
-import { agregarOActualizarStock } from "../../../../services/productotalleService";
+import {agregarOActualizarStock} from "../../../../services/productotalleService";
 import { useEffect, useState } from "react";
-import { tipoService } from "../../../../services/tipoService";
 import { IProducto } from "../../../../types/IProducto";
-import { ITipo } from "../../../../types/ITipo";
 import { ITalle } from "../../../../types/ITalle";
+import axios from "axios";
 
 interface AgregarStockProps {
   producto: IProducto;
@@ -21,35 +20,12 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
 }) => {
   const [talles, setTalles] = useState<ITalle[]>([]);
   const [loading, setLoading] = useState(false);
+  const [stockActual, setStockActual] = useState<number | null>(null);
 
-  useEffect(() => {
-    const fetchTallesPorTipo = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Debes iniciar sesión para cargar talles");
-        return;
-      }
-
-      if (!producto?.tipo?.id) {
-        alert("El producto no tiene tipo asignado");
-        return;
-      }
-
-      setLoading(true);
-
-      try {
-        const tipoEncontrado: ITipo = await tipoService.getById(producto.tipo.id);
-        setTalles(tipoEncontrado.talles);
-      } catch (error) {
-        console.error("Error cargando talles:", error);
-        alert("No se pudieron cargar los talles");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTallesPorTipo();
-  }, [producto]);
+  if (!producto) {
+    console.warn("El producto es undefined. No se puede cargar talles.");
+    return;
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -67,10 +43,7 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
     }),
     onSubmit: async (values, { resetForm }) => {
       const token = localStorage.getItem("token");
-      if (!token) {
-        alert("No tienes token de autenticación. Debes iniciar sesión.");
-        return;
-      }
+      if (!token) return;
 
       try {
         await agregarOActualizarStock(
@@ -90,6 +63,73 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
     },
   });
 
+  useEffect(() => {
+    const fetchTallesPorTipo = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token || !producto?.tipo?.id) return;
+
+      setLoading(true);
+
+      try {
+        const res = await axios.get(
+          `https://api-thrill-production-85ac.up.railway.app/api/tipos/${producto.tipo.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const tipoEncontrado = res.data;
+
+        if (tipoEncontrado?.talles) {
+          setTalles(tipoEncontrado.talles);
+        }
+      } catch (error) {
+        console.error("Error cargando talles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTallesPorTipo();
+  }, [producto]);
+
+  useEffect(() => {
+    const fetchStock = async () => {
+      const token = localStorage.getItem("token");
+      if (!token || !formik.values.talle) return;
+
+      try {
+        const res = await axios.get(
+          `https://api-thrill-production-85ac.up.railway.app/api/producto-talle/producto/${producto.id}/talle/${formik.values.talle}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (res.data?.stock != null) {
+          formik.setFieldValue("stock", res.data.stock);
+          setStockActual(res.data.stock);
+        } else {
+          formik.setFieldValue("stock", "");
+          setStockActual(null);
+        }
+      } catch (error: any) {
+        if (error.response?.status === 404) {
+          formik.setFieldValue("stock", "");
+          setStockActual(null);
+        } else {
+          console.error("Error obteniendo stock actual:", error);
+        }
+      }
+    };
+
+    fetchStock();
+  }, [formik.values.talle]);
   return (
     <form className={styles.form} onSubmit={formik.handleSubmit}>
       <h2 className={styles.title}>Agregar stock</h2>
@@ -138,6 +178,9 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
           />
           {formik.touched.stock && formik.errors.stock && (
             <small className={styles.error}>{formik.errors.stock}</small>
+          )}
+          {stockActual != null && (
+            <small className={styles.info}>Stock actual: {stockActual}</small>
           )}
         </div>
       </div>

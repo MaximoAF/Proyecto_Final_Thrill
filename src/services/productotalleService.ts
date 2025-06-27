@@ -24,19 +24,8 @@ export const agregarOActualizarStock = async (
       await axios.put(
         `${BASE_URL}/${id}`,
         {
-          ...existeRes.data,
-          stock,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-    } else {
-      await axios.post(
-        BASE_URL,
-        {
-          producto: { id: productoId },
-          talle: { id: talleId },
+          producto: { Id: productoId },
+          talle: { Id: talleId },
           stock,
         },
         {
@@ -44,12 +33,25 @@ export const agregarOActualizarStock = async (
         }
       );
     }
-  } catch (error) {
-    console.error("Error en agregarOActualizarStock:", error);
-    throw error;
+  } catch (error: any) {
+    if (error.response && error.response.status === 404) {
+      await axios.post(
+        BASE_URL,
+        {
+          producto: { Id: productoId },
+          talle: { Id: talleId },
+          stock,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+    } else {
+      console.error("Error en agregarOActualizarStock:", error);
+      throw error;
+    }
   }
 };
-
 
 export const obtenerTallesPorProducto = async (productoId: number) => {
   const token = localStorage.getItem("token");

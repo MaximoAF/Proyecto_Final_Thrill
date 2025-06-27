@@ -124,7 +124,7 @@ export const EditarProducto = () => {
       {productoSeleccionado && mostrarAgregarStock && (
         <div className="overlay">
           <AgregarStock
-            productoId={productoSeleccionado.id}
+            producto={productoSeleccionado}
             onClose={() => {
               setMostrarAgregarStock(false);
               setProductoSeleccionado(null);
