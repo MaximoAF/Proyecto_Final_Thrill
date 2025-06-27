@@ -16,3 +16,15 @@ export interface IUsuario {
   carrito: IDetalleOrden[];
 }
 export type ICrearUsuario = Omit<IUsuario, "id" | "creadoEn" >;
+
+// Interfaces de inicio de sesion 
+export interface ILogin {
+  username: string;
+  password: string;
+}
+
+export interface IRegister {
+  username: string;
+  email: string;
+  password: string;
+}
