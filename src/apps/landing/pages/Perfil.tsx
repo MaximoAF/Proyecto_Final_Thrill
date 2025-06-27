@@ -88,7 +88,7 @@ export const Perfil = () => {
               <div className={styles.camposContainer}>
                 <div className="flex-between">
                   <p className="bold-24px">Ordenes de compra:</p>
-                  <button className="button-black">ir a comprar</button>
+                  <button className="button-black" onClick={()=>navigate('/')}>ir a comprar</button>
                 </div>
                 <div className="separator" />
                 {sesion.ordenes?.length > 0 ? (

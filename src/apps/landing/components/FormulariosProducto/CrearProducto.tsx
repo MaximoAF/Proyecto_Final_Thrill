@@ -47,7 +47,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
       marca: "",
       categoriaIds: [] as number[],
       tipoId: "",
-      imagenes: [] as File[],
+      imagenes: [] as string[],
     },
     validationSchema: yup.object({
       nombre: yup.string().required("Nombre es requerido"),
@@ -68,8 +68,6 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
     }),
     onSubmit: async (values) => {
       try {
-        const urls = await handleImageUpload(values.imagenes);
-
         const datosProducto = {
           nombre: values.nombre,
           precio: parseFloat(values.precio.toString()),
@@ -79,11 +77,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           tipoId: parseInt(values.tipoId),
           categoriaIds: values.categoriaIds,
           cantidad: 0,
-          imagenes: urls.map((url) => ({
-            id: 0,
-            eliminado: false,
-            url,
-          })),
+          imagenes: values.imagenes,
         };
 
         const token = localStorage.getItem("token");
@@ -91,7 +85,6 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           alert("No tienes token de autenticación. Debes iniciar sesión.");
           return;
         }
-
         const response = await crearProducto(datosProducto, token);
         console.log("Producto creado:", response.data);
         if (onSubmitForm) onSubmitForm(values);
@@ -103,7 +96,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
     },
   });
 
-  const handleImagenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImagenChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
@@ -118,13 +111,16 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
       );
     }
 
-    formik.setFieldTouched("imagenes", true, true);
-    formik.setFieldValue("imagenes", [
-      ...formik.values.imagenes,
-      ...archivosValidos,
-    ]);
-    const nuevasUrls = archivosValidos.map((file) => URL.createObjectURL(file));
-    setImagenesPreview((prev) => [...prev, ...nuevasUrls]);
+    try {
+      const urls = await handleImageUpload(archivosValidos);
+
+      formik.setFieldTouched("imagenes", true, true);
+      formik.setFieldValue("imagenes", [...formik.values.imagenes, ...urls]);
+
+      setImagenesPreview((prev) => [...prev, ...urls]);
+    } catch (error) {
+      alert("Error subiendo imágenes");
+    }
   };
 
   const imagenPrincipal =
@@ -137,6 +133,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
     setImagenesPreview((prev) => {
       const nuevoOrden = prev.filter((url) => url !== urlClickeada);
       nuevoOrden.push(urlClickeada);
+      formik.setFieldValue("imagenes", nuevoOrden);
       return nuevoOrden;
     });
   };

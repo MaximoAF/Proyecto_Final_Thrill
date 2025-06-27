@@ -5,7 +5,8 @@ import axios from "axios";
 export const categoriaService = new BaseService<ICategoria>('/categorias');
 
 
-const BASE_URL = "https://api-thrill-production.up.railway.app/api/categorias";
+const BASE_URL = "https://api-thrill-production-85ac.up.railway.app/api/categorias";
+
 
 
 export const getCategorias = async () => {

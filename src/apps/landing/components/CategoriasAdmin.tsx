@@ -7,8 +7,6 @@ import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
 import { EliminarCategoria } from "./FormulariosCategorias/EliminarCategoria";
 import { CrearCategoria } from "./FormulariosCategorias/CrearCategoria";
 import { EditarCategoria } from "./FormulariosCategorias/EditarCategoria";
-import { getCategorias } from "../../../services/categoriaService";
-import { useCarritoStore } from "../../../store/slices/CarritoStore";
 
 export const CategoriasAdmin: FC = () => {
   const categorias = useCategoriaStore((state) => state.categorias);
