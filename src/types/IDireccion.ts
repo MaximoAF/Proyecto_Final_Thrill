@@ -8,3 +8,10 @@ export interface IDireccion {
   codpostal: string;
   usuario: IUsuario;
 }
+
+export interface ICrearDireccion {
+  calle: string;
+  localidad: string;
+  codpostal: string;
+  usuario: { id: number };
+}
