@@ -1,11 +1,12 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import styles from "../../styles/FormProducto/AgregarStock.module.css";
-import {agregarOActualizarStock} from "../../../../services/productotalleService";
+import { agregarOActualizarStock } from "../../../../services/productotalleService";
 import { useEffect, useState } from "react";
 import { IProducto } from "../../../../types/IProducto";
 import { ITalle } from "../../../../types/ITalle";
 import axios from "axios";
+import { useSesionStore } from "../../../../store/slices/SesionStore";
 
 interface AgregarStockProps {
   producto: IProducto;
@@ -42,18 +43,24 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
         .required("Stock requerido"),
     }),
     onSubmit: async (values, { resetForm }) => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+      const token = useSesionStore.getState().token;
+      if (!token) {
+        alert("No tienes token de autenticación.");
+        return;
+      }
+
+      const talleId = Number(values.talle);
+      const stock = Number(values.stock);
+
+      if (isNaN(talleId) || isNaN(stock)) {
+        alert("Debes ingresar un talle y un stock válidos.");
+        return;
+      }
 
       try {
-        await agregarOActualizarStock(
-          producto.id,
-          parseInt(values.talle),
-          parseInt(values.stock.toString())
-        );
-
+        await agregarOActualizarStock(producto.id, talleId, stock);
         alert("Stock agregado correctamente");
-        resetForm();
+        resetForm()
         if (onStockAgregado) onStockAgregado();
         if (onClose) onClose();
       } catch (error) {
@@ -65,7 +72,7 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
 
   useEffect(() => {
     const fetchTallesPorTipo = async () => {
-      const token = localStorage.getItem("token");
+      const token = useSesionStore.getState().token;;
 
       if (!token || !producto?.tipo?.id) return;
 
@@ -98,7 +105,7 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
 
   useEffect(() => {
     const fetchStock = async () => {
-      const token = localStorage.getItem("token");
+      const token = useSesionStore.getState().token;
       if (!token || !formik.values.talle) return;
 
       try {
@@ -116,12 +123,12 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
           setStockActual(res.data.stock);
         } else {
           formik.setFieldValue("stock", "");
-          setStockActual(null);
+          setStockActual(0);
         }
       } catch (error: any) {
         if (error.response?.status === 404) {
           formik.setFieldValue("stock", "");
-          setStockActual(null);
+          setStockActual(0);
         } else {
           console.error("Error obteniendo stock actual:", error);
         }
