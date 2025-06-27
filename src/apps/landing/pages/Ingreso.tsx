@@ -54,9 +54,10 @@ export const Ingreso = () => {
           <div className={styles.gridForms}>
             <div>
               <p className="bold-24px">Direccion:</p>
-              {sesion.direcciones[0] && (
-                <div>{sesion.direcciones[0].calle}</div>
-              )}
+              {Array.isArray(sesion.direcciones) &&
+                sesion.direcciones.length > 0 && (
+                  <div>{sesion.direcciones[0].calle}</div>
+                )}
             </div>
             <div>
               <p className="bold-24px">Ordenes de compra:</p>
