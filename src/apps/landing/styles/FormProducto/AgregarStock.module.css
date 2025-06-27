@@ -36,3 +36,6 @@
   align-items: center;
   margin-top: 1rem;
 }
+.info{
+  display: grid;
+}
