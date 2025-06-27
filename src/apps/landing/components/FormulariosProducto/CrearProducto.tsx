@@ -77,13 +77,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           tipoId: parseInt(values.tipoId),
           categoriaIds: values.categoriaIds,
           cantidad: 0,
-          imagenes: values.imagenes
-            .filter((url) => typeof url === "string" && url.startsWith("http"))
-            .map((url) => ({
-              id: 0,
-              eliminado: false,
-              url,
-            })),
+          imagenes: values.imagenes,
         };
 
         const token = localStorage.getItem("token");

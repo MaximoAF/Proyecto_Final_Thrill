@@ -2,28 +2,62 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import styles from "../../styles/FormProducto/AgregarStock.module.css";
 import { agregarOActualizarStock } from "../../../../services/productotalleService";
+import { useEffect, useState } from "react";
+import { tipoService } from "../../../../services/tipoService";
+import { IProducto } from "../../../../types/IProducto";
+import { ITipo } from "../../../../types/ITipo";
+import { ITalle } from "../../../../types/ITalle";
 
 interface AgregarStockProps {
-  productoId: number;
+  producto: IProducto;
   onStockAgregado?: () => void;
   onClose?: () => void;
 }
 
 export const AgregarStock: React.FC<AgregarStockProps> = ({
-  productoId,
+  producto,
   onStockAgregado,
   onClose,
 }) => {
+  const [talles, setTalles] = useState<ITalle[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchTallesPorTipo = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Debes iniciar sesión para cargar talles");
+        return;
+      }
+
+      if (!producto?.tipo?.id) {
+        alert("El producto no tiene tipo asignado");
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const tipoEncontrado: ITipo = await tipoService.getById(producto.tipo.id);
+        setTalles(tipoEncontrado.talles);
+      } catch (error) {
+        console.error("Error cargando talles:", error);
+        alert("No se pudieron cargar los talles");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTallesPorTipo();
+  }, [producto]);
+
   const formik = useFormik({
     initialValues: {
-      talle: "Promocion",
+      talle: "",
       stock: "",
     },
     validationSchema: yup.object({
-      talle: yup
-        .string()
-        .notOneOf(["Promocion"], "Debe seleccionar un talle")
-        .required("Talle requerido"),
+      talle: yup.string().required("Debe seleccionar un talle"),
       stock: yup
         .number()
         .typeError("Debe ser un número")
@@ -40,8 +74,8 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
 
       try {
         await agregarOActualizarStock(
-          productoId,
-          values.talle,
+          producto.id,
+          parseInt(values.talle),
           parseInt(values.stock.toString())
         );
 
@@ -72,14 +106,16 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
                 ? styles.errorInput
                 : ""
             }
+            disabled={loading || talles.length === 0}
           >
-            <option value="Promocion" disabled>
-              Seleccionar Talle
+            <option value="" disabled>
+              {loading ? "Cargando talles..." : "Seleccionar Talle"}
             </option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
+            {talles.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.talle}
+              </option>
+            ))}
           </select>
           {formik.touched.talle && formik.errors.talle && (
             <small className={styles.error}>{formik.errors.talle}</small>
@@ -110,7 +146,7 @@ export const AgregarStock: React.FC<AgregarStockProps> = ({
         <button type="button" className="button-black" onClick={onClose}>
           Cancelar
         </button>
-        <button type="submit" className="button-black">
+        <button type="submit" className="button-black" disabled={loading}>
           Agregar
         </button>
       </div>
