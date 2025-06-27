@@ -2,6 +2,7 @@ import { IProducto } from "../types/IProducto";
 import { BaseService } from "./BaseService";
 import axios from "axios";
 import { useProductoStore } from "../store/slices/ProductoStore";
+import { useSesionStore } from "../store/slices/SesionStore";
 
 export const productoService = new BaseService<IProducto>("/productos");
 
@@ -49,7 +50,7 @@ export const useEliminarProducto = () => {
 
   const eliminarProducto = async (productoId: string | number) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = useSesionStore.getState().token;
       if (!token) throw new Error("No autenticado");
 
       await axios.delete(`${API_URL}/${productoId}`, {

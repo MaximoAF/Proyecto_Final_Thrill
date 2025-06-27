@@ -37,6 +37,7 @@
 }
 .imgContainer {
   height: 30rem;
+  border-radius: 1.2rem; ;
 }
 .imgsGallery {
   display: flex;

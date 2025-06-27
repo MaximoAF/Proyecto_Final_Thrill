@@ -1,16 +1,15 @@
+import { useSesionStore } from "../store/slices/SesionStore";
 import { ICategoria } from "../types/ICategoria";
 import { BaseService } from "./BaseService";
 import axios from "axios";
 
-export const categoriaService = new BaseService<ICategoria>('/categorias');
+export const categoriaService = new BaseService<ICategoria>("/categorias");
 
-
-const BASE_URL = "https://api-thrill-production-85ac.up.railway.app/api/categorias";
-
-
+const BASE_URL =
+  "https://api-thrill-production-85ac.up.railway.app/api/categorias";
 
 export const getCategorias = async () => {
-  const token = localStorage.getItem("token");
+  const token = useSesionStore.getState().token;
   if (!token) throw new Error("No autenticado");
 
   const response = await axios.get(BASE_URL, {
@@ -23,7 +22,7 @@ export const getCategorias = async () => {
 };
 
 export const crearCategoria = async (nombre: string) => {
-  const token = localStorage.getItem("token");
+  const token = useSesionStore.getState().token;
   if (!token) throw new Error("No autenticado");
 
   const response = await axios.post(
@@ -40,7 +39,7 @@ export const crearCategoria = async (nombre: string) => {
 };
 
 export const actualizarCategoria = async (id: number, nombre: string) => {
-  const token = localStorage.getItem("token");
+  const token = useSesionStore.getState().token;
   if (!token) throw new Error("No autenticado");
 
   const response = await axios.put(
@@ -57,7 +56,7 @@ export const actualizarCategoria = async (id: number, nombre: string) => {
 };
 
 export const eliminarCategoria = async (id: number) => {
-  const token = localStorage.getItem("token");
+  const token = useSesionStore.getState().token;
   if (!token) throw new Error("No autenticado");
 
   const response = await axios.delete(`${BASE_URL}/${id}`, {

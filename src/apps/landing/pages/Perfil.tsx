@@ -32,39 +32,43 @@ export const Perfil = () => {
             <span style={{ color: "var(--black-color)" }}>Tu usuario</span>
           </p>
           <h2 className={styles.title}>Tu usuario</h2>
+
+          {/* Usuario info */}
           <div className={styles.gridContainer}>
-            <div className={styles.infoContainer}>
-              <div className={styles.imageContainer}>
-                {sesion.imagenPerfil ? (
-                  <img src={sesion.imagenPerfil.url} alt="Imagen de perfil" />
-                ) : (
-                  <i className="fa-solid fa-image"></i>
-                )}
+            <div>
+              <div className={styles.infoContainer}>
+                <div className={styles.imageContainer}>
+                  {sesion.imagenPerfil ? (
+                    <img src={sesion.imagenPerfil.url} alt="Imagen de perfil" />
+                  ) : (
+                    <i className="fa-solid fa-image"></i>
+                  )}
+                </div>
+
+                <div>
+                  <h2>{sesion.username}</h2>
+                  <p>{sesion.email}</p>
+                </div>
+
+                <button
+                  className="button-black"
+                  style={{ width: "100%" }}
+                  onClick={() => setShowCloseSesion(true)}
+                >
+                  Cambiar contraseña
+                </button>
+                {/* Separador */}
+                <div className="separator" />
+
+                {/* Cerrar sesion */}
+                <button
+                  className="button-black"
+                  style={{ width: "100%" }}
+                  onClick={() => setShowCloseSesion(true)}
+                >
+                  Cerrar sesion
+                </button>
               </div>
-
-              <div>
-                <h2>{sesion.username}</h2>
-                <p>{sesion.email}</p>
-              </div>
-
-              <button
-                className="button-black"
-                style={{ width: "100%" }}
-                onClick={() => setShowCloseSesion(true)}
-              >
-                Cambiar contraseña
-              </button>
-              {/* Separador */}
-              <div className="separator" />
-
-              {/* Cerrar sesion */}
-              <button
-                className="button-black"
-                style={{ width: "100%" }}
-                onClick={() => setShowCloseSesion(true)}
-              >
-                Cerrar sesion
-              </button>
             </div>
 
             <div className={styles.flexGap}>
@@ -87,9 +91,9 @@ export const Perfil = () => {
                         {i > 0 && <div className="separator" />}
                         <motion.div
                           key={dir.id}
-                          initial={{ opacity: 0, y: 20, width: 0 }}
-                          animate={{ opacity: 1, y: 0, width: "auto" }}
-                          exit={{ opacity: 0, y: -20, width: 0 }}
+                          initial={{ opacity: 0, y: 20, height: 0 }}
+                          animate={{ opacity: 1, y: 0, height: "auto" }}
+                          exit={{ opacity: 0, y: -20, height: 0 }}
                           transition={{ type: "tween", stiffness: 300 }}
                         >
                           <p className="bold">{`Direccion ${dir.calle}`}</p>
@@ -110,9 +114,9 @@ export const Perfil = () => {
                     ))
                   ) : (
                     <motion.div
-                      initial={{ opacity: 0, y: 20, width: 0 }}
-                      animate={{ opacity: 1, y: 0, width: "auto" }}
-                      exit={{ opacity: 0, y: -20, width: 0 }}
+                      initial={{ opacity: 0, y: 20, height: 0 }}
+                      animate={{ opacity: 1, y: 0, height: "auto" }}
+                      exit={{ opacity: 0, y: -20, height: 0 }}
                       transition={{ type: "tween", stiffness: 300 }}
                     >
                       <div className={styles.iconContainer}>
@@ -136,16 +140,30 @@ export const Perfil = () => {
                   </button>
                 </div>
                 <div className="separator" />
-                {sesion.ordenes?.length > 0 ? (
-                  <p>orden id: {sesion.ordenes[0].id}</p>
-                ) : (
-                  <div>
-                    <div className={styles.iconContainer}>
-                      <i className="fa-solid fa-truck"></i>
-                    </div>
-                    <p className={styles.noCampo}>No tienes ninguna orden</p>
-                  </div>
-                )}
+                <AnimatePresence>
+                  {sesion.ordenes?.length > 0 ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20, height: 0 }}
+                      animate={{ opacity: 1, y: 0, height: "auto" }}
+                      exit={{ opacity: 0, y: -20, height: 0 }}
+                      transition={{ type: "tween", stiffness: 300 }}
+                    >
+                      <p>orden id: {sesion.ordenes[0].id}</p>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20, height: 0 }}
+                      animate={{ opacity: 1, y: 0, height: "auto" }}
+                      exit={{ opacity: 0, y: -20, height: 0 }}
+                      transition={{ type: "tween", stiffness: 300 }}
+                    >
+                      <div className={styles.iconContainer}>
+                        <i className="fa-solid fa-truck"></i>
+                      </div>
+                      <p className={styles.noCampo}>No tienes ninguna orden</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>
