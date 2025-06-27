@@ -1,7 +1,6 @@
-// src/services/BaseService.ts
-import api from './api';
+import api from "./api";
 
-export class BaseService<T> {
+export class BaseService<T, C = Partial<T>> {
   constructor(private endpoint: string) {}
 
   getAll = async (): Promise<T[]> => {
@@ -14,7 +13,7 @@ export class BaseService<T> {
     return res.data;
   };
 
-  create = async (data: Partial<T>): Promise<T> => {
+  create = async (data: C): Promise<T> => {
     const res = await api.post<T>(this.endpoint, data);
     return res.data;
   };

@@ -1,4 +1,4 @@
-import { IDireccion } from '../types/IDireccion';
+import { ICrearDireccion, IDireccion } from '../types/IDireccion';
 import { BaseService } from './BaseService';
 
-export const direccionService = new BaseService<IDireccion>('/direccions');
+export const direccionService = new BaseService<IDireccion, ICrearDireccion>('/direcciones');
