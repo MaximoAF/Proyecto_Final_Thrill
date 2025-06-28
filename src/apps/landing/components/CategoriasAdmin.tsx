@@ -1,6 +1,6 @@
 import { Aside } from "./AsideAdmin";
 import { HeaderAdmin } from "./HeaderAdmin";
-import styles from "./../styles/CategoriasAdmin.module.css";
+import styles from "./../styles/CategoriasAdmin.module.css"
 import { FC, useState, useEffect } from "react";
 import { ICategoria } from "../../../types/ICategoria";
 import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
