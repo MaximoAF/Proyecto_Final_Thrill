@@ -21,6 +21,8 @@
   align-items: center;
   background-color: var(--palet-color-1);
   font-size: 3rem;
+
+  cursor: pointer;
 }
 
 /* Values */
