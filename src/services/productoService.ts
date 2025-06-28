@@ -3,8 +3,19 @@ import { BaseService } from "./BaseService";
 import axios from "axios";
 import { useProductoStore } from "../store/slices/ProductoStore";
 import { useSesionStore } from "../store/slices/SesionStore";
+import api from './api';
 
-export const productoService = new BaseService<IProducto>("/productos");
+
+class ProductoService extends BaseService<IProducto> {
+  buscarPorNombre = async (nombre: string): Promise<IProducto[]> => {
+    const res = await api.get<IProducto[]>(`/productos/buscar/nombre`, {
+      params: { nombre },
+    });
+    return res.data;
+  };
+}
+
+export const productoService = new ProductoService("/productos");
 
 const API_URL =
   "https://api-thrill-production-85ac.up.railway.app/api/productos";

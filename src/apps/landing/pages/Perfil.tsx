@@ -142,14 +142,32 @@ export const Perfil = () => {
                 <div className="separator" />
                 <AnimatePresence>
                   {sesion.ordenes?.length > 0 ? (
-                    <motion.div
-                      initial={{ opacity: 0, y: 20, height: 0 }}
-                      animate={{ opacity: 1, y: 0, height: "auto" }}
-                      exit={{ opacity: 0, y: -20, height: 0 }}
-                      transition={{ type: "tween", stiffness: 300 }}
-                    >
-                      <p>orden id: {sesion.ordenes[0].id}</p>
-                    </motion.div>
+                    sesion.ordenes.map((ord,i) => (
+                      <>
+                        {/* Separador */}
+                        {i > 0 && <div className="separator" />}
+                        <motion.div
+                          initial={{ opacity: 0, y: 20, height: 0 }}
+                          animate={{ opacity: 1, y: 0, height: "auto" }}
+                          exit={{ opacity: 0, y: -20, height: 0 }}
+                          transition={{ type: "tween", stiffness: 300 }}
+                        >
+                          <p className="bold">{`Orden de compra: ${ord.fecha}`}</p>
+                          <p>
+                            Total pagado:{" "}
+                            <span className={styles.gray}>${ord.total}</span>
+                          </p>
+                          <p>
+                            Metodo de pago:{" "}
+                            <span className={styles.gray}>{ord.metodoPago}</span>
+                          </p>
+                          <p>
+                            Estado:{" "}
+                            <span className={styles.gray}>{ord.estadoOrden}</span>
+                          </p>
+                        </motion.div>
+                      </>
+                    ))
                   ) : (
                     <motion.div
                       initial={{ opacity: 0, y: 20, height: 0 }}

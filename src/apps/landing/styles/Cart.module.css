@@ -78,3 +78,35 @@
   align-items: center;
   padding-top: 5rem;
 }
+
+/* Select direction */
+.selectDirection {
+  position: fixed;
+  top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--white-color);
+  width:35rem;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+}
+.selectDirectionContent {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gray{
+  color: var(--black-60);
+}
+.spaceBetweenDirection{
+  display: flex;
+  justify-content: space-between;
+}
+.iconContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}

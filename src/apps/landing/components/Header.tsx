@@ -1,6 +1,6 @@
 import styles from "../styles/Header.module.css";
 import thrillLogoBlack from "../../../assets/svg/thrill_logo-dark.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
@@ -9,8 +9,13 @@ export const Header = () => {
   const navigate = useNavigate();
   const [oferClosed, setOferClosed] = useState<boolean>(false);
 
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query")?.toLowerCase() || "";
+
   const categorias = useCategoriaStore((state) => state.categorias);
   const loadCategorias = useCategoriaStore((state) => state.loadCategoria);
+
+  const [searchTerm, setSearchTerm] = useState(query);
 
   useEffect(() => {
     loadCategorias();
@@ -51,11 +56,13 @@ export const Header = () => {
               if (value !== "Categorias") navigate(`/c/${value.toLowerCase()}`);
             }}
           >
-            <option key={'selected'} value="Categorias">
+            <option key={"selected"} value="Categorias">
               Categorias
             </option>
             {categorias.map((cat) => (
-              <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>
+              <option key={cat.id} value={cat.nombre}>
+                {cat.nombre}
+              </option>
             ))}
           </select>
           <button className={styles.button}>Promociones</button>
@@ -64,11 +71,18 @@ export const Header = () => {
         </div>
 
         <div className={styles.buscador}>
-          <i className="fa-solid fa-magnifying-glass"></i>
+          <i onClick={() => navigate(`/serch?query=${searchTerm}`)} className="fa-solid fa-magnifying-glass"></i>
           <input
             className={styles.inputBuscador}
             type="text"
             placeholder="Buscar productos..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                navigate(`/serch?query=${searchTerm}`);
+              }
+            }}
           />
         </div>
 

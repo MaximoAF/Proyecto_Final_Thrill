@@ -24,9 +24,9 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
         useCarritoStore.getState().addCantidad(detalleOrden.id.toString(), 1);
   };
   return (
-    <div className={styles.container} onClick={()=>navigate(`/p/${detalleOrden.productotalle.producto.id}`)}>
+    <div className={styles.container} >
       <div className={styles.infoContainer}>
-        <div className={styles.imgContainer}>
+        <div className={styles.imgContainer} onClick={()=>navigate(`/p/${detalleOrden.productotalle.producto.id}`)}>
           {detalleOrden.productotalle.producto.imagenes.length > 0 ? (
             <img
               src={detalleOrden.productotalle.producto.imagenes[0]?.url}

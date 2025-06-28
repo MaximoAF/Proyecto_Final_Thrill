@@ -5,6 +5,7 @@ import styles from "../../styles/FormProducto/CrearProducto.module.css";
 import { handleImageUpload } from "./UploadImage";
 import { IProducto } from "../../../../types/IProducto";
 import { actualizarProducto } from "../../../../services/productoService";
+import { useSesionStore } from "../../../../store/slices/SesionStore";
 
 interface ICategoria {
   id: number;
@@ -72,7 +73,7 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
     }),
     onSubmit: async (values) => {
       try {
-        const token = localStorage.getItem("token");
+        const token = useSesionStore.getState().token;
         if (!token) {
           alert("No tienes token de autenticación. Debes iniciar sesión.");
           return;
