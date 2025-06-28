@@ -39,8 +39,8 @@ export const MessageCompra: FC<IMessageCompraProps> = ({
             <p style={{ fontSize: "1.5rem" }}>Compra realizada con exito</p>
             <motion.div
               initial={{ opacity: 0, x: -140 }}
-              animate={{ opacity: 1, x: 0}}
-              exit={{ opacity: 0, x: 40}}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 40 }}
               transition={{ type: "tween", stiffness: 300 }}
             >
               <div className={styles.iconContainer}>
@@ -55,15 +55,22 @@ export const MessageCompra: FC<IMessageCompraProps> = ({
             <p style={{ fontSize: "1.5rem" }}>Compra fallida</p>
             <motion.div
               initial={{ opacity: 0, x: -140 }}
-              animate={{ opacity: 1, x: 0}}
-              exit={{ opacity: 0, x: 40}}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 40 }}
               transition={{ type: "tween", stiffness: 300 }}
             >
               <div className={styles.iconContainer}>
-                <i style={{fontSize: '6rem'}} className="fa-solid fa-circle-exclamation"></i>
+                <i
+                  style={{ fontSize: "6rem" }}
+                  className="fa-solid fa-circle-exclamation"
+                ></i>
               </div>
             </motion.div>
           </>
+        )}
+        {/* Mensajes */}
+        {message !== "fallido" && message !== "pagado" && (
+          <p style={{ fontSize: "1.5rem" }}>{message}</p>
         )}
       </AnimatePresence>
 
