@@ -8,7 +8,6 @@ import styles from "../styles/Categoria.module.css";
 import loadingIcon from "../../../assets/Loading_icon.gif";
 import { AnimatePresence, motion } from "framer-motion";
 import { useProductoStore } from "../../../store/slices/ProductoStore";
-import { useTalleStore } from "../../../store/slices/TalleStore";
 import { ICategoria } from "../../../types/ICategoria";
 
 // ...imports arriba sin cambios
@@ -17,7 +16,6 @@ export const Categoria = () => {
   const categoriaName = useParams().categoriaName || "";
   const categorias = useCategoriaStore((state) => state.categorias);
   const productos = useProductoStore((state) => state.productos);
-  const talles = useTalleStore((state) => state.talles);
   const navigate = useNavigate();
 
   const [categoria, setCategoria] = useState<ICategoria | null>(null);

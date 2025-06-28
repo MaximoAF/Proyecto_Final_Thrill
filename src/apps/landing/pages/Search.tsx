@@ -1,9 +1,7 @@
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { useProductoStore } from "../../../store/slices/ProductoStore";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { IProducto } from "../../../types/IProducto";
 import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
-import { useTalleStore } from "../../../store/slices/TalleStore";
 import { ICategoria } from "../../../types/ICategoria";
 import { Header } from "../components/Header";
 import styles from '../styles/Search.module.css'
@@ -21,7 +19,6 @@ export const Search = () => {
   const [productos, setProductos] = useState<IProducto[]>([])
 
   const categorias = useCategoriaStore((state) => state.categorias);
-  const talles = useTalleStore((state) => state.talles);
   const navigate = useNavigate();
 
   const [categoria, setCategoria] = useState<ICategoria | null>(null);
