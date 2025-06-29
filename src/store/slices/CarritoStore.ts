@@ -11,13 +11,14 @@ export const useCarritoStore = create<ICarritoState>()(
       setActiveProductoDetalle: (detalle) =>
         set({ activeProductoDetalle: detalle }),
 
-      clearActiveProductoDetalle: () =>
-        set({ activeProductoDetalle: null }),
+      clearActiveProductoDetalle: () => set({ activeProductoDetalle: null }),
 
       addProductoDetalle: (detalle) =>
         set((state) => ({
           detallesProducto: [...state.detallesProducto, detalle],
         })),
+
+      clearCarrito: () => set({ detallesProducto: [] }),
 
       removeProductoDetalle: (detalleId) =>
         set((state) => ({

@@ -37,6 +37,7 @@ export const Cart = () => {
   const detalles = useCarritoStore((state) => state.detallesProducto);
   const sesion = useSesionStore((state) => state.sesion);
   const setSesion = useSesionStore((state) => state.setSesion);
+  const clearCarrito = useCarritoStore((state) => state.clearCarrito);
 
   const [codigoPromocional, setCodigoPromocional] = useState<string>("");
   const [comprandoLoading, setComprandoLoading] = useState<boolean>(false);
@@ -122,6 +123,8 @@ export const Cart = () => {
 
   useEffect(() => {
     document.title = "Tu carrito - Thrill";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (message) clearCarrito();
     setComprandoLoading(false);
   }, []);
   useEffect(() => {
@@ -295,7 +298,7 @@ export const Cart = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      
+
       {/* Mensaje de MP */}
       <AnimatePresence>
         {messageMp && (
