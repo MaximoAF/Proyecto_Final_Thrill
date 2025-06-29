@@ -6,7 +6,9 @@ export interface ICarritoState {
 
   setActiveProductoDetalle: (prdocuto: IDetalleOrden) => void;
   clearActiveProductoDetalle: () => void;
-
+  
+  clearCarrito: () => void;
+  
   addProductoDetalle: (detalle: IDetalleOrden) => void;
   removeProductoDetalle: (detalleId: string) => void;
   addCantidad: (detalleId: string, cantidad: number) => void;

@@ -38,6 +38,7 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
   const navigate = useNavigate();
 
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   const formik = useFormik<TypeInitialValues>({
     initialValues: {
@@ -48,7 +49,7 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      setButtonLoading(true)
+      setButtonLoading(true);
       const nuevoUsuario: IRegister = {
         username: values.nombre,
         email: values.email,
@@ -66,7 +67,7 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
         console.error("Error al registrar usuario:", error);
         alert("Error al registrar el usuario");
       }
-      setButtonLoading(false)
+      setButtonLoading(false);
     },
   });
 
@@ -108,10 +109,17 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
             <i className="fa-solid fa-asterisk"></i>
           </div>
           <input
-            type="password"
+            type={showPass ? "text" : "password"}
             placeholder="Ingrese una contraseña:"
             {...formik.getFieldProps("password")}
           />
+          <div className={styles.icon}>
+            <i
+              className={`fa-regular ${showPass ? "fa-eye-slash" : "fa-eye"}`}
+              onClick={() => setShowPass(!showPass)}
+              style={{ cursor: "pointer" }}
+            ></i>
+          </div>
         </div>
         {formik.touched.password && formik.errors.password && (
           <small className={styles.error}>{formik.errors.password}</small>
@@ -122,7 +130,7 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
             <i className="fa-solid fa-asterisk"></i>
           </div>
           <input
-            type="password"
+            type={showPass ? "text" : "password"}
             placeholder="Repita la contraseña:"
             {...formik.getFieldProps("repeatpassword")}
           />
@@ -135,7 +143,11 @@ export const Registro: React.FC<RegisterProps> = ({ toggleForm }) => {
       <div className="button-container">
         <button className="button-black" type="submit">
           {buttonLoading ? (
-            <img style={{position: 'absolute', top: "-1.6rem",right: '0' }} src={loadingIcon} alt="loading..." />
+            <img
+              style={{ position: "absolute", top: "-1.6rem", right: "0" }}
+              src={loadingIcon}
+              alt="loading..."
+            />
           ) : (
             "Crear cuenta"
           )}

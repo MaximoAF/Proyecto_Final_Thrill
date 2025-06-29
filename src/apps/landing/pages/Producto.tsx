@@ -92,6 +92,7 @@ export const Producto = () => {
       const res = await productoService.getById(Number(productId));
       if (res) {
         setProducto(res);
+        window.scrollTo({ top: 0, behavior: "smooth" });
         document.title = `${res.nombre} - Thrill`;
       } else {
         setProducto(null);
@@ -101,7 +102,6 @@ export const Producto = () => {
       setIsLoading(false);
     };
     fetchProducto();
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [productId]);
   return (
     <div>

@@ -15,6 +15,7 @@ export const ProductCartView: FC<IProductCartViewProps> = ({
         <div className={styles.imgContainer}>
           {detalleOrden.productotalle.producto.imagenes.length > 0 ? (
             <img
+            style={{borderRadius: '1.2rem'}}
               src={detalleOrden.productotalle.producto.imagenes[0]?.url}
               alt="image"
             />
