@@ -104,7 +104,7 @@ export const Producto = () => {
     fetchProducto();
   }, [productId]);
   return (
-    <div>
+    <div className="flex-page">
       {/* Header */}
       <Header />
       <div>
@@ -352,6 +352,9 @@ export const Producto = () => {
       {/* Podria interesarte */}
       <ArticleGallery title="Esto podría interesarte" productos={productos} />
 
+      {/* Extencible */}
+      <div style={{flexGrow: 1}}></div>
+      
       {/* Footer */}
       <Footer />
     </div>

@@ -68,6 +68,7 @@
   background-color: var(--palet-color-1);
   color: var(--black-color);
   border: none;
+  font-size: 1rem;
 }
 .button:hover {
   opacity: 90%;

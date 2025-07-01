@@ -233,16 +233,16 @@ export const Cart = () => {
               </div>
               {/* Button de cupón */}
               <div className={styles.cuponContainer}>
-                <div style={{ flexGrow: "1" }} className="input-white">
+                <div className="input-white" style={{ flexGrow: 1 }}>
                   <div className={styles.tagContainer}>
                     <i className="fa-solid fa-tag"></i>
+                    <input
+                      type="text"
+                      placeholder="Codigo promocional"
+                      value={codigoPromocional}
+                      onChange={(e) => setCodigoPromocional(e.target.value)}
+                    />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="Codigo promocional"
-                    value={codigoPromocional}
-                    onChange={(e) => setCodigoPromocional(e.target.value)}
-                  />
                 </div>
                 <button
                   className="button-black"
