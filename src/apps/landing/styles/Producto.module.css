@@ -11,9 +11,21 @@
 
 /* grid producto */
 .gridProducto {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+.gridProducto {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
+}
+@media (min-width: 768px) {
+  .gridProducto {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
 }
 
 .productInfo {
@@ -32,19 +44,20 @@
 /* Image */
 .imgGrid {
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 24% 75%;
   gap: 1rem;
 }
 .imgContainer {
-  height: 30rem;
-  border-radius: 1.2rem; ;
+  width: 100%;
+  height: 100%;
+  border-radius: 1.2rem;
 }
 .imgsGallery {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-.noImgContainerSide{
+.noImgContainerSide {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,7 +66,7 @@
   aspect-ratio: 1 / 1; /* cuadrado adaptable */
   font-size: 3rem;
 }
-.noImgContainer{
+.noImgContainer {
   display: flex;
   height: 100%;
   justify-content: center;
@@ -78,9 +91,9 @@
   gap: 1rem;
   margin-top: 1rem;
   border: 1px solid var(--white-color);
-  padding: .1rem;
+  padding: 0.1rem;
   border-radius: 1.5rem;
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .buttonsSize button {
   height: 2.5rem;
@@ -96,7 +109,7 @@
   display: flex;
   gap: 1rem;
 }
-.cuantity{
+.cuantity {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -104,13 +117,13 @@
   width: 8rem;
   border-radius: 1.5rem;
   background-color: var(--palet-color-1);
-  transition: background-color .2s ease;
+  transition: background-color 0.2s ease;
 }
-.cuantity:hover{
-  background-color: var(--black-10); 
+.cuantity:hover {
+  background-color: var(--black-10);
 }
 /* Aded to cart modal */
-.addedToCart{
+.addedToCart {
   position: fixed;
   top: 5rem;
   display: flex;
@@ -123,7 +136,7 @@
 }
 
 /* Error */
-.errorContainer{
+.errorContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -131,6 +144,6 @@
   height: 30rem;
   gap: 3rem;
 }
-.errorSize{
+.errorSize {
   border: 1px solid var(--red-color);
 }

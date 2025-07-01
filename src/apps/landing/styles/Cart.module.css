@@ -1,4 +1,4 @@
-.content{
+.content {
   flex-grow: 1;
   max-width: 78rem;
   width: 95%;
@@ -10,11 +10,18 @@
   gap: 1.5rem;
 }
 .grid{
-  display: grid;
-  grid-template-columns: 3fr 2fr;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
-.products{
+@media (min-width: 768px) {
+  .grid {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 1rem;
+  }
+}
+.products {
   display: flex;
   flex-direction: column;
   border: 1px var(--black-10) solid;
@@ -22,48 +29,49 @@
   gap: 1.5rem;
   padding: 1rem;
 }
-.separatorGap{
+.separatorGap {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 /* Orden */
-.order{
+.order {
   border: 1px var(--black-10) solid;
   border-radius: 1.5rem;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   padding: 1.5rem;
-  
+
   top: 1.5rem;
   position: sticky;
 }
-.orderValues{
+.orderValues {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
-.itemValue{
+.itemValue {
   display: flex;
   justify-content: space-between;
   font-size: 1.5rem;
   color: var(--black-60);
 }
-.totalValue{
+.totalValue {
   display: flex;
   justify-content: space-between;
   font-size: 1.5rem;
 }
 
 /* Cupon */
-.cuponContainer{
-  width: 100%;
+.cuponContainer {
+  max-width: 100%;
   display: flex;
   gap: 1rem;
 }
-.tagContainer{
+.tagContainer {
   font-size: 1.3rem;
   display: flex;
   justify-content: center;
@@ -71,7 +79,7 @@
 }
 
 /* Carrito vacio */
-.emptyCart{
+.emptyCart {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -87,7 +95,7 @@
   flex-direction: column;
   gap: 1rem;
   background-color: var(--white-color);
-  width:35rem;
+  width: 35rem;
   border-radius: 1.5rem;
   padding: 1.5rem;
 }
@@ -97,14 +105,14 @@
   align-items: center;
   justify-content: space-between;
 }
-.gray{
+.gray {
   color: var(--black-60);
 }
-.spaceBetweenDirection{
+.spaceBetweenDirection {
   display: flex;
   justify-content: space-between;
 }
-.iconContainer{
+.iconContainer {
   display: flex;
   justify-content: center;
   align-items: center;
