@@ -12,22 +12,7 @@ import { crearPago } from "../../../services/ordencompraService";
 import { usuarioService } from "../../../services/usuarioService";
 import { MessageCompra } from "../components/cart/MessageCompra";
 import { IDireccion } from "../../../types/IDireccion";
-
-export interface IOrdenNueva {
-  usuario: {
-    id: number;
-  };
-  direccion: {
-    id: number;
-  };
-  detalles: {
-    productoTalle: {
-      id: number;
-    };
-    cantidad: number;
-    precio: number;
-  }[];
-}
+import { ICrearOrden } from "../../../types/IOrdenCompra";
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -50,7 +35,7 @@ export const Cart = () => {
 
   const total = detalles.reduce(
     (sum, detalle) =>
-      sum + detalle.productotalle.producto.precio * detalle.cantidad,
+      sum + detalle.productoTalle.producto.precio * detalle.cantidad,
     0
   );
   const [envioPrice, setEnvioPrecio] = useState<number>(7500);
@@ -65,8 +50,8 @@ export const Cart = () => {
 
   // Mensaje de accion de compra
   const handleMessgeComprar = (message: string) => {
-    setShowMessageCompra(true);
     setMessageCompra(message);
+    setShowMessageCompra(true);
   };
 
   const handleComprar = async () => {
@@ -74,8 +59,12 @@ export const Cart = () => {
     if (sesion && detalles) {
       if (sesion.direcciones.length > 0) {
         if (selectedDir) {
-          const jsonNewOrden: IOrdenNueva = {
+          const jsonNewOrden: ICrearOrden = {
             usuario: { id: sesion.id },
+            total: total,
+            costoEnvio: envioPrice,
+            fecha: new Date().toISOString(),
+
             direccion: { id: selectedDir.id },
             detalles: [],
           };
@@ -84,9 +73,9 @@ export const Cart = () => {
 
           detalles.map((detalle) =>
             jsonNewOrden.detalles.push({
-              productoTalle: { id: detalle.productotalle.id },
+              productoTalle: { id: detalle.productoTalle.id },
               cantidad: detalle.cantidad,
-              precio: detalle.productotalle.producto.precio,
+              precio: detalle.productoTalle.producto.precio,
             })
           );
 
@@ -118,6 +107,7 @@ export const Cart = () => {
       // Se necesita iniciar sesion
       handleMessgeComprar("Se necesita iniciar sesion");
     }
+
     setComprandoLoading(false);
   };
 
@@ -253,27 +243,39 @@ export const Cart = () => {
               </div>
               {/* Button de compra */}
               <div>
-                <button
-                  onClick={() => handleComprar()}
-                  style={{ width: "100%" }}
-                  className="button-black"
-                >
-                  {comprandoLoading ? (
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                      <img
-                        style={{
-                          position: "absolute",
-                          top: "-1.9rem",
-                          width: "10rem",
-                        }}
-                        src={loadingIcon}
-                        alt="loading..."
-                      />
-                    </div>
-                  ) : (
-                    "Comprar"
-                  )}
-                </button>
+                {detalles.length > 0 ? (
+                  <button
+                    onClick={() => handleComprar()}
+                    style={{ width: "100%" }}
+                    className="button-black"
+                  >
+                    {comprandoLoading ? (
+                      <div
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <img
+                          style={{
+                            position: "absolute",
+                            top: "-1.9rem",
+                            width: "10rem",
+                          }}
+                          src={loadingIcon}
+                          alt="loading..."
+                        />
+                      </div>
+                    ) : (
+                      "Comprar"
+                    )}
+                  </button>
+                ) : (
+                  <button
+                    className="button-black"
+                    style={{ width: "100%" }}
+                    onClick={() => navigate("/")}
+                  >
+                    Ir a comprar
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -337,7 +339,10 @@ export const Cart = () => {
 
                 <button
                   className="i-btn"
-                  onClick={() => setShowSelectDir(false)}
+                  onClick={() => {
+                    setSelectedDir(null);
+                    setShowSelectDir(false);
+                  }}
                 >
                   <i className="fa-solid fa-x fa-lg"></i>
                 </button>
@@ -373,40 +378,28 @@ export const Cart = () => {
                           <span className={styles.gray}>{dir.codpostal}</span>
                         </p>
                       </div>
-                      <AnimatePresence>
-                        <motion.div
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -20 }}
-                          transition={{ type: "tween", stiffness: 300 }}
-                          className={styles.iconContainer}
-                        >
+                      <div>
+                        <div className={styles.iconContainer}>
                           {dir === selectedDir ? (
-                            <motion.div
-                              initial={{ opacity: 0, x: 20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              exit={{ opacity: 0, x: -20 }}
-                              transition={{ type: "tween", stiffness: 300 }}
-                            >
-                              <i className="fa-regular fa-circle-check"></i>
-                            </motion.div>
-                          ) : (
-                            <motion.div
-                              initial={{ opacity: 0, x: 20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              exit={{ opacity: 0, x: -20 }}
-                              transition={{ type: "tween", stiffness: 300 }}
-                            >
+                            <div>
                               <i
+                                style={{ fontSize: "1.5rem" }}
+                                className="fa-regular fa-circle-check"
+                              ></i>
+                            </div>
+                          ) : (
+                            <div>
+                              <i
+                                style={{ fontSize: "1.5rem" }}
                                 className="fa-regular fa-circle i-btn"
                                 onClick={() => {
                                   setSelectedDir(dir);
                                 }}
                               ></i>
-                            </motion.div>
+                            </div>
                           )}
-                        </motion.div>
-                      </AnimatePresence>
+                        </div>
+                      </div>
                     </motion.div>
                   </>
                 ))}

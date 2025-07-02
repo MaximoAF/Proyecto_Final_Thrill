@@ -50,7 +50,7 @@ export const Producto = () => {
       const isInCart = useCarritoStore
         .getState()
         .detallesProducto.find(
-          (detalle) => detalle.productotalle.id === selectedSize.id
+          (detalle) => detalle.productoTalle.id === selectedSize.id
         );
       if (isInCart) {
         useCarritoStore
@@ -65,7 +65,7 @@ export const Producto = () => {
       } else {
         const newDetalle: IDetalleOrden = {
           id: Date.now() + Math.random(),
-          productotalle: selectedSize,
+          productoTalle: selectedSize,
           cantidad: cantidad,
           precio: 0,
           eliminado: false,

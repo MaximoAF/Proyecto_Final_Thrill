@@ -15,12 +15,12 @@ export const CategoriesGrid = () => {
           <div className={styles.imgContainer} style={{backgroundImage: `url(${imgSweaters})`}}>
             <p className={styles.categorieNames}>Abrigos</p>
           </div>
-          <div className={styles.imgContainer} style={{backgroundImage: `url(${imgShoes})`}}>
+          <div className={styles.imgContainer} style={{backgroundImage: `url(${imgShoes})`, aspectRatio: '1/1'}}>
             <p className={styles.categorieNames}>Zapatillas</p>
           </div>
         </div>
         <div className={styles.grid2}>
-          <div className={styles.imgContainer} style={{backgroundImage: `url(${imgTshirts})`}}>
+          <div className={styles.imgContainer} style={{backgroundImage: `url(${imgTshirts})`, aspectRatio:'1/1'}}>
             <p className={styles.categorieNames}>Remeras</p>
           </div>
           <div className={styles.imgContainer} style={{backgroundImage: `url(${imgPants})`}}>

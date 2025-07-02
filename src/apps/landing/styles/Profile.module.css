@@ -1,4 +1,4 @@
-.container{
+.container {
   width: 90%;
   max-width: 78rem;
   margin: 0 auto;
@@ -9,19 +9,19 @@
   flex-direction: column;
   gap: 1.5rem;
 }
-.gridContainer{
+.gridContainer {
   display: grid;
   grid-template-columns: 1fr 3fr;
   gap: 1.5rem;
 }
-.flexGap{
+.flexGap {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
 /* Contenido Info */
-.infoContainer{
+.infoContainer {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -29,8 +29,11 @@
   border: 1px solid var(--black-10);
   padding: 1.5rem;
   border-radius: 1.5rem;
+
+  top: 1.5rem;
+  position: sticky;
 }
-.imageContainer{
+.imageContainer {
   background-color: var(--palet-color-1);
 
   display: flex;
@@ -43,7 +46,7 @@
 }
 
 /* Campos */
-.camposContainer{
+.camposContainer {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -52,21 +55,20 @@
   padding: 1.5rem;
   border-radius: 1.5rem;
 }
-.iconContainer{
+.iconContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 5rem;
   color: var(--palet-color-1);
 }
-.noCampo{
+.noCampo {
   font-size: 1.5rem;
   text-align: center;
 }
-.gray{
+.gray {
   color: var(--black-60);
 }
-
 
 /* Close sesion */
 .colseContainer {
