@@ -10,7 +10,6 @@ import { DireccionForm } from "../components/FormulariosPerfil/DireccionForm";
 import { getOrdenesByUser } from "../../../services/ordencompraService";
 import { IOrdenCompra } from "../../../types/IOrdenCompra";
 import { IDireccion } from "../../../types/IDireccion";
-import { direccionService } from "../../../services/direccionService";
 
 export const Perfil = () => {
   const sesion = useSesionStore((state) => state.sesion);
