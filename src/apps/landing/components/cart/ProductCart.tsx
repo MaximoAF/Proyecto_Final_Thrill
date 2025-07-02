@@ -19,8 +19,8 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
     }
   };
   const handleAdd = () => {
-    if (detalleOrden.productotalle)
-      if (detalleOrden.cantidad < detalleOrden.productotalle.stock)
+    if (detalleOrden.productoTalle)
+      if (detalleOrden.cantidad < detalleOrden.productoTalle.stock)
         useCarritoStore.getState().addCantidad(detalleOrden.id.toString(), 1);
   };
   return (
@@ -29,13 +29,13 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
         <div
           className={styles.imgContainer}
           onClick={() =>
-            navigate(`/p/${detalleOrden.productotalle.producto.id}`)
+            navigate(`/p/${detalleOrden.productoTalle.producto.id}`)
           }
         >
-          {detalleOrden.productotalle.producto.imagenes.length > 0 ? (
+          {detalleOrden.productoTalle.producto.imagenes.length > 0 ? (
             <img
               style={{ borderRadius: "1.2rem" }}
-              src={detalleOrden.productotalle.producto.imagenes[0]?.url}
+              src={detalleOrden.productoTalle.producto.imagenes[0]?.url}
               alt="image"
             />
           ) : (
@@ -45,25 +45,25 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
         <div className={styles.valorContainer}>
           <div>
             <p className={styles.title}>
-              {detalleOrden.productotalle.producto.nombre}
+              {detalleOrden.productoTalle.producto.nombre}
             </p>
             <p>
               Color:{" "}
               <span className={styles.gray}>
-                {detalleOrden.productotalle.producto.color}
+                {detalleOrden.productoTalle.producto.color}
               </span>
             </p>
             <p>
               Size:{" "}
               <span className={styles.gray}>
-                {detalleOrden.productotalle.talle.talle}
+                {detalleOrden.productoTalle.talle.talle}
               </span>
             </p>
           </div>
           <p className={styles.price}>
             $
             {(
-              detalleOrden.productotalle.producto.precio * detalleOrden.cantidad
+              detalleOrden.productoTalle.producto.precio * detalleOrden.cantidad
             ).toLocaleString("es-AR")}
           </p>
         </div>
@@ -78,7 +78,7 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
                 .removeProductoDetalle(detalleOrden.id.toString())
             }
           >
-            <i className="fa-regular fa-trash-can"></i>
+            <i style={{fontSize: '1.5rem'}} className="fa-regular fa-trash-can"></i>
           </div>
         </div>
         <div
@@ -88,12 +88,12 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
             alignItems: "end",
           }}
         >
-          {detalleOrden.productotalle.stock - detalleOrden.cantidad < 6 && (
+          {detalleOrden.productoTalle.stock - detalleOrden.cantidad < 6 && (
             <p style={{ color: "var(--red-color)", textAlign: "center" }}>
-              {detalleOrden.productotalle.stock - detalleOrden.cantidad === 0
+              {detalleOrden.productoTalle.stock - detalleOrden.cantidad === 0
                 ? `No hay mas en stock!`
                 : `${
-                    detalleOrden.productotalle.stock - detalleOrden.cantidad
+                    detalleOrden.productoTalle.stock - detalleOrden.cantidad
                   } mas en stock`}
             </p>
           )}
@@ -109,7 +109,7 @@ export const ProductCart: FC<IProductCartProps> = ({ detalleOrden }) => {
             </p>
             <div
               className={
-                detalleOrden.cantidad < detalleOrden.productotalle.stock
+                detalleOrden.cantidad < detalleOrden.productoTalle.stock
                   ? "i-btn"
                   : "i-btn-disable"
               }

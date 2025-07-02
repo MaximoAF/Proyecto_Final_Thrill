@@ -13,10 +13,10 @@ export const ProductCartView: FC<IProductCartViewProps> = ({
     <div className={styles.container}>
       <div className={styles.infoContainer}>
         <div className={styles.imgContainer}>
-          {detalleOrden.productotalle.producto.imagenes.length > 0 ? (
+          {detalleOrden.productoTalle.producto.imagenes.length > 0 ? (
             <img
             style={{borderRadius: '1.2rem'}}
-              src={detalleOrden.productotalle.producto.imagenes[0]?.url}
+              src={detalleOrden.productoTalle.producto.imagenes[0]?.url}
               alt="image"
             />
           ) : (
@@ -26,18 +26,18 @@ export const ProductCartView: FC<IProductCartViewProps> = ({
         <div className={styles.valorContainer}>
           <div>
             <p className={styles.title}>
-              {detalleOrden.productotalle.producto.nombre}
+              {detalleOrden.productoTalle.producto.nombre}
             </p>
             <p>
               Color:{" "}
               <span className={styles.gray}>
-                {detalleOrden.productotalle.producto.color}
+                {detalleOrden.productoTalle.producto.color}
               </span>
             </p>
             <p>
               Size:{" "}
               <span className={styles.gray}>
-                {detalleOrden.productotalle.talle.talle}
+                {detalleOrden.productoTalle.talle.talle}
               </span>
             </p>
             <p>
@@ -48,7 +48,7 @@ export const ProductCartView: FC<IProductCartViewProps> = ({
           <p className={styles.price}>
             $
             {(
-              detalleOrden.productotalle.producto.precio * detalleOrden.cantidad
+              detalleOrden.productoTalle.producto.precio * detalleOrden.cantidad
             ).toLocaleString("es-AR")}
           </p>
         </div>

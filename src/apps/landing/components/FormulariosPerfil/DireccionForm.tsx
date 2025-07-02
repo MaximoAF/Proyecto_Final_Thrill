@@ -40,7 +40,7 @@ export const DireccionForm = ({ usuario, onClose }: IDireccionFormProps) => {
         direcciones: [...usuario.direcciones, res],
       };
       setSesion(sesionUpdated);
-      onClose()
+      onClose();
     } catch (err) {
       console.error("Error al crear dirección:", err);
     }
@@ -55,27 +55,27 @@ export const DireccionForm = ({ usuario, onClose }: IDireccionFormProps) => {
       <Form className={styles.formContainer}>
         <div className={styles.inputsContainer}>
           <label className="bold-24px">Calle</label>
-          <Field className="input-white" name="calle" placeholder="calle" />
+          <div className="input-white">
+            <Field name="calle" placeholder="calle" />
+          </div>
           <ErrorMessage name="calle" component="div" className="bold-red" />
         </div>
 
         <div className={styles.inputsContainer}>
           <label className="bold-24px">Localidad</label>
-          <Field
-            className="input-white"
-            name="localidad"
-            placeholder="localidad"
-          />
+          <div className="input-white">
+            <Field name="localidad" placeholder="localidad" />
+          </div>
+
           <ErrorMessage name="localidad" component="div" className="bold-red" />
         </div>
 
         <div className={styles.inputsContainer}>
           <label className="bold-24px">Código Postal</label>
-          <Field
-            className="input-white"
-            name="codpostal"
-            placeholder="codpostal"
-          />
+          <div className="input-white">
+            <Field name="codpostal" placeholder="codpostal" />
+          </div>
+
           <ErrorMessage name="codpostal" component="div" className="bold-red" />
         </div>
 

@@ -146,8 +146,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
   background-color: var(--palet-color-1);
   border-radius: 1.5rem;
-  padding: 0 1rem;
   color: var(--black-40);
+  padding: 0 1rem;
 }
 
 /* Buttons */
@@ -183,6 +183,15 @@ input[type="number"]::-webkit-outer-spin-button {
   transform: scale(1.05);
   opacity: 90%;
   background-color: var(--white-color);
+}
+.div-btn{
+  transition: transform 0.1s ease;
+  cursor: pointer;
+  padding: 0px;
+}
+.div-btn:hover {
+  transform: scale(1.1);
+  background-color: transparent;
 }
 .i-btn {
   transition: transform 0.1s ease;

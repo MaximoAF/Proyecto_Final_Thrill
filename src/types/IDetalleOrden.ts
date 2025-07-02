@@ -5,7 +5,11 @@ export interface IDetalleOrden {
   eliminado: boolean;
   cantidad: number;
   precio: number;
-  productotalle: IProductoTalle;
+  productoTalle: IProductoTalle;
 }
 
-export type ICrearDetalleOrden = Omit<IDetalleOrden, "id" | "eliminado">;
+export interface ICrearDetalle {
+  productoTalle: { id: number };
+  cantidad: number;
+  precio: number;
+}

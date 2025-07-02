@@ -34,9 +34,9 @@ export const useCarritoStore = create<ICarritoState>()(
               ? {
                   ...detalle,
                   cantidad:
-                    detalle.cantidad + cantidad <= detalle.productotalle.stock
+                    detalle.cantidad + cantidad <= detalle.productoTalle.stock
                       ? detalle.cantidad + cantidad
-                      : detalle.productotalle.stock,
+                      : detalle.productoTalle.stock,
                 }
               : detalle
           ),
