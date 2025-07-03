@@ -26,6 +26,7 @@ export const Producto = () => {
   const [cantidad, setCantidad] = useState<number>(1);
   const [showAdedToCart, setShowAddToCart] = useState<boolean>(false);
   const [productoStock, setProductoStock] = useState<number>(0);
+  const [imgSelected, setImgSelected] = useState<number>(0);
   const [producto, setProducto] = useState<IProducto | null>(null);
 
   const handleMinus = () => {
@@ -143,9 +144,10 @@ export const Producto = () => {
                   <div className={styles.imgsGallery}>
                     {producto.imagenes.length > 0 ? (
                       <img
-                        style={{ borderRadius: "1.2rem" }}
+                        style={{ borderRadius: "1.2rem", cursor: 'pointer' }}
                         src={producto.imagenes[0].url}
                         alt="Imagen"
+                        onClick={()=>setImgSelected(0)}
                       />
                     ) : (
                       <div className={styles.noImgContainerSide}>
@@ -154,9 +156,10 @@ export const Producto = () => {
                     )}
                     {producto.imagenes.length > 1 ? (
                       <img
-                        style={{ borderRadius: "1.2rem" }}
+                        style={{ borderRadius: "1.2rem", cursor: 'pointer' }}
                         src={producto.imagenes[1].url}
                         alt="Imagen"
+                        onClick={()=>setImgSelected(1)}
                       />
                     ) : (
                       <div className={styles.noImgContainerSide}>
@@ -165,9 +168,10 @@ export const Producto = () => {
                     )}
                     {producto.imagenes.length > 2 ? (
                       <img
-                        style={{ borderRadius: "1.2rem" }}
+                        style={{ borderRadius: "1.2rem", cursor: 'pointer' }}
                         src={producto.imagenes[2].url}
                         alt="Imagen"
+                        onClick={()=>setImgSelected(2)}
                       />
                     ) : (
                       <div className={styles.noImgContainerSide}>
@@ -178,7 +182,7 @@ export const Producto = () => {
                   {producto.imagenes.length > 0 ? (
                     <img
                       className={styles.imgContainer}
-                      src={producto.imagenes[0].url}
+                      src={producto.imagenes[imgSelected].url}
                       alt="Imagen"
                     />
                   ) : (
