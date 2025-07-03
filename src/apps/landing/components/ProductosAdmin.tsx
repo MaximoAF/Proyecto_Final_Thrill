@@ -171,8 +171,8 @@ export const EditarProducto = () => {
       <Aside />
       <div className={styles.container}>
         <HeaderAdmin />
-        <h4>Productos</h4>
         <div className={styles.addContainer}>
+          <h4>Productos</h4>
           <button className="button-black" onClick={() => setShowForm(true)}>
             Agregar producto <i className="fa-solid fa-add"></i>
           </button>

@@ -1,4 +1,4 @@
-import styles from "../../styles/FormProducto/CrearProducto.module.css";
+import styles from "../../styles/FormCategoria/CrearCategoria.module.css";
 import { FC, useState } from "react";
 import { crearCategoria } from "../../../../services/categoriaService"; // Asegurate de importar bien
 
@@ -32,11 +32,11 @@ export const CrearCategoria: FC<ICrearCategoriaProps> = ({ onClose, onCategoriaC
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles.content}>
+      <div>
         <h2 className={styles.title}>Crear Categoría</h2>
       </div>
 
-      <div className={styles.input}>
+      <div className='input-white'>
         <input
           type="text"
           placeholder="Nombre"

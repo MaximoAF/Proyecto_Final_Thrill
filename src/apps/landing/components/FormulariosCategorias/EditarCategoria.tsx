@@ -1,4 +1,4 @@
-import styles from "../../styles/FormProducto/CrearProducto.module.css";
+import styles from "../../styles/FormCategoria/CrearCategoria.module.css";
 import { FC, useState } from "react";
 import { actualizarCategoria } from "../../../../services/categoriaService";
 import { ICategoria } from "../../../../types/ICategoria";
@@ -38,11 +38,11 @@ export const EditarCategoria: FC<IEditarCategoriaProps> = ({
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles.content}>
+      <div>
         <h2 className={styles.title}>Editar Categoría</h2>
       </div>
 
-      <div className={styles.input}>
+      <div className="input-white">
         <input
           type="text"
           value={nombre}

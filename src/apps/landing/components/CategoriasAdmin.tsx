@@ -71,8 +71,8 @@ export const CategoriasAdmin: FC = () => {
       <div className={styles.container}>
         <HeaderAdmin />
         <div className={styles.container}>
-          <h4>Categorías</h4>
           <div className={styles.addContainer}>
+          <h4>Categorías</h4>
             <button
               className="button-black"
               onClick={() => setMostrarFormulario(true)}
