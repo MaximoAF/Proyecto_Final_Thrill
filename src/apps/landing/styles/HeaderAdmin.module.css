@@ -9,10 +9,9 @@
 .adminName{
   width: 10rem;
   color: var(--black-color);
-  font-size: 18px;
   padding-left: .5rem;
 }
 .imgLogo{
-  height: 50px;
-  width: 50px;
+  height: 3rem;
+  width: 3rem;
 }

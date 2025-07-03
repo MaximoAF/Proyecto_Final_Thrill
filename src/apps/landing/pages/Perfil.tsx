@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSesionStore } from "../../../store/slices/SesionStore";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
@@ -84,14 +84,14 @@ export const Perfil = () => {
                   <h2>{sesion.username}</h2>
                   <p>{sesion.email}</p>
                 </div>
-
+{/* 
                 <button
                   className="button-black"
                   style={{ width: "100%" }}
                   onClick={() => setShowCloseSesion(true)}
                 >
                   Cambiar contraseña
-                </button>
+                </button> */}
                 {/* Separador */}
                 <div className="separator" />
 
@@ -124,11 +124,10 @@ export const Perfil = () => {
                 <AnimatePresence>
                   {direcciones.length > 0 ? (
                     direcciones.map((dir, i) => (
-                      <>
+                      <React.Fragment key={dir.id}>
                         {/* Separador */}
                         {i > 0 && <div className="separator" />}
                         <motion.div
-                          key={dir.id}
                           initial={{ opacity: 0, y: 20, height: 0 }}
                           animate={{ opacity: 1, y: 0, height: "auto" }}
                           exit={{ opacity: 0, y: -20, height: 0 }}
@@ -162,7 +161,7 @@ export const Perfil = () => {
                             <span className={styles.gray}>{dir.codpostal}</span>
                           </p>
                         </motion.div>
-                      </>
+                      </React.Fragment>
                     ))
                   ) : isLoading ? (
                     <motion.div
@@ -212,7 +211,7 @@ export const Perfil = () => {
                 <AnimatePresence>
                   {ordenes.length > 0 ? (
                     ordenes.map((ord, i) => (
-                      <>
+                      <React.Fragment key={ord.id}>
                         {/* Separador */}
                         {i > 0 && <div className="separator" />}
                         <motion.div
@@ -267,7 +266,7 @@ export const Perfil = () => {
                             Total pagado: ${ord.total + ord.costoEnvio}
                           </p>
                         </motion.div>
-                      </>
+                      </React.Fragment>
                     ))
                   ) : isLoading ? (
                     <motion.div
