@@ -8,9 +8,6 @@ export const useProductoStore = create<IProductoState>((set, get) => ({
   activeProducto: null,
 
   loadProducts: async () => {
-    const current = get().productos;
-    if (current.length > 0) return;
-
     try {
       const data = await productoService.getAll();
       set({ productos: data });
