@@ -13,7 +13,7 @@ export interface IProducto {
   color: string;
   marca: string;
   imagenes: IImagen[];
-  categoria: ICategoria[];
+  categorias: ICategoria[];
   tipo: ITipo;
   productoTalles: IProductoTalle[];
   descuentos: IDescuento[];

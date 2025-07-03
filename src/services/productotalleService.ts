@@ -13,7 +13,7 @@ export const agregarOActualizarStock = async (
 
   try {
     const existeRes = await axios.get(
-      `${BASE_URL}`,
+      `${BASE_URL}/producto/${productoId}/talle/${talleId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -39,8 +39,8 @@ export const agregarOActualizarStock = async (
       await axios.post(
         BASE_URL,
         {
-          producto: { Id: productoId },
-          talle: { Id: talleId },
+          producto: { id: productoId },
+          talle: { id: talleId },
           stock,
         },
         {

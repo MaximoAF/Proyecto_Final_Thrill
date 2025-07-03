@@ -251,18 +251,19 @@ export const Perfil = () => {
                           <p className="bold">Productos: </p>
                           {ord.detalles.map((det) => (
                             <>
-                              <p>
-                                {`${det.productoTalle.producto.nombre}[${det.productoTalle.talle.talle}] `}
-                                <span className={styles.gray}>
-                                  {`x ${det.cantidad}`}
-                                </span>
-                              </p>
+                              {det.productoTalle && (
+                                <p>
+                                  {`${det.productoTalle.producto.nombre}[${det.productoTalle.talle.talle}] `}
+                                  <span className={styles.gray}>
+                                    {`x ${det.cantidad}`}
+                                  </span>
+                                </p>
+                              )}
                             </>
                           ))}
                           <br />
                           <p className="bold">
-                            Total pagado:{" "}
-                              ${ord.total + ord.costoEnvio}
+                            Total pagado: ${ord.total + ord.costoEnvio}
                           </p>
                         </motion.div>
                       </>
