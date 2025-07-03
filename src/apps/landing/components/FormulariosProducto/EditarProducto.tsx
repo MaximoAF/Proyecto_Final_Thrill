@@ -200,99 +200,103 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
             <small className={styles.error}>{formik.errors.imagenes}</small>
           )}
 
-        <div className={styles.input}>
-          <input
-            type="text"
-            placeholder="Nombre"
-            {...formik.getFieldProps("nombre")}
-          />
-        </div>
-        {formik.touched.nombre && formik.errors.nombre && (
-          <small className={styles.error}>{formik.errors.nombre}</small>
-        )}
-        <div className={styles.input}>
-          <input
-            type="number"
-            placeholder="Precio"
-            {...formik.getFieldProps("precio")}
-          />
-        </div>
-        {formik.touched.precio && formik.errors.precio && (
-          <small className={styles.error}>{formik.errors.precio}</small>
-        )}
-        <div className={styles.input}>
-          <input
-            type="text"
-            placeholder="Descripción"
-            {...formik.getFieldProps("descripcion")}
-          />
-        </div>
-        {formik.touched.descripcion && formik.errors.descripcion && (
-          <small className={styles.error}>{formik.errors.descripcion}</small>
-        )}
-        <div className={styles.input}>
-          <input
-            type="text"
-            placeholder="Color"
-            {...formik.getFieldProps("color")}
-          />
-        </div>
-        {formik.touched.color && formik.errors.color && (
-          <small className={styles.error}>{formik.errors.color}</small>
-        )}
-        <div className={styles.input}>
-          <input
-            type="text"
-            placeholder="Marca"
-            {...formik.getFieldProps("marca")}
-          />
-        </div>
-        {formik.touched.marca && formik.errors.marca && (
-          <small className={styles.error}>{formik.errors.marca}</small>
-        )}
+        <div className={styles.gridContainer}>
+          <div className={styles.input}>
+            <input
+              type="text"
+              placeholder="Nombre"
+              {...formik.getFieldProps("nombre")}
+            />
+          </div>
+          {formik.touched.nombre && formik.errors.nombre && (
+            <small className={styles.error}>{formik.errors.nombre}</small>
+          )}
+          <div className={styles.input}>
+            <input
+              type="number"
+              placeholder="Precio"
+              {...formik.getFieldProps("precio")}
+            />
+          </div>
+          {formik.touched.precio && formik.errors.precio && (
+            <small className={styles.error}>{formik.errors.precio}</small>
+          )}
+          <div className={styles.input}>
+            <input
+              type="text"
+              placeholder="Descripción"
+              {...formik.getFieldProps("descripcion")}
+            />
+          </div>
+          {formik.touched.descripcion && formik.errors.descripcion && (
+            <small className={styles.error}>{formik.errors.descripcion}</small>
+          )}
+          <div className={styles.input}>
+            <input
+              type="text"
+              placeholder="Color"
+              {...formik.getFieldProps("color")}
+            />
+          </div>
+          {formik.touched.color && formik.errors.color && (
+            <small className={styles.error}>{formik.errors.color}</small>
+          )}
+          <div className={styles.input}>
+            <input
+              type="text"
+              placeholder="Marca"
+              {...formik.getFieldProps("marca")}
+            />
+          </div>
+          {formik.touched.marca && formik.errors.marca && (
+            <small className={styles.error}>{formik.errors.marca}</small>
+          )}
 
-        <select {...formik.getFieldProps("tipoId")}>
-          <option value="" disabled>
-            Selecciona un tipo
-          </option>
-          {tipos.map((tipo) => (
-            <option key={tipo.id} value={tipo.id}>
-              {tipo.nombre}
+          <select className={styles.input} {...formik.getFieldProps("tipoId")}>
+            <option value="" disabled>
+              Selecciona un tipo
             </option>
-          ))}
-        </select>
-        {formik.touched.tipoId && formik.errors.tipoId && (
-          <small className={styles.error}>{formik.errors.tipoId}</small>
-        )}
+            {tipos.map((tipo) => (
+              <option key={tipo.id} value={tipo.id}>
+                {tipo.nombre}
+              </option>
+            ))}
+          </select>
+          {formik.touched.tipoId && formik.errors.tipoId && (
+            <small className={styles.error}>{formik.errors.tipoId}</small>
+          )}
+        </div>
 
         <div className={styles.categoriasScroll}>
           <div className={styles.checkboxGroup} role="group">
-            <h4 className={styles.groupTitle}>Categorías</h4>
-            {categorias.map((cat) => (
-              <label key={cat.id} className={styles.checkboxLabel}>
-                <input
-                  type="checkbox"
-                  name="categoriaIds"
-                  value={cat.id}
-                  checked={formik.values.categoriaIds.includes(cat.id)}
-                  onChange={(e) => {
-                    const id = parseInt(e.target.value);
-                    if (e.target.checked) {
-                      formik.setFieldValue("categoriaIds", [
-                        ...formik.values.categoriaIds,
-                        id,
-                      ]);
-                    } else {
-                      formik.setFieldValue(
-                        "categoriaIds",
-                        formik.values.categoriaIds.filter((cid) => cid !== id)
-                      );
-                    }
-                  }}
-                />
-                {cat.nombre}
-              </label>
-            ))}
+            <p className={styles.groupTitle}>Categorías</p>
+            <div className={styles.gridContainer}>
+              {categorias.map((cat) => (
+                <label key={cat.id} className={styles.checkboxLabel}>
+                  <p>{cat.nombre}</p>
+                  <input
+                    type="checkbox"
+                    name="categoriaIds"
+                    value={cat.id}
+                    checked={formik.values.categoriaIds.includes(cat.id)}
+                    onChange={(e) => {
+                      const id = parseInt(e.target.value);
+                      if (e.target.checked) {
+                        formik.setFieldValue("categoriaIds", [
+                          ...formik.values.categoriaIds,
+                          id,
+                        ]);
+                      } else {
+                        formik.setFieldValue(
+                          "categoriaIds",
+                          formik.values.categoriaIds.filter((cid) => cid !== id)
+                        );
+                      }
+                    }}
+                  />
+                </label>
+              ))}
+            </div>
           </div>
         </div>
         {formik.touched.categoriaIds &&

@@ -183,7 +183,8 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
             <small className={styles.error}>{formik.errors.imagenes}</small>
           )}
 
-        <div className={styles.input}>
+        <div className={styles.gridContainer}>
+          <div className={styles.input}>
           <input
             type="text"
             placeholder="Nombre"
@@ -234,7 +235,7 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
           <small className={styles.error}>{formik.errors.marca}</small>
         )}
 
-        <select {...formik.getFieldProps("tipoId")}>
+        <select className={styles.input} {...formik.getFieldProps("tipoId")}>
           <option value="" disabled>
             Selecciona un tipo
           </option>
@@ -244,38 +245,41 @@ export const CrearProducto: React.FC<ICrearProductoProps> = ({
             </option>
           ))}
         </select>
+        </div>
         {formik.touched.tipoId && formik.errors.tipoId && (
           <small className={styles.error}>{formik.errors.tipoId}</small>
         )}
 
         <div className={styles.categoriasScroll}>
           <div className={styles.checkboxGroup} role="group">
-            <h4 className={styles.groupTitle}>Categorías</h4>
-            {categorias.map((cat) => (
-              <label key={cat.id} className={styles.checkboxLabel}>
-                <input
-                  type="checkbox"
-                  name="categoriaIds"
-                  value={cat.id}
-                  checked={formik.values.categoriaIds.includes(cat.id)}
-                  onChange={(e) => {
-                    const id = parseInt(e.target.value);
-                    if (e.target.checked) {
-                      formik.setFieldValue("categoriaIds", [
-                        ...formik.values.categoriaIds,
-                        id,
-                      ]);
-                    } else {
-                      formik.setFieldValue(
-                        "categoriaIds",
-                        formik.values.categoriaIds.filter((cid) => cid !== id)
-                      );
-                    }
-                  }}
-                />
-                {cat.nombre}
-              </label>
-            ))}
+            <p className={styles.groupTitle}>Categorías</p>
+            <div className={styles.gridContainer}>
+              {categorias.map((cat) => (
+                <label key={cat.id} className={styles.checkboxLabel}>
+                  <p>{cat.nombre}</p>
+                  <input
+                    type="checkbox"
+                    name="categoriaIds"
+                    value={cat.id}
+                    checked={formik.values.categoriaIds.includes(cat.id)}
+                    onChange={(e) => {
+                      const id = parseInt(e.target.value);
+                      if (e.target.checked) {
+                        formik.setFieldValue("categoriaIds", [
+                          ...formik.values.categoriaIds,
+                          id,
+                        ]);
+                      } else {
+                        formik.setFieldValue(
+                          "categoriaIds",
+                          formik.values.categoriaIds.filter((cid) => cid !== id)
+                        );
+                      }
+                    }}
+                  />
+                </label>
+              ))}
+            </div>
           </div>
         </div>
         {formik.touched.categoriaIds &&

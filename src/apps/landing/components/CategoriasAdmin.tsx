@@ -34,7 +34,7 @@ export const CategoriasAdmin: FC = () => {
   useEffect(() => {
     cargarCategorias()
 
-  }, []);
+  }, [mostrarEliminar,mostrarFormularioEditar,mostrarFormulario]);
 
   return (
     <div className="aside-mainContainer">

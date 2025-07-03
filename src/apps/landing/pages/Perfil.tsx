@@ -10,6 +10,7 @@ import { DireccionForm } from "../components/FormulariosPerfil/DireccionForm";
 import { getOrdenesByUser } from "../../../services/ordencompraService";
 import { IOrdenCompra } from "../../../types/IOrdenCompra";
 import { IDireccion } from "../../../types/IDireccion";
+import { direccionService } from "../../../services/direccionService";
 
 export const Perfil = () => {
   const sesion = useSesionStore((state) => state.sesion);
@@ -25,7 +26,7 @@ export const Perfil = () => {
 
   const handleDeleteDireccion = async (id: number) => {
     try {
-      //await direccionService.delete(id);
+      await direccionService.delete(id);
       setDirecciones((prev) => prev.filter((dir) => dir.id !== id));
     } catch (error) {
       console.error("Error al eliminar la direccion:", error);

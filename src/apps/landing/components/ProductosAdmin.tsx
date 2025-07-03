@@ -38,12 +38,12 @@ export const EditarProducto = () => {
   const [mostrarEliminar, setMostrarEliminar] = useState(false);
   const [productoSeleccionado, setProductoSeleccionado] =
     useState<IProducto | null>(null);
-  const [productosPagina, setProductosPagina] = useState<IProducto[]>([]);
 
   const productosPorPagina = 10;
   const totalPaginas = Math.ceil(productos.length / productosPorPagina);
   const indiceInicio = (paginaActual - 1) * productosPorPagina;
   const indiceFin = indiceInicio + productosPorPagina;
+  const productosPagina = productos.slice(indiceInicio, indiceFin);
 
   const cambiarPagina = (pagina: number) => {
     if (pagina >= 1 && pagina <= totalPaginas) {
@@ -71,7 +71,7 @@ export const EditarProducto = () => {
     };
 
     fetchDatosParaFormulario();
-  }, [loadProducts]);
+  }, [mostrarEliminar, mostrarFormularioEditar, showForm]);
 
   const cargarStockPorProducto = async (productoId: number) => {
     try {
@@ -96,10 +96,6 @@ export const EditarProducto = () => {
       }
     });
   }, [productos]);
-
-  useEffect(() => {
-    setProductosPagina(productos.slice(indiceInicio, indiceFin));
-  }, [productos, indiceInicio, indiceFin]);
 
   const productoParaEditar =
     productoSeleccionado && productoSeleccionado.id !== undefined
@@ -143,7 +139,10 @@ export const EditarProducto = () => {
       {mostrarFormularioEditar && productoParaEditar && (
         <div className="overlay">
           <EditarProductoForm
-            onClose={() => setMostrarFormularioEditar(false)}
+            onClose={() => {
+              setMostrarFormularioEditar(false);
+              loadProducts();
+            }}
             producto={productoParaEditar!}
             categorias={categorias}
             tipos={tipos}
@@ -163,6 +162,7 @@ export const EditarProducto = () => {
             onClose={() => {
               setMostrarEliminar(false);
               setProductoSeleccionado(null);
+              loadProducts();
             }}
           />
         </div>
