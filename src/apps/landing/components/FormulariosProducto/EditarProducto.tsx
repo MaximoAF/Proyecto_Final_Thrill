@@ -50,7 +50,7 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
       descripcion: producto.descripcion || "",
       color: producto.color || "",
       marca: producto.marca || "",
-      categoriaIds: producto.categoria?.map((cat) => cat.id) || [],
+      categoriaIds: producto.categorias?.map((cat) => cat.id) || [],
       tipoId: producto.tipo?.id?.toString() || "",
       imagenes: [],
     },
@@ -79,7 +79,14 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
           return;
         }
 
-        const urls = await handleImageUpload(values.imagenes);
+        const imagenesSubidas: string[] = await Promise.all(
+          (values.imagenes as (string | File)[]).map(
+            async (img): Promise<string> => {
+              if (typeof img === "string") return img;
+              return (await handleImageUpload([img]))[0];
+            }
+          )
+        );
 
         const datosProducto = {
           id: producto.id,
@@ -91,7 +98,7 @@ export const EditarProductoForm: React.FC<IEditarProductoProps> = ({
           tipoId: parseInt(values.tipoId),
           categoriaIds: values.categoriaIds,
           cantidad: 0,
-          imagenes: urls.map((url) => ({ url })),
+          imagenes: imagenesSubidas,
         };
 
         const actualizado = await actualizarProducto(

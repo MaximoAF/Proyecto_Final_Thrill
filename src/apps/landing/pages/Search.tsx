@@ -4,8 +4,8 @@ import { IProducto } from "../../../types/IProducto";
 import { useCategoriaStore } from "../../../store/slices/CategoriaStore";
 import { ICategoria } from "../../../types/ICategoria";
 import { Header } from "../components/Header";
-import styles from '../styles/Search.module.css'
-import { AnimatePresence, motion } from 'framer-motion';
+import styles from "../styles/Search.module.css";
+import { AnimatePresence, motion } from "framer-motion";
 import { Footer } from "../components/Footer";
 import { ErrorPage } from "./ErrorPage";
 import loadingIcon from "../../../assets/Loading_icon.gif";
@@ -16,7 +16,7 @@ export const Search = () => {
   const query = searchParams.get("query")?.toLowerCase() || "";
 
   // ejemplo: filtrar productos
-  const [productos, setProductos] = useState<IProducto[]>([])
+  const [productos, setProductos] = useState<IProducto[]>([]);
 
   const categorias = useCategoriaStore((state) => state.categorias);
   const navigate = useNavigate();
@@ -34,11 +34,10 @@ export const Search = () => {
 
   const productosFiltrados = useMemo(() => {
     return productos.filter((prod) => {
-      const enCategoria = prod;
-      // const enCategoria = prod.categoria.some(
-      //   (cat) => cat.id === categoria?.id
-      // );
 
+      const enCategoria = prod.categorias.some((cat) =>
+        categoria ? cat.id === categoria.id : prod
+      );
       const dentroDeRango =
         (!minPrice || prod.precio >= minPrice) &&
         (!maxPrice || prod.precio <= maxPrice);
@@ -59,7 +58,7 @@ export const Search = () => {
   useEffect(() => {
     const fetchBusqueda = async () => {
       await useCategoriaStore.getState().loadCategoria();
-      const res = await  productoService.buscarPorNombre(query)
+      const res = await productoService.buscarPorNombre(query);
       if (res) {
         setProductos(res);
         document.title = `${query} - Thrill`;
@@ -88,13 +87,9 @@ export const Search = () => {
                 Home{" "}
               </Link>
               <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
-              <span style={{ color: "var(--black-color)" }}>
-                Search{" "}
-              </span>
+              <span style={{ color: "var(--black-color)" }}>Search </span>
               <i className="fa-solid fa-chevron-right fa-xs"></i>{" "}
-              <span style={{ color: "var(--black-color)" }}>
-                {query}
-              </span>
+              <span style={{ color: "var(--black-color)" }}>{query}</span>
             </p>
 
             <div className={styles.gridContent}>
@@ -145,7 +140,7 @@ export const Search = () => {
                               transition={{ type: "spring" }}
                               className="flex-between"
                               style={{ cursor: "pointer" }}
-                              onClick={() => navigate(`/c/${cat.nombre}`)}
+                              onClick={() => setCategoria(cat)}
                             >
                               <p>{cat.nombre}</p>
                               <i className="fa-solid fa-chevron-right"></i>
@@ -257,6 +252,7 @@ export const Search = () => {
                       onClick={() => {
                         setMinPrice("");
                         setMaxPrice("");
+                        setCategoria(null);
                         setAplicarFiltro((p) => !p);
                       }}
                       style={{ width: "100%" }}

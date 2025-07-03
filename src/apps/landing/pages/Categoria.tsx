@@ -9,8 +9,8 @@ import loadingIcon from "../../../assets/Loading_icon.gif";
 import { AnimatePresence, motion } from "framer-motion";
 import { useProductoStore } from "../../../store/slices/ProductoStore";
 import { ICategoria } from "../../../types/ICategoria";
-
-// ...imports arriba sin cambios
+import { ITipo } from "../../../types/ITipo";
+import { tipoService } from "../../../services/tipoService";
 
 export const Categoria = () => {
   const categoriaName = useParams().categoriaName || "";
@@ -19,6 +19,7 @@ export const Categoria = () => {
   const navigate = useNavigate();
 
   const [categoria, setCategoria] = useState<ICategoria | null>(null);
+  const [tipos, setTipos] = useState<ITipo[]>([]);
   const [isLoadingPage, setIsLoadingPage] = useState<boolean>(true);
   const [categoriasFiltered, setCategoriasFiltered] = useState<ICategoria[]>(
     categorias.slice(0, 5)
@@ -31,11 +32,9 @@ export const Categoria = () => {
 
   const productosFiltrados = useMemo(() => {
     return productos.filter((prod) => {
-      const enCategoria = prod;
-      // const enCategoria = prod.categoria.some(
-      //   (cat) => cat.id === categoria?.id
-      // );
-
+      const enCategoria = prod.categorias.some((cat) =>
+        categoria ? cat.id === categoria.id : prod
+      );
       const dentroDeRango =
         (!minPrice || prod.precio >= minPrice) &&
         (!maxPrice || prod.precio <= maxPrice);
@@ -57,10 +56,12 @@ export const Categoria = () => {
     const fetchCategoria = async () => {
       await useCategoriaStore.getState().loadCategoria();
       await useProductoStore.getState().loadProducts();
+      const tipoRes = await tipoService.getAll();
       const res = useCategoriaStore
         .getState()
         .getCategoriaByName(categoriaName);
-      if (res) {
+      if (res && tipoRes) {
+        setTipos(tipoRes);
         setCategoria(res);
         document.title = `${res.nombre} - Thrill`;
       } else {
@@ -69,9 +70,10 @@ export const Categoria = () => {
       }
       setIsLoadingPage(false);
     };
+    setIsLoadingPage(true);
     fetchCategoria();
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  }, [categoriaName]);
 
   useEffect(() => {
     setCategoriasFiltered(categorias.slice(0, 5));
@@ -111,7 +113,7 @@ export const Categoria = () => {
                   <div className={styles.tipos}>
                     <div>
                       <AnimatePresence>
-                        {isLoadingPage ? (
+                        {isLoadingPage && categorias.length < 1 ? (
                           <motion.div>
                             <img src={loadingIcon} alt="loading..." />
                           </motion.div>
@@ -204,55 +206,31 @@ export const Categoria = () => {
                         style={{ fontSize: "1.5rem" }}
                       ></i>
                     </div>
-                    <p>{"(Ropa)"}</p>
+                    {tipos.map((tipo) => (
+                      <>
+                      <p>{`(${tipo.nombre})`}</p>
                     <div className={styles.tallesContainer}>
-                      {["XS", "S", "M", "L", "XL", "XXL", "Unico"].map((t) => (
+                      {tipo.talles.map((t) => (
                         <button
-                          key={t}
+                          key={t.id}
                           className="button-white"
                           style={{ width: "auto", padding: "0 1.5rem" }}
                         >
-                          {t}
+                          {t.talle}
                         </button>
                       ))}
                     </div>
                     <div className="separator"></div>
-                    <p>{"(Zapatillas)"}</p>
-                    <div className={styles.tallesContainer}>
-                      {["38", "39", "40", "41", "42", "43", "44"].map((t) => (
-                        <button
-                          key={t}
-                          className="button-white"
-                          style={{ width: "auto", padding: "0 1.5rem" }}
-                        >
-                          {t}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="separator"></div>
-                    <p>{"(Pantalones)"}</p>
-                    <div className={styles.tallesContainer}>
-                      {["38", "40", "42", "44", "46", "48", "50", "52"].map(
-                        (t) => (
-                          <button
-                            key={t}
-                            className="button-white"
-                            style={{ width: "auto", padding: "0 1.5rem" }}
-                          >
-                            {t}
-                          </button>
-                        )
-                      )}
-                    </div>
+                      </>
+                    ))}
                   </div>
-
-                  <div className="separator"></div>
 
                   <div style={{ display: "flex", gap: "1.5rem" }}>
                     <button
                       onClick={() => {
                         setMinPrice("");
                         setMaxPrice("");
+                        setIsLoadingPage(true);
                         setAplicarFiltro((p) => !p);
                       }}
                       style={{ width: "100%" }}
@@ -310,7 +288,7 @@ export const Categoria = () => {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -20 }}
                           whileHover={{ scale: 1.03 }}
-                          transition={{ type: "spring", stiffness: 300 }}
+                          transition={{ type: "tween", stiffness: 300 }}
                           onClick={() => navigate(`/p/${prod.id}`)}
                         >
                           <div className={styles.imgContainer}>
