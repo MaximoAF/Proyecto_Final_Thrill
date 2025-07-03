@@ -88,6 +88,8 @@
 }
 .buttonsSize {
   display: flex;
+  flex-wrap: wrap;
+  width: 100%;
   gap: 1rem;
   margin-top: 1rem;
   border: 1px solid var(--white-color);
